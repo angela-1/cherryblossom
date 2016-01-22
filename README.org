@@ -1,0 +1,11 @@
+﻿
+
+#+TITLE: cherryblossom
+#+OPTIONS: toc:2 num:nil ^:nil
+
+
+#+BEGIN_QUOTE
+写作这个程序的时候，正值冬樱花盛开，便以此为名。
+#+END_QUOTE
+
+* 前言
