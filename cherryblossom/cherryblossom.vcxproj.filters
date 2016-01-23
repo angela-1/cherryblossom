@@ -39,6 +39,15 @@
     <ClInclude Include="control.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="PinYin.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sqlite3.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -51,6 +60,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="process.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PinYin.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -69,5 +84,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="README.org" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="sqlite3.lib" />
   </ItemGroup>
 </Project>

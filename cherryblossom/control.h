@@ -1,7 +1,13 @@
 #pragma once
 
 
-
+// controls on the main window.
+#define IDC_EDIT_SEARCH 3001
+#define IDC_BUTTON_CLEAR 3002
+#define IDC_LISTBOX_ACCOUNT 3003
+#define IDC_BUTTON_ADD 3004
+#define IDC_BUTTON_EDIT 3005
+#define IDC_BUTTON_DELETE 3006
 
 
 

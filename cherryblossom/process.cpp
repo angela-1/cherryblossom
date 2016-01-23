@@ -11,6 +11,10 @@
 #include "../res804/resource.h"
 
 
+// for test
+#include "PinYin.h"
+
+
 //
 //  函数: MyRegisterClass()
 //
@@ -94,6 +98,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		// 分析菜单选择: 
 		switch (wmId)
 		{
+		case IDC_BUTTON_ADD:
+		{
+			TCHAR src[200] = L"说个屁";
+
+			TCHAR py_str[2][200] = { L"",L"" };
+
+			PinYin::GetPYStr(src, py_str);
+
+			MessageBox(NULL, py_str[0], L"SE", MB_OK);
+			MessageBox(NULL, py_str[1], L"SE", MB_OK);
+
+
+		}
+
+		break;
 		case IDM_ABOUT:
 			
 			DialogBox(g_inst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, AboutProc);
