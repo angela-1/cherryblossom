@@ -10,13 +10,26 @@
 #define LIBENCRYPT_API __declspec(dllimport)
 #endif
 
-// 此类是从 libencrypt.dll 导出的
-class LIBENCRYPT_API Clibencrypt {
-public:
-	Clibencrypt(void);
-	// TODO:  在此添加您的方法。
-};
+#include "aes.h"
+#include "md5.h"
+#include "rand.h"
 
-extern LIBENCRYPT_API int nlibencrypt;
 
-LIBENCRYPT_API int fnlibencrypt(void);
+
+typedef unsigned char uchar;
+typedef unsigned int uint;
+
+
+
+
+
+
+
+LIBENCRYPT_API int digest_md5(char *buf, uchar *md);
+LIBENCRYPT_API int salt(uchar *md, int len);
+
+extern LIBENCRYPT_API int encrypt(uchar *src, uchar *dst, uint len, uchar *key);
+extern LIBENCRYPT_API int decrypt(uchar *src, uchar *dst, uint len, uchar *key);
+
+
+

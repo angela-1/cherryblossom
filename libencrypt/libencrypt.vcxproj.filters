@@ -27,6 +27,21 @@
     <ClInclude Include="libencrypt.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="md5.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ossl_typ.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="rand.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="aes.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="e_os2.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -38,5 +53,8 @@
     <ClCompile Include="dllmain.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="libeay32.lib" />
   </ItemGroup>
 </Project>
