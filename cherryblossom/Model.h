@@ -26,9 +26,5 @@ public:
 	static char** get_table(char *sql, int *row, int *column, char **result);
 	static void free_table(char** result);
 
-	static void UTF8ToUnicode(char *str, wchar_t *end);
-	static void UnicodeToUTF8(wchar_t * str, char *end);
-	static void ANSIToUnicode(char *str, wchar_t *end);
-	static void UnicodeToANSI(wchar_t * str, char *end);
 };
 

@@ -15,13 +15,13 @@ namespace test_PinYin
 		{
 			// TODO: 在此输入测试代码
 
-			TCHAR src[200] = L"你说你想要逃";
+			TCHAR src[MAX_STR_LEN] = L"你说你想要逃";
 
-			TCHAR py_str[2][200] = { L"",L"" };
+			TCHAR py_str[2][MAX_STR_LEN] = { L"",L"" };
 
 			PinYin::GetPYStr(src, py_str);
 			//Assert::AreEqual(0,0);
-			Assert::AreEqual(wcscmp(py_str[0], L"n"), 0);
+			Assert::AreEqual(wcscmp(py_str[0], L"nsnxyt"), 0);
 			Assert::AreEqual(wcscmp(py_str[1], L"nishuinixiangyaotao"), 0);
 			//Assert::AreEqual(py_str[0], L"s");
 			//Assert::AreEqual(py_str[1], L"shuigepi");
@@ -33,9 +33,9 @@ namespace test_PinYin
 		{
 			// TODO: 在此输入测试代码
 
-			TCHAR src[200] = L"google";
+			TCHAR src[MAX_STR_LEN] = L"google";
 
-			TCHAR py_str[2][200] = { L"",L"" };
+			TCHAR py_str[2][MAX_STR_LEN] = { L"",L"" };
 
 			PinYin::GetPYStr(src, py_str);
 			//Assert::AreEqual(0,0);

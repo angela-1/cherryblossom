@@ -102,7 +102,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		{
 			TCHAR src[200] = L"Ëµ¸öÆ¨";
 
-			TCHAR py_str[2][200] = { L"",L"" };
+			TCHAR py_str[2][100] = { L"",L"" };
 
 			PinYin::GetPYStr(src, py_str);
 
