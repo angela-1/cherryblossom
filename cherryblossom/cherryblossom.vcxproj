@@ -145,6 +145,7 @@
     <ClInclude Include="cherryblossom.h" />
     <ClInclude Include="control.h" />
     <ClInclude Include="convert.h" />
+    <ClInclude Include="Dispather.h" />
     <ClInclude Include="global.h" />
     <ClInclude Include="lispsty.h" />
     <ClInclude Include="Model.h" />
@@ -159,6 +160,7 @@
     <ClCompile Include="cherryblossom.cpp" />
     <ClCompile Include="control.cpp" />
     <ClCompile Include="convert.cpp" />
+    <ClCompile Include="Dispather.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="PinYin.cpp" />
     <ClCompile Include="process.cpp" />
