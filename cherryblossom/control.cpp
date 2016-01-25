@@ -2,6 +2,8 @@
 #include "stdafx.h"
 #include "Resource.h"
 #include "control.h"
+#include "Dispather.h"
+
 #include "global.h"
 #include "../res804/resource.h"
 
@@ -55,10 +57,18 @@ BOOL OnInitControl(HWND hWnd)
 	HWND search_edit = CreateWindow(_T("EDIT"), NULL, WS_CHILD | WS_VISIBLE | WS_BORDER,
 		0, 0, 0, 0, hWnd, (HMENU)IDC_EDIT_SEARCH, g_inst, NULL);
 
-	HWND account_listbox = CreateWindow(_T("LISTBOX"), NULL, WS_CHILD | WS_VISIBLE | WS_BORDER,
+	HWND account_listbox = CreateWindow(_T("LISTBOX"), NULL, WS_CHILD | WS_VISIBLE | WS_BORDER |WS_VSCROLL | WS_TABSTOP | LBS_STANDARD | LBS_HASSTRINGS,
 		0, 0, 0, 0, hWnd, (HMENU)IDC_LISTBOX_ACCOUNT, g_inst, NULL);
 
-	SendMessage(account_listbox, LB_ADDSTRING, (WPARAM)0, (LPARAM)L"SFS");
+	//SendMessage(account_listbox, LB_ADDSTRING, (WPARAM)0, (LPARAM)L"SFS");
+
+	for each (auto var in *(g_dispatcher->GetList()))
+	{
+
+		SendMessage(account_listbox, LB_ADDSTRING, (WPARAM)0, (LPARAM)var.tag);
+
+	}
+
 	SendMessage(GetDlgItem(hWnd, IDC_EDIT_SEARCH), WM_SETFONT, (WPARAM)g_main_font, TRUE);
 	SendMessage(GetDlgItem(hWnd, IDC_LISTBOX_ACCOUNT), WM_SETFONT, (WPARAM)g_main_font, TRUE);
 

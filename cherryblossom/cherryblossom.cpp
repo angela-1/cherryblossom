@@ -5,10 +5,14 @@
 #include "cherryblossom.h"
 
 
-#include "global.h"
+
 
 #include "process.h"
 #include "control.h"
+
+#include "Dispather.h"
+
+#include "global.h"
 
 // Enable Visual Style
 #if defined _M_IX86
@@ -37,6 +41,10 @@ HFONT g_symbol;
 // for i18n, load all resource from out resource
 HINSTANCE g_resource;
 
+// dispatcher, definition
+Dispatcher* g_dispatcher;
+
+
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
                      _In_ LPWSTR    lpCmdLine,
@@ -46,6 +54,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
 	g_inst = hInstance; // 将实例句柄存储在全局变量中
+	
+						
+	// start dispatcher
+	g_dispatcher = Dispatcher::GetInstance();
+	g_dispatcher->MakeAccountList();
 
 	// load langauage resource
 	LoadResDll(NULL);
@@ -53,14 +66,16 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	// set fonts
 	OnInitFont(NULL);
 
-	OnInitControl(NULL);
-
+	
 
 
     // TODO: judge if it is first run. to show guide.
 	
 
 	// TODO: show login page.
+
+
+
 
 
     // 初始化全局字符串
