@@ -186,6 +186,7 @@ copy "$(ProjectDir)sqlite3.dll"  "$(TargetDir)sqlite3.dll"  /y</Command>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.org" />
+    <None Include="sqlite3.dll" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="sqlite3.lib" />

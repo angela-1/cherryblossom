@@ -96,6 +96,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="README.org" />
+    <None Include="sqlite3.dll" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="sqlite3.lib" />
