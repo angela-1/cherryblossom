@@ -39,7 +39,7 @@ namespace test_PinYin
 
 			PinYin::GetPYStr(src, py_str);
 			//Assert::AreEqual(0,0);
-			Assert::AreEqual(wcscmp(py_str[0], L"g"), 0);
+			Assert::AreEqual(wcscmp(py_str[0], L"google"), 0);
 			Assert::AreEqual(wcscmp(py_str[1], L"google"), 0);
 			//Assert::AreEqual(py_str[0], L"s");
 			//Assert::AreEqual(py_str[1], L"shuigepi");
