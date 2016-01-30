@@ -18,9 +18,7 @@
 #include "PinYin.h"
 
 
-// 前向声明
-static void RefreshListbox(HWND hWnd);
-static void OnPaint(HWND hWnd, HDC hdc);
+
 
 
 //
@@ -80,86 +78,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 }
 
 
-// update listbox with current select index
-static void RefreshListbox(HWND hWnd) 
-{
 
-	HWND account_listbox = GetDlgItem(hWnd, IDC_LISTBOX_ACCOUNT);
-
-	// delete dirty data
-	size_t nIndex = (int)SendMessage(account_listbox, LB_GETCOUNT, 0, 0);
-
-	for (size_t i = 0; i < nIndex; i++)
-	{
-		SendMessage(account_listbox, LB_DELETESTRING, (WPARAM)0, (LPARAM)0);
-
-
-	}
-
-	// add new data
-
-	for each (auto var in *(g_dispatcher->GetList()))
-	{
-
-		SendMessage(account_listbox, LB_ADDSTRING, (WPARAM)0, (LPARAM)var.tag);
-	}
-
-	int ind = SendMessage(account_listbox, LB_FINDSTRING, (WPARAM)-1, (LPARAM)(*(g_dispatcher->GetList())).back().tag);
-
-	SendMessage(account_listbox, LB_SETCURSEL, (WPARAM)ind, (LPARAM)0);
-
-
-
-
-}
-
-
-static void OnPaint(HWND hWnd, HDC hdc)
-{
-	// show account detial
-	SetFocus(GetDlgItem(hWnd, IDC_EDIT_SEARCH));
-
-
-	SetBkMode(hdc, TRANSPARENT);
-
-	SelectObject(hdc, g_main_font);
-
-
-
-	TextOut(hdc, 480, 12, TEXT("Apple"), wcslen(TEXT("Apple")));
-
-	HWND account_listbox = GetDlgItem(hWnd, IDC_LISTBOX_ACCOUNT);
-	TCHAR lpch[MAX_ITEM_LEN];
-	int ind = SendMessage(account_listbox, LB_GETCURSEL, (WPARAM)0, (LPARAM)0);
-	SendMessage(account_listbox, LB_GETTEXT, (WPARAM)ind, (LPARAM)lpch);
-
-	if (ind != -1)
-	{
-
-		LPTSTR title[9] = { L"tag", L"category", L"url",L"user",
-			L"password", L"phone", L"mail", L"note", L"lastmod" };
-		AccountCard* account = g_dispatcher->GetAccount(lpch);
-		LPTSTR detial[9] = { account->tag, account->category,
-			account->url, account->user, account->password,
-			account->phone, account->mail, account->note, account->lastmod };
-
-
-		for (size_t i = 0; i < 9; i++)
-		{
-			SetTextAlign(hdc, TA_RIGHT | TA_TOP);
-			TextOut(hdc, 280, 12 + 25 * i, title[i], lstrlen(title[i]));
-			SetTextAlign(hdc, TA_LEFT | TA_TOP);
-			TextOut(hdc, 300, 12 + 25 * i, detial[i], lstrlen(detial[i]));
-		}
-	}
-	else
-	{
-		TCHAR* choose = L"choose a account.";
-		TextOut(hdc, 280, 40, choose, lstrlen(choose));
-	}
-	
-
-}
 
 
 //
@@ -186,6 +105,51 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		// 分析菜单选择: 
 		switch (wmId)
 		{
+		case IDC_EDIT_SEARCH:
+		{
+			if (HIWORD(wParam) == EN_CHANGE)
+			{
+				// if text changed, search in list of dispatcher
+
+				// first, get the text
+				HWND search_edit = (HWND)lParam;
+				TCHAR cur_text[20];
+				int cur_text_len = SendMessage(search_edit, EM_GETLINE, 0, (LPARAM)cur_text);
+				cur_text[cur_text_len] = TEXT('\0');
+
+				int search_len = 0;
+				is_hit = cur_text_len > search_len ? false : is_hit;
+
+				if (!is_hit)
+				{
+					hit_list.Clear();
+				}
+
+
+				std::list<AccountItem> search_list;
+
+
+				
+				
+
+
+
+				HWND account_listbox = GetDlgItem(hWnd, IDC_LISTBOX_ACCOUNT);
+
+
+				HWND ed = (HWND)lParam;
+				TCHAR lpch[20];
+				int sendLength = SendMessage(ed, EM_GETLINE, 0, (LPARAM)lpch);
+				lpch[sendLength] = TEXT('\0');
+
+				SendMessage(account_listbox, LB_ADDSTRING, (WPARAM)0, (LPARAM)lpch);
+
+
+			}
+
+
+		}
+		break;
 		case IDC_BUTTON_CLEAR:
 		{
 			HWND search_edit = GetDlgItem(hWnd, IDC_EDIT_SEARCH);
@@ -296,10 +260,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	break;
 	case WM_GETMINMAXINFO:
 		((MINMAXINFO *)lParam)->ptMinTrackSize.x = 600;  
-		((MINMAXINFO *)lParam)->ptMinTrackSize.y = 360;
+		((MINMAXINFO *)lParam)->ptMinTrackSize.y = 405;
 		break;
 	case WM_SIZE:
-		OnResizeControl(hWnd);
+		OnResizeControl(hWnd, lParam);
 		break;
 	case WM_PAINT:
 	{
@@ -312,6 +276,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	}
 	break;
 	case WM_DESTROY:
+		// free resource
+
+		FreeLibrary(g_resource);
+		delete g_dispatcher;
+
 		PostQuitMessage(0);
 		break;
 	default:

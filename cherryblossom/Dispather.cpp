@@ -5,6 +5,7 @@
 
 
 Dispatcher::Dispatcher()
+	:search_len(0)
 {
 }
 
@@ -49,9 +50,24 @@ bool Dispatcher::CheckAccount(LPTSTR tag)
 	return isValid;
 }
 
-std::list<AccountItem>* Dispatcher::GetList()
+std::list<AccountItem>* Dispatcher::GetList(int type)
 {
-	return &account_list;
+	switch (type)
+	{
+	case FULL:
+		return &account_list;
+		break;
+	case HIT:
+		return &hit_list;
+		break;
+	case COMPANY:
+		return &company_list;
+		break;
+	default:
+		return &account_list;
+		break;
+	}
+	
 }
 
 AccountCard * Dispatcher::GetAccountCard()

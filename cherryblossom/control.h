@@ -19,7 +19,13 @@ BOOL OnInitFont(HWND hWnd);
 BOOL OnInitControl(HWND hWnd);
 
 // resize controls to fit size.
-BOOL OnResizeControl(HWND hWnd);
+BOOL OnResizeControl(HWND hWnd, LPARAM lParam);
 
 // show the export menu
 BOOL OnShowMenu(HWND hWnd);
+
+// Refresh the items in listbox
+void RefreshListbox(HWND hWnd);
+
+// Show the detial
+void OnPaint(HWND hWnd, HDC hdc);

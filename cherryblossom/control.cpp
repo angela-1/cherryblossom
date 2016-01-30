@@ -70,6 +70,7 @@ BOOL OnInitControl(HWND hWnd)
 	}
 
 	SendMessage(GetDlgItem(hWnd, IDC_EDIT_SEARCH), WM_SETFONT, (WPARAM)g_main_font, TRUE);
+	SendMessage(GetDlgItem(hWnd, IDC_EDIT_SEARCH), EM_LIMITTEXT, (WPARAM)20, 0);
 	SendMessage(GetDlgItem(hWnd, IDC_LISTBOX_ACCOUNT), WM_SETFONT, (WPARAM)g_main_font, TRUE);
 
 
@@ -88,12 +89,15 @@ BOOL OnInitControl(HWND hWnd)
 
 }
 
-BOOL OnResizeControl(HWND hWnd)
+BOOL OnResizeControl(HWND hWnd, LPARAM lParam)
 {
-	RECT rc;
-	GetClientRect(hWnd, &rc);
+	int width = LOWORD(lParam);
+	int height = HIWORD(lParam);
 
+	RECT rc = { 0, 0, width, height };
 
+	
+	
 
 	RECT rc_edit = { rc.left + 12, rc.top + 12, rc_edit.left + 138, rc_edit.top + 24 };
 
@@ -111,6 +115,7 @@ BOOL OnResizeControl(HWND hWnd)
 		rc.bottom - 12 };
 	RECT rc_button_edit = { rc_button_delete.left - 52, rc.bottom - 38, rc_button_delete.left - 12,
 		rc.bottom - 12 };
+
 
 	RECT idr[] = {
 		rc_edit,
@@ -140,4 +145,86 @@ BOOL OnResizeControl(HWND hWnd)
 BOOL OnShowMenu(HWND hWnd)
 {
 	return 0;
+}
+
+
+// update listbox with current select index
+void RefreshListbox(HWND hWnd)
+{
+
+	HWND account_listbox = GetDlgItem(hWnd, IDC_LISTBOX_ACCOUNT);
+
+	// delete dirty data
+	size_t nIndex = (int)SendMessage(account_listbox, LB_GETCOUNT, 0, 0);
+
+	for (size_t i = 0; i < nIndex; i++)
+	{
+		SendMessage(account_listbox, LB_DELETESTRING, (WPARAM)0, (LPARAM)0);
+
+
+	}
+
+	// add new data
+
+	for each (auto var in *(g_dispatcher->GetList()))
+	{
+
+		SendMessage(account_listbox, LB_ADDSTRING, (WPARAM)0, (LPARAM)var.tag);
+	}
+
+	int ind = SendMessage(account_listbox, LB_FINDSTRING, (WPARAM)-1, (LPARAM)(*(g_dispatcher->GetList())).back().tag);
+
+	SendMessage(account_listbox, LB_SETCURSEL, (WPARAM)ind, (LPARAM)0);
+
+
+
+
+}
+
+
+void OnPaint(HWND hWnd, HDC hdc)
+{
+	// show account detial
+	SetFocus(GetDlgItem(hWnd, IDC_EDIT_SEARCH));
+
+
+	SetBkMode(hdc, TRANSPARENT);
+
+	SelectObject(hdc, g_main_font);
+
+
+
+	TextOut(hdc, 480, 12, TEXT("Apple"), wcslen(TEXT("Apple")));
+
+	HWND account_listbox = GetDlgItem(hWnd, IDC_LISTBOX_ACCOUNT);
+	TCHAR lpch[MAX_ITEM_LEN];
+	int ind = SendMessage(account_listbox, LB_GETCURSEL, (WPARAM)0, (LPARAM)0);
+	SendMessage(account_listbox, LB_GETTEXT, (WPARAM)ind, (LPARAM)lpch);
+
+	if (ind != -1)
+	{
+
+		LPTSTR title[9] = { L"tag", L"category", L"url",L"user",
+			L"password", L"phone", L"mail", L"note", L"lastmod" };
+		AccountCard* account = g_dispatcher->GetAccount(lpch);
+		LPTSTR detial[9] = { account->tag, account->category,
+			account->url, account->user, account->password,
+			account->phone, account->mail, account->note, account->lastmod };
+
+
+		for (size_t i = 0; i < 9; i++)
+		{
+			SetTextAlign(hdc, TA_RIGHT | TA_TOP);
+			TextOut(hdc, 300, 12 + 25 * i, title[i], lstrlen(title[i]));
+			SetTextAlign(hdc, TA_LEFT | TA_TOP);
+			TextOut(hdc, 320, 12 + 25 * i, detial[i], lstrlen(detial[i]));
+		}
+	}
+	else
+	{
+		TCHAR* choose = L"choose a account.";
+		TextOut(hdc, 280, 40, choose, lstrlen(choose));
+	}
+
+
 }

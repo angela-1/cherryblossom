@@ -11,6 +11,10 @@
 #define MAX_ITEM_LEN 100
 
 
+#define FULL 0
+#define HIT 1
+#define COMPANY 2
+
 typedef struct account_item
 {
 	wchar_t tag[MAX_ITEM_LEN];
@@ -49,12 +53,18 @@ private:
 	std::list<AccountItem> account_list;
 	AccountCard account_item;
 
+	std::list<AccountItem> hit_list;
+	std::list<AccountItem> company_list;
+
+
+	bool is_hit;
+	int search_len;
 
 public:
 	
 	~Dispatcher();
 
-	std::list<AccountItem>* GetList();
+	std::list<AccountItem>* GetList(int type);
 	AccountCard* GetAccountCard();
 
 	static Dispatcher* GetInstance();
