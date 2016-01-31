@@ -30,3 +30,6 @@ void RefreshListbox(HWND hWnd);
 //void RefreshListboxNew(HWND hWnd, std::list<AccountItem>* list);
 // Show the detial
 void OnPaint(HWND hWnd, HDC hdc);
+
+// show complete list
+void OnSearchChanged(HWND hWnd);
