@@ -78,9 +78,7 @@ public:
 	std::list<AccountItem> hit_list;
 	std::list<AccountItem> company_list;
 
-
-	bool is_hit;
-	int search_len;
+	
 
 };
 

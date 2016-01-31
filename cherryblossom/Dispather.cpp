@@ -5,7 +5,6 @@
 
 
 Dispatcher::Dispatcher()
-	:search_len(0)
 {
 }
 

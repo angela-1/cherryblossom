@@ -212,7 +212,7 @@ void RefreshListbox(HWND hWnd)
 void OnPaint(HWND hWnd, HDC hdc)
 {
 	// show account detial
-	SetFocus(GetDlgItem(hWnd, IDC_EDIT_SEARCH));
+	//SetFocus(GetDlgItem(hWnd, IDC_EDIT_SEARCH));
 
 
 	SetBkMode(hdc, TRANSPARENT);
@@ -261,22 +261,28 @@ void OnSearchChanged(HWND hWnd)
 	// if text changed, search in list of dispatcher
 
 	// first, get the text
-	//HWND search_edit = (HWND)lParam;
+
 	TCHAR cur_text[20];
-	int cur_text_len = SendMessage(GetDlgItem(hWnd, IDC_EDIT_SEARCH), EM_GETLINE, 0, (LPARAM)cur_text);
+	int cur_text_len = SendMessage(GetDlgItem(hWnd, IDC_EDIT_SEARCH), 
+		EM_GETLINE, 0, (LPARAM)cur_text);
 	cur_text[cur_text_len] = TEXT('\0');
 
-	static int search_len = 0;
-	bool* is_hit_p = &g_dispatcher->is_hit;
-	*is_hit_p = cur_text_len < search_len ?
-		false : *is_hit_p;
+	HWND account_listbox = GetDlgItem(hWnd, IDC_LISTBOX_ACCOUNT);
 
-	if (!(*is_hit_p))
+
+	static int search_len = 0;
+	static bool is_hit_p = false;
+
+	is_hit_p = cur_text_len < search_len ?
+		false : is_hit_p;
+
+	
+	if (!is_hit_p)
 	{
 		g_dispatcher->hit_list.clear();
 	}
 
-	g_dispatcher->search_len = cur_text_len;
+	
 	search_len = cur_text_len;
 	g_dispatcher->company_list.clear();
 
@@ -286,7 +292,7 @@ void OnSearchChanged(HWND hWnd)
 	if (g_dispatcher->GetList()->size() > 0
 		&& cur_text_len > 0)
 	{
-		search_list = *is_hit_p ? &g_dispatcher->hit_list : g_dispatcher->GetList();
+		search_list = is_hit_p ? &g_dispatcher->hit_list : g_dispatcher->GetList();
 		for each (auto var in *search_list)
 		{
 
@@ -295,7 +301,7 @@ void OnSearchChanged(HWND hWnd)
 				|| wcsstr(var.tag, cur_text) != NULL)
 			{
 				g_dispatcher->company_list.push_back(var);
-				if (!(*is_hit_p))
+				if (!is_hit_p)
 				{
 					g_dispatcher->hit_list.push_back(var);
 				}
@@ -306,11 +312,12 @@ void OnSearchChanged(HWND hWnd)
 		if (g_dispatcher->company_list.size() > 0)
 		{
 			// hit show the company list to listbox
-			*is_hit_p = true;
+			
+			is_hit_p = true;
 
 			// **************************
 
-			HWND account_listbox = GetDlgItem(hWnd, IDC_LISTBOX_ACCOUNT);
+			
 
 			// delete dirty data
 			size_t nIndex = (int)SendMessage(account_listbox, LB_GETCOUNT, 0, 0);
@@ -330,18 +337,20 @@ void OnSearchChanged(HWND hWnd)
 				SendMessage(account_listbox, LB_ADDSTRING, (WPARAM)0, (LPARAM)var.tag);
 			}
 
-			int ind = SendMessage(account_listbox, LB_FINDSTRING, (WPARAM)-1, (LPARAM)g_dispatcher->company_list.back().tag);
+			
+			SendMessage(account_listbox, LB_SETCURSEL, (WPARAM)0, (LPARAM)0);
 
-			SendMessage(account_listbox, LB_SETCURSEL, (WPARAM)ind, (LPARAM)0);
+			InvalidateRect(hWnd, NULL, true);
 
 			// *****************
 
 		}
 		else
 		{
-			*is_hit_p = false;
+			is_hit_p = false;
+		
 
-			HWND account_listbox = GetDlgItem(hWnd, IDC_LISTBOX_ACCOUNT);
+			
 
 			// delete dirty data
 			size_t nIndex = (int)SendMessage(account_listbox, LB_GETCOUNT, 0, 0);
@@ -353,8 +362,7 @@ void OnSearchChanged(HWND hWnd)
 
 			}
 
-			SendMessage(GetDlgItem(hWnd, IDC_LISTBOX_ACCOUNT),
-				LB_ADDSTRING, (WPARAM)0, (LPARAM)L"no match");
+			SendMessage(account_listbox, LB_ADDSTRING, (WPARAM)0, (LPARAM)L"no match");
 
 
 		}
@@ -363,7 +371,8 @@ void OnSearchChanged(HWND hWnd)
 	}
 	else
 	{
-		*is_hit_p = false;
+		is_hit_p = false;
+		
 
 		RefreshListbox(hWnd);
 
