@@ -18,3 +18,4 @@ extern HINSTANCE g_resource;
 
 // ÕâÊÇÉùÃ÷
 extern Dispatcher* g_dispatcher;
+

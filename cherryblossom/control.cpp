@@ -147,6 +147,33 @@ BOOL OnShowMenu(HWND hWnd)
 	return 0;
 }
 
+//void RefreshListboxNew(HWND hWnd, std::list<AccountItem>* list)
+//{
+//
+//	HWND account_listbox = GetDlgItem(hWnd, IDC_LISTBOX_ACCOUNT);
+//
+//	// delete dirty data
+//	size_t nIndex = (int)SendMessage(account_listbox, LB_GETCOUNT, 0, 0);
+//
+//	for (size_t i = 0; i < nIndex; i++)
+//	{
+//		SendMessage(account_listbox, LB_DELETESTRING, (WPARAM)0, (LPARAM)0);
+//
+//
+//	}
+//
+//	// add new data
+//
+//	for each (auto var in *list)
+//	{
+//
+//		SendMessage(account_listbox, LB_ADDSTRING, (WPARAM)0, (LPARAM)var.tag);
+//	}
+//
+//	int ind = SendMessage(account_listbox, LB_FINDSTRING, (WPARAM)-1, (LPARAM)(*list).back().tag);
+//
+//	SendMessage(account_listbox, LB_SETCURSEL, (WPARAM)ind, (LPARAM)0);
+//}
 
 // update listbox with current select index
 void RefreshListbox(HWND hWnd)

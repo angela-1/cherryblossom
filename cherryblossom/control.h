@@ -1,5 +1,6 @@
 #pragma once
 
+#include <list>
 
 // controls on the main window.
 #define IDC_EDIT_SEARCH 3001
@@ -26,6 +27,6 @@ BOOL OnShowMenu(HWND hWnd);
 
 // Refresh the items in listbox
 void RefreshListbox(HWND hWnd);
-
+//void RefreshListboxNew(HWND hWnd, std::list<AccountItem>* list);
 // Show the detial
 void OnPaint(HWND hWnd, HDC hdc);
