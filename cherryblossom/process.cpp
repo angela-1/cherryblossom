@@ -277,6 +277,11 @@ INT_PTR CALLBACK AboutProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 			return (INT_PTR)t;
 		}
 		break;
+	case WM_CTLCOLORSTATIC:
+		SetBkMode((HDC)wParam, TRANSPARENT);
+		return (BOOL)((HBRUSH)GetStockObject(NULL_BRUSH));
+	case WM_CTLCOLORDLG:
+		return (BOOL)((HBRUSH)GetStockObject(WHITE_BRUSH));
 	}
 	return (INT_PTR)nil;
 }
@@ -651,8 +656,11 @@ INT_PTR CALLBACK LoginProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 			SendDlgItemMessage(hDlg, idc[i], WM_SETFONT, (WPARAM)g_main_font, TRUE);
 		}
 
+		
 
 		SendDlgItemMessage(hDlg, idc[0], WM_SETFONT, (WPARAM)g_main_font, TRUE);
+
+		SendDlgItemMessage(hDlg, idc[3], WM_SETTEXT, 0, (LPARAM)NULL);
 		SendDlgItemMessage(hDlg, idc[3], WM_SETFONT, (WPARAM)g_main_font, TRUE);
 
 		SetFocus(GetDlgItem(hDlg, IDC_LOGIN_EDIT_PWD));
