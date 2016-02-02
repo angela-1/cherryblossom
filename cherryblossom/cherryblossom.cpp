@@ -10,9 +10,12 @@
 #include "process.h"
 #include "control.h"
 
+
+
 #include "Dispather.h"
 
-#include "global.h"
+
+
 
 // Enable Visual Style
 #if defined _M_IX86
@@ -73,6 +76,15 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	
 
 	// TODO: show login page.
+
+	INT_PTR login_p = DialogBox(hInstance, MAKEINTRESOURCE(IDD_LOGIN), NULL, LoginProc);
+
+
+	if (!login_p)
+	{
+		PostQuitMessage(0);
+		return FALSE;
+	}
 
 
 

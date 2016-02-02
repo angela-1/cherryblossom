@@ -54,6 +54,9 @@
     <ClInclude Include="Dispather.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="defs.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -91,6 +94,12 @@
       <Filter>资源文件</Filter>
     </Image>
     <Image Include="cherryblossom.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="bitmap1.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="C:\Users\Baby\Desktop\fff.bmp">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>

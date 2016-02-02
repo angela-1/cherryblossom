@@ -1,7 +1,15 @@
 #include "stdafx.h"
-#include "Dispather.h"
-#include "convert.h"
+
+
+
+
+#include "Model.h"
 #include "PinYin.h"
+#include "convert.h"
+
+
+
+#include "Dispather.h"
 
 
 Dispatcher::Dispatcher()
@@ -185,8 +193,8 @@ void Dispatcher::AddAccount(LPTSTR* value_array)
 
 
 
-	TCHAR pyshort[MAX_ITEM_LEN];
-	TCHAR pyfull[MAX_ITEM_LEN];
+	TCHAR pyshort[MAX_STR_LEN];
+	TCHAR pyfull[MAX_STR_LEN];
 
 
 	Model::open_db();
@@ -194,7 +202,7 @@ void Dispatcher::AddAccount(LPTSTR* value_array)
 
 
 
-	TCHAR py_str[2][MAX_ITEM_LEN] = { L"",L"" };
+	TCHAR py_str[2][MAX_STR_LEN] = { L"",L"" };
 
 	PinYin::GetPYStr(value_array[0], py_str);
 

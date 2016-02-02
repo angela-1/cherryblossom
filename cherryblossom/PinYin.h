@@ -3,8 +3,6 @@
 #include <iostream> 
 #include <fstream>
 
-#define MAX_STR_LEN 100
-#define MAX_PATH_LEN 200
 
 class PinYin
 {

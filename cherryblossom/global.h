@@ -1,7 +1,19 @@
+
+
+/*	global.h
+*
+*	全局变量声明。
+*
+*	这个文件定义了所有变量。
+*
+*/
+
 #pragma once
 
-#define MAX_STR_STRING 200
-#define MAX_LOADSTRING 100
+
+
+
+
 
 // 全局变量，这是声明
 extern HINSTANCE g_inst;                                // 当前实例
@@ -18,4 +30,7 @@ extern HINSTANCE g_resource;
 
 // 这是声明
 extern Dispatcher* g_dispatcher;
+
+
+
 

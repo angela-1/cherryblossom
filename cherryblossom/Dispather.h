@@ -1,14 +1,8 @@
 #pragma once
 
 #include <list>
-#include "Model.h"
 
 
-
-
-#define MAX_SQL_LEN 1000
-#define MAX_DBPATH_LEN 250
-#define MAX_ITEM_LEN 100
 
 typedef struct account_item
 {
@@ -32,7 +26,6 @@ typedef struct account_card
 	wchar_t lastmod[MAX_ITEM_LEN];
 
 } AccountCard;
-
 
 
 

@@ -3,19 +3,24 @@
 #include "stdafx.h"
 #include "Resource.h"
 
+#include "process.h"
 
 #include "control.h"
-#include "process.h"
+
+
+
 
 #include "Dispather.h"
 
+
 #include "global.h"
+
 
 #include "../res804/resource.h"
 
 
 // for test
-#include "PinYin.h"
+//#include "PinYin.h"
 
 
 
@@ -41,7 +46,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 	wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
 	//wcex.lpszMenuName = MAKEINTRESOURCEW(IDC_CHERRYBLOSSOM); // read menu from resource dll
-		
+
 	wcex.lpszMenuName = NULL;
 	wcex.lpszClassName = g_window_class;
 	wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
@@ -199,10 +204,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 			//}
 
-			
+
 
 		}
-			break;
+		break;
 		case IDC_LISTBOX_ACCOUNT:
 		{
 			if (HIWORD(wParam) == LBN_SELCHANGE)
@@ -212,9 +217,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			}
 		}
 
-			break;
+		break;
 		case IDM_ABOUT:
-			
+
 			DialogBox(g_inst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, AboutProc);
 			break;
 		case IDM_EXIT:
@@ -226,7 +231,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	}
 	break;
 	case WM_GETMINMAXINFO:
-		((MINMAXINFO *)lParam)->ptMinTrackSize.x = 600;  
+		((MINMAXINFO *)lParam)->ptMinTrackSize.x = 600;
 		((MINMAXINFO *)lParam)->ptMinTrackSize.y = 405;
 		break;
 	case WM_SIZE:
@@ -282,7 +287,7 @@ BOOL LoadResDll(LANGID lang_id)
 
 	if (lang_id != NULL)
 	{
-		
+
 		_stprintf_s(g_tcsTemp, _TEXT("res%x.dll"), lang_id);
 
 		if ((g_resource = LoadLibrary(g_tcsTemp)) == NULL)
@@ -305,7 +310,7 @@ BOOL LoadResDll(LANGID lang_id)
 		}
 	}
 
-	
+
 	return t;
 }
 
@@ -454,7 +459,7 @@ INT_PTR CALLBACK EditProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 
 
 
-		
+
 	}
 
 	return (INT_PTR)TRUE;
@@ -490,7 +495,7 @@ INT_PTR CALLBACK EditProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 				note
 			};
 
-			int id_array[8] = {
+			int idc_array[8] = {
 				IDC_EDIT_TAG,
 				IDC_EDIT_CATEGORY,
 				IDC_EDIT_URL,
@@ -505,7 +510,7 @@ INT_PTR CALLBACK EditProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 
 			for (size_t i = 0; i < 8; i++)
 			{
-				int sendLength = SendDlgItemMessage(hDlg, id_array[i], EM_GETLINE, 0, (LPARAM)value_array[i]);
+				int sendLength = SendDlgItemMessage(hDlg, idc_array[i], EM_GETLINE, 0, (LPARAM)value_array[i]);
 				/*HWND editControl = GetDlgItem(hDlg, ids[i]);*/
 				//int sendLength = SendMessage(editControl, EM_GETLINE, 0, (LPARAM)wstr);
 				value_array[i][sendLength] = TEXT('\0');
@@ -581,7 +586,7 @@ INT_PTR CALLBACK DeleteProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPara
 
 			SendMessage(GetDlgItem(GetParent(hDlg), IDC_LISTBOX_ACCOUNT), LB_GETTEXT, (WPARAM)ind, (LPARAM)tag);
 
-			
+
 			g_dispatcher->DeleteAccount(tag);
 
 			EndDialog(hDlg, LOWORD(wParam));
@@ -611,3 +616,103 @@ INT_PTR CALLBACK DeleteProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPara
 	}
 	return (INT_PTR)FALSE;
 }
+
+
+INT_PTR CALLBACK LoginProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	//UNREFERENCED_PARAMETER(lParam);
+	switch (message)
+	{
+	case WM_INITDIALOG:
+	{
+		int idc[] = {
+			IDC_LOGIN_EDIT_PWD,
+			IDC_LOGIN_STATIC_PWD,
+			IDC_LOGIN_STATIC_WELCOME,
+			IDC_LOGIN_STATIC_TIP
+		};
+		int ids[] = {
+			0,
+			IDS_LOGIN_STATIC_PWD,
+			IDS_LOGIN_STATIC_WELCOME,
+			IDS_LOGIN_STATIC_TIP
+		};
+
+
+		TCHAR static_str[128];
+
+		LoadString(g_resource, IDS_LOGIN_TITLE, static_str, 128);
+		SetWindowText(hDlg, static_str);
+
+		for (size_t i = 1; i < (sizeof(idc) / sizeof(idc[0]) - 1); i++)
+		{
+			LoadString(g_resource, ids[i], static_str, 128);
+			SendDlgItemMessage(hDlg, idc[i], WM_SETTEXT, 0, (LPARAM)static_str);
+			SendDlgItemMessage(hDlg, idc[i], WM_SETFONT, (WPARAM)g_main_font, TRUE);
+		}
+
+
+		SendDlgItemMessage(hDlg, idc[0], WM_SETFONT, (WPARAM)g_main_font, TRUE);
+		SendDlgItemMessage(hDlg, idc[3], WM_SETFONT, (WPARAM)g_main_font, TRUE);
+
+		SetFocus(GetDlgItem(hDlg, IDC_LOGIN_EDIT_PWD));
+
+
+
+	}
+
+
+	return FALSE;
+
+	case WM_COMMAND:
+	{
+		int key = LOWORD(wParam);
+		switch (key)
+		{
+		case IDOK:
+
+		{
+
+
+			TCHAR mm[128];
+			SendDlgItemMessage(hDlg, IDC_LOGIN_EDIT_PWD, WM_GETTEXT, (WPARAM)128, (LPARAM)mm);
+
+
+
+			EndDialog(hDlg, TRUE);
+			return TRUE;
+		}
+		break;
+		case IDCANCEL:
+			EndDialog(hDlg, FALSE);
+			return FALSE;
+			break;
+		default:
+			break;
+		}
+
+	}
+
+	break;
+	case WM_CTLCOLORSTATIC:
+		SetBkMode((HDC)wParam, TRANSPARENT);
+		return (BOOL)((HBRUSH)GetStockObject(NULL_BRUSH));
+	case WM_CTLCOLORDLG:
+	{
+		return (BOOL)((HBRUSH)GetStockObject(WHITE_BRUSH));
+
+		// use a bitmap to brush background
+		//HBITMAP hBmp = (HBITMAP)LoadBitmap(g_inst, MAKEINTRESOURCE(IDB_BITMAP1));
+
+		//HBRUSH hBsh = CreatePatternBrush(hBmp);
+
+		////hBsh = CreateSolidBrush(RGB(0, 255, 0));
+		//return (INT_PTR)hBsh;
+	}
+
+
+	}
+	return (INT_PTR)FALSE;
+
+}
+

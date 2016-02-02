@@ -1,10 +1,16 @@
 
 #include "stdafx.h"
 #include "Resource.h"
+
 #include "control.h"
+
+
+
 #include "Dispather.h"
 
+
 #include "global.h"
+
 #include "../res804/resource.h"
 
 

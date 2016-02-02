@@ -151,6 +151,7 @@ copy "$(ProjectDir)sqlite3.dll"  "$(TargetDir)sqlite3.dll"  /y</Command>
     <ClInclude Include="cherryblossom.h" />
     <ClInclude Include="control.h" />
     <ClInclude Include="convert.h" />
+    <ClInclude Include="defs.h" />
     <ClInclude Include="Dispather.h" />
     <ClInclude Include="global.h" />
     <ClInclude Include="lispsty.h" />
@@ -181,6 +182,8 @@ copy "$(ProjectDir)sqlite3.dll"  "$(TargetDir)sqlite3.dll"  /y</Command>
     <ResourceCompile Include="cherryblossom.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="bitmap1.bmp" />
+    <Image Include="C:\Users\Baby\Desktop\fff.bmp" />
     <Image Include="cherryblossom.ico" />
     <Image Include="small.ico" />
   </ItemGroup>
