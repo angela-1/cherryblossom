@@ -71,7 +71,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	OnInitFont(NULL);
 
 
-	init();
+	OnInitPath();
 
 	// TODO: judge if it is first run. to show guide.
 	if (IsFirstRun())

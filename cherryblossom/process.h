@@ -23,6 +23,9 @@ INT_PTR CALLBACK WizardPwdProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
 INT_PTR CALLBACK WizardEnjoyProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
 
 
-void init();
+void OnInitPath();
 
 bool IsFirstRun();
+
+int CreateDB();
+int CreateConfigFile();

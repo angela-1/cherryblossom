@@ -71,6 +71,7 @@ public:
 	std::list<AccountItem> hit_list;
 	std::list<AccountItem> company_list;
 
+
 	
 
 };

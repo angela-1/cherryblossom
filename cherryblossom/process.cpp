@@ -16,6 +16,8 @@
 #include "Dispather.h"
 #include "Encrypter.h"
 
+#include "Model.h"
+
 #include "global.h"
 
 
@@ -691,7 +693,7 @@ INT_PTR CALLBACK LoginProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 			SendDlgItemMessage(hDlg, IDC_LOGIN_EDIT_PWD, WM_GETTEXT, (WPARAM)128, (LPARAM)key);
 
 			Encrypter a{};
-			
+
 
 			if (a.Validate(key))
 			{
@@ -701,7 +703,7 @@ INT_PTR CALLBACK LoginProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 			}
 			else
 			{
-				SendDlgItemMessage(hDlg, IDC_LOGIN_STATIC_TIP, 
+				SendDlgItemMessage(hDlg, IDC_LOGIN_STATIC_TIP,
 					WM_SETTEXT, 0, (LPARAM)L"wrong");
 				return FALSE;
 			}
@@ -819,23 +821,11 @@ INT_PTR CALLBACK WizardWelcomeProc(HWND hDlg, UINT message, WPARAM wParam, LPARA
 	{
 	case WM_INITDIALOG:
 	{
-	
+
 		CreateDirectory(g_cur_var_dir, NULL);
 
-		HANDLE hFile = CreateFile(g_config_file, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS,
-			FILE_ATTRIBUTE_NORMAL, NULL);
-		char buf[512] = "create table accounts(id integer primary key, tag text unique not null, category text, url text, user text, password text, phone text, mail text, notes text, lastmodified TimeStamp NOT NULL DEFAULT (datetime('now','localtime')), pyshort text, pyfull text)";
+		CreateDB();
 
-		DWORD numofbyte;
-		WriteFile(hFile, buf, 128, &numofbyte, NULL);
-
-		CloseHandle(hFile);
-
-		/*Controller a{};
-
-		a.CreateConfigFile();
-*/
-		//MessageBox(NULL, L"fuck", L"see", MB_OK);
 		return FALSE;
 	}
 
@@ -999,10 +989,7 @@ INT_PTR CALLBACK WizardEnjoyProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM 
 	{
 	case WM_INITDIALOG:
 	{
-		Encrypter a{};
-
-		//a.CreateDbFile();
-		//MessageBox(NULL, L"fuck", L"see", MB_OK);
+		CreateConfigFile();
 		return FALSE;
 	}
 
@@ -1044,7 +1031,7 @@ INT_PTR CALLBACK WizardEnjoyProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM 
 	return (INT_PTR)FALSE;
 }
 
-void init()
+void OnInitPath()
 {
 	// set file paths
 	TCHAR file_path[MAX_STR_LEN];
@@ -1073,9 +1060,9 @@ void init()
 
 	UnicodeToUTF8(g_db_file, g_chr_db_file);
 
-	
 
-	
+
+
 
 }
 
@@ -1094,5 +1081,62 @@ bool IsFirstRun()
 	return (!_FileExists(g_key_file) &&
 		!_FileExists(g_db_file) &&
 		!_FileExists(g_config_file));
+
+}
+
+int CreateDB()
+{
+
+	HANDLE hFile = CreateFile(g_db_file, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS,
+		FILE_ATTRIBUTE_NORMAL, NULL);
+	CloseHandle(hFile);
+
+
+	Model::open_db(g_chr_db_file);
+
+
+	wchar_t* sql = L"create table accounts(id integer primary key, \
+tag text unique not null, category text, url text, \
+user text, password text, phone text, mail text, note text, \
+lastmod TimeStamp NOT NULL DEFAULT (datetime('now','localtime')), \
+pyshort text, pyfull text)";
+
+	char csql[MAX_SQL_LEN];
+	UnicodeToUTF8(sql, csql);
+
+	Model::exec_sql(csql, NULL);
+
+
+
+	Model::close_db();
+
+
+	return 0;
+
+
+}
+
+int CreateConfigFile()
+{
+	TCHAR lp[128];
+
+
+	GetUserDefaultLocaleName(lp, 128);
+	TCHAR locale_name[128] = L"[cherry]\r\nlanguage=";
+	//_stprintf_s(locale_name, _TEXT("[cherry]\r\nlanguage=%s"), lp);
+
+	lstrcat(locale_name, lp);
+
+	char buf[128];
+	UnicodeToANSI(locale_name, buf);
+
+	HANDLE hFile = CreateFile(g_config_file, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS,
+		FILE_ATTRIBUTE_NORMAL, NULL);
+	//char buf[128] = "[cherry]\r\nlanguage=zh-CN";
+	DWORD numofbyte;
+	WriteFile(hFile, buf, strlen(buf), &numofbyte, NULL);
+
+	CloseHandle(hFile);
+	return 0;
 
 }
