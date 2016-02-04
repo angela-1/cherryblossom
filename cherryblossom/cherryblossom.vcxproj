@@ -153,6 +153,7 @@ copy "$(ProjectDir)sqlite3.dll"  "$(TargetDir)sqlite3.dll"  /y</Command>
     <ClInclude Include="convert.h" />
     <ClInclude Include="defs.h" />
     <ClInclude Include="Dispather.h" />
+    <ClInclude Include="Encrypter.h" />
     <ClInclude Include="global.h" />
     <ClInclude Include="lispsty.h" />
     <ClInclude Include="Model.h" />
@@ -168,6 +169,7 @@ copy "$(ProjectDir)sqlite3.dll"  "$(TargetDir)sqlite3.dll"  /y</Command>
     <ClCompile Include="control.cpp" />
     <ClCompile Include="convert.cpp" />
     <ClCompile Include="Dispather.cpp" />
+    <ClCompile Include="Encrypter.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="PinYin.cpp" />
     <ClCompile Include="process.cpp" />
@@ -192,6 +194,7 @@ copy "$(ProjectDir)sqlite3.dll"  "$(TargetDir)sqlite3.dll"  /y</Command>
     <None Include="sqlite3.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Library Include="libencrypt.lib" />
     <Library Include="sqlite3.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

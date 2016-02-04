@@ -4,7 +4,11 @@
 #include "Model.h"
 
 
-const char* Model::db_path = "D:\\tmp\\cherry.db3";
+
+
+
+
+
 sqlite3* Model::db = NULL;
 char* Model::err_msg;
 
@@ -19,7 +23,7 @@ Model::~Model()
 }
 
 
-int Model::open_db()
+int Model::open_db(char* db_path)
 {
 	int rc = sqlite3_open(db_path, &db);
 	if (rc)

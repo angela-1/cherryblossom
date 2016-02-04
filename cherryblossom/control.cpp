@@ -14,6 +14,8 @@
 #include "../res804/resource.h"
 
 
+// ÕâÊÇÉùÃ÷
+extern Dispatcher* g_dispatcher;
 
 
 int idc[] = {

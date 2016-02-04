@@ -28,9 +28,13 @@ extern HFONT g_symbol;
 // resource
 extern HINSTANCE g_resource;
 
-// ÕâÊÇÉùÃ÷
-extern Dispatcher* g_dispatcher;
 
 
+extern TCHAR g_cur_var_dir[MAX_STR_LEN];
+extern TCHAR g_key_file[MAX_STR_LEN];
+extern TCHAR g_db_file[MAX_STR_LEN];
+extern TCHAR g_db_file_s[MAX_STR_LEN];
+extern TCHAR g_config_file[MAX_STR_LEN];
+extern char g_chr_db_file[MAX_STR_LEN];
 
 

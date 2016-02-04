@@ -57,6 +57,9 @@
     <ClInclude Include="defs.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Encrypter.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -81,6 +84,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Dispather.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Encrypter.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -109,5 +115,6 @@
   </ItemGroup>
   <ItemGroup>
     <Library Include="sqlite3.lib" />
+    <Library Include="libencrypt.lib" />
   </ItemGroup>
 </Project>

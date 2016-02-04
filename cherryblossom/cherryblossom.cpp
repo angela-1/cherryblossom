@@ -47,6 +47,12 @@ HINSTANCE g_resource;
 // dispatcher, definition
 Dispatcher* g_dispatcher;
 
+TCHAR g_cur_var_dir[MAX_STR_LEN];
+TCHAR g_key_file[MAX_STR_LEN];
+TCHAR g_db_file[MAX_STR_LEN];
+TCHAR g_db_file_s[MAX_STR_LEN];
+char g_chr_db_file[MAX_STR_LEN];
+TCHAR g_config_file[MAX_STR_LEN];
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -58,21 +64,20 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	g_inst = hInstance; // 将实例句柄存储在全局变量中
 	
-						
-	// start dispatcher
-	g_dispatcher = Dispatcher::GetInstance();
-	g_dispatcher->MakeAccountList();
-
-	// load langauage resource
+						// load langauage resource
 	LoadResDll(NULL);
 
 	// set fonts
 	OnInitFont(NULL);
 
-	
 
+	init();
 
-    // TODO: judge if it is first run. to show guide.
+	// TODO: judge if it is first run. to show guide.
+	if (IsFirstRun())
+	{
+		ShowWizard(NULL);
+	}
 	
 
 	// TODO: show login page.
@@ -85,6 +90,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		PostQuitMessage(0);
 		return FALSE;
 	}
+
+
+
+	// start dispatcher
+	g_dispatcher = Dispatcher::GetInstance();
+	g_dispatcher->MakeAccountList();
 
 
 

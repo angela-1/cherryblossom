@@ -11,9 +11,11 @@
 
 #include "Dispather.h"
 
+#include "global.h"
 
 Dispatcher::Dispatcher()
 {
+	
 }
 
 
@@ -115,7 +117,7 @@ static int detialcallback(void *NotUsed, int argc, char **argv, char **azColName
 
 AccountCard * Dispatcher::GetAccount(LPTSTR tag)
 {
-	Model::open_db();
+	Model::open_db(g_chr_db_file);
 
 	wchar_t sql[MAX_SQL_LEN];
 
@@ -161,7 +163,7 @@ static int callback(void *NotUsed, int argc, char **argv, char **azColName)
 void Dispatcher::MakeAccountList()
 {
 
-	Model::open_db();
+	Model::open_db(g_chr_db_file);
 
 	int row = 0, column = 0;
 	char **result = NULL;
@@ -197,7 +199,7 @@ void Dispatcher::AddAccount(LPTSTR* value_array)
 	TCHAR pyfull[MAX_STR_LEN];
 
 
-	Model::open_db();
+	Model::open_db(g_chr_db_file);
 	wchar_t sql[MAX_SQL_LEN];
 
 
@@ -243,7 +245,7 @@ void Dispatcher::AddAccount(LPTSTR* value_array)
 void Dispatcher::EditAccount(LPTSTR* value_array)
 {
 
-	Model::open_db();
+	Model::open_db(g_chr_db_file);
 	wchar_t sql[MAX_SQL_LEN];
 
 	wchar_t* ii = L"update accounts";
@@ -274,7 +276,7 @@ void Dispatcher::EditAccount(LPTSTR* value_array)
 void Dispatcher::DeleteAccount(LPTSTR tag)
 {
 
-	Model::open_db();
+	Model::open_db(g_chr_db_file);
 	wchar_t sql[MAX_SQL_LEN];
 
 	wchar_t* ii = L"delete from accounts";

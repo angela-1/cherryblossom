@@ -26,4 +26,5 @@
 #define MAX_ITEM_LEN 100
 
 
-
+// Encrypter.cpp
+#define MD5_BLOCK 16

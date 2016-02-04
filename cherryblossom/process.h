@@ -17,3 +17,12 @@ INT_PTR CALLBACK LoginProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 // load resource
 BOOL LoadResDll(LANGID lang_id);
 
+void ShowWizard(HWND hwndOwner);
+INT_PTR CALLBACK WizardWelcomeProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK WizardPwdProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK WizardEnjoyProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
+
+
+void init();
+
+bool IsFirstRun();

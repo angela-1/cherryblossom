@@ -18,7 +18,7 @@ class Model
 private:
 
 
-	static const char* db_path;
+	
 	static sqlite3* db;
 	static char* err_msg;
 
@@ -27,7 +27,9 @@ public:
 	Model();
 	~Model();
 
-	static int open_db();
+	
+
+	static int open_db(char* db_path);
 	static void close_db();
 	static void exec_sql(char* sql, int(*callback)(void*, int, char**, char**));
 	static char** get_table(char *sql, int *row, int *column, char **result);

@@ -25,8 +25,8 @@ typedef unsigned int uint;
 
 
 
-LIBENCRYPT_API int digest_md5(char *buf, uchar *md);
-LIBENCRYPT_API int salt(uchar *md, int len);
+extern LIBENCRYPT_API int digest_md5(char *buf, uchar *md);
+extern LIBENCRYPT_API int salt(uchar *md, int len);
 
 extern LIBENCRYPT_API int encrypt(uchar *src, uchar *dst, uint len, uchar *key);
 extern LIBENCRYPT_API int decrypt(uchar *src, uchar *dst, uint len, uchar *key);

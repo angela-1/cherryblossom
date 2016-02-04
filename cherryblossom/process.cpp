@@ -3,21 +3,26 @@
 #include "stdafx.h"
 #include "Resource.h"
 
+#include <Prsht.h>
+
+
 #include "process.h"
 
 #include "control.h"
-
+#include "convert.h"
 
 
 
 #include "Dispather.h"
-
+#include "Encrypter.h"
 
 #include "global.h"
 
 
 #include "../res804/resource.h"
 
+// 这是声明
+extern Dispatcher* g_dispatcher;
 
 // for test
 //#include "PinYin.h"
@@ -656,7 +661,7 @@ INT_PTR CALLBACK LoginProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 			SendDlgItemMessage(hDlg, idc[i], WM_SETFONT, (WPARAM)g_main_font, TRUE);
 		}
 
-		
+
 
 		SendDlgItemMessage(hDlg, idc[0], WM_SETFONT, (WPARAM)g_main_font, TRUE);
 
@@ -682,13 +687,27 @@ INT_PTR CALLBACK LoginProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 		{
 
 
-			TCHAR mm[128];
-			SendDlgItemMessage(hDlg, IDC_LOGIN_EDIT_PWD, WM_GETTEXT, (WPARAM)128, (LPARAM)mm);
+			TCHAR key[MAX_STR_LEN]; // less than 16
+			SendDlgItemMessage(hDlg, IDC_LOGIN_EDIT_PWD, WM_GETTEXT, (WPARAM)128, (LPARAM)key);
+
+			Encrypter a{};
+			
+
+			if (a.Validate(key))
+			{
+				EndDialog(hDlg, TRUE);
+				return TRUE;
+
+			}
+			else
+			{
+				SendDlgItemMessage(hDlg, IDC_LOGIN_STATIC_TIP, 
+					WM_SETTEXT, 0, (LPARAM)L"wrong");
+				return FALSE;
+			}
 
 
 
-			EndDialog(hDlg, TRUE);
-			return TRUE;
 		}
 		break;
 		case IDCANCEL:
@@ -724,3 +743,356 @@ INT_PTR CALLBACK LoginProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 
 }
 
+void ShowWizard(HWND hwndOwner)
+{
+
+
+	HPROPSHEETPAGE ahpsp[3];
+
+	PROPSHEETPAGE psp = { sizeof(psp) };
+
+	psp.hInstance = g_inst;
+	psp.dwFlags = PSP_USEHEADERTITLE;;
+	psp.lParam = (LPARAM)NULL;
+	psp.pszHeaderTitle = L"欢迎使用";
+
+	psp.pszTemplate = MAKEINTRESOURCE(IDD_WIZARD_WELCOME);
+	psp.pfnDlgProc = WizardWelcomeProc;
+
+	PROPSHEETPAGE psp1 = { sizeof(psp1) };
+
+	psp1.hInstance = g_inst;
+	psp1.dwFlags = PSP_USEHEADERTITLE;
+	psp1.lParam = (LPARAM)NULL;
+	psp1.pszHeaderTitle = L"aaa";
+
+	psp1.pszTemplate = MAKEINTRESOURCE(IDD_WIZARD_PWD);
+	psp1.pfnDlgProc = WizardPwdProc;
+
+
+	PROPSHEETPAGE psp2 = { sizeof(psp2) };
+
+	psp2.hInstance = g_inst;
+	psp2.dwFlags = PSP_USEHEADERTITLE;
+	psp2.lParam = (LPARAM)NULL;
+	psp2.pszHeaderTitle = L"aaa";
+
+	psp2.pszTemplate = MAKEINTRESOURCE(IDD_WIZARD_ENJOY);
+	psp2.pfnDlgProc = WizardEnjoyProc;
+
+	ahpsp[0] = CreatePropertySheetPage(&psp);
+	ahpsp[1] = CreatePropertySheetPage(&psp1);
+
+	ahpsp[2] = CreatePropertySheetPage(&psp2);
+
+	// g_hInstance is the global HINSTANCE of the application.
+	// ahpsp is an array of HPROPSHEETPAGE handles.
+
+	PROPSHEETHEADER psh = { sizeof(psh) };
+
+	psh.hInstance = g_inst;
+	psh.hwndParent = NULL;
+	psh.phpage = ahpsp;
+
+	psh.dwFlags = PSH_WIZARD | PSH_AEROWIZARD;
+	//psh.dwFlags = PSH_WIZARD97 |PSH_WATERMARK | PSH_HEADER;
+	//psh.pszbmWatermark = MAKEINTRESOURCE(IDB_BITMAP2);
+	//psh.pszbmHeader = MAKEINTRESOURCE(IDB_BITMAP2);
+	psh.pszCaption = L"aaa";
+	psh.nStartPage = 0;
+	psh.nPages = 3;
+
+	PropertySheet(&psh);
+
+
+
+
+	return;
+
+}
+
+INT_PTR CALLBACK WizardWelcomeProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+{
+
+	//UNREFERENCED_PARAMETER(lParam);
+	switch (message)
+	{
+	case WM_INITDIALOG:
+	{
+	
+		CreateDirectory(g_cur_var_dir, NULL);
+
+		HANDLE hFile = CreateFile(g_config_file, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS,
+			FILE_ATTRIBUTE_NORMAL, NULL);
+		char buf[512] = "create table accounts(id integer primary key, tag text unique not null, category text, url text, user text, password text, phone text, mail text, notes text, lastmodified TimeStamp NOT NULL DEFAULT (datetime('now','localtime')), pyshort text, pyfull text)";
+
+		DWORD numofbyte;
+		WriteFile(hFile, buf, 128, &numofbyte, NULL);
+
+		CloseHandle(hFile);
+
+		/*Controller a{};
+
+		a.CreateConfigFile();
+*/
+		//MessageBox(NULL, L"fuck", L"see", MB_OK);
+		return FALSE;
+	}
+
+
+
+	//case WM_CTLCOLORDLG:
+	//{
+	//	HBITMAP hBmp = (HBITMAP)LoadBitmap(hInst, MAKEINTRESOURCE(IDB_BITMAP3));
+	//	
+	//	HBRUSH hBsh = CreatePatternBrush(hBmp);   
+	//	
+	//	//hBsh = CreateSolidBrush(RGB(0, 255, 0));
+	//	return (INT_PTR)hBsh;
+	//}
+
+
+	case WM_NOTIFY:
+	{
+
+		LPNMHDR pnmh = (LPNMHDR)lParam;
+
+		switch (pnmh->code)
+		{
+
+
+
+		case PSN_SETACTIVE:
+
+
+
+
+			PropSheet_ShowWizButtons(hDlg,
+				PSWIZB_NEXT,
+				PSWIZB_BACK | PSWIZB_NEXT | PSWIZB_CANCEL);
+
+			return TRUE;
+
+		}
+
+
+	}
+
+
+
+
+
+	}
+	return (INT_PTR)FALSE;
+}
+
+INT_PTR CALLBACK WizardPwdProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	//UNREFERENCED_PARAMETER(lParam);
+	switch (message)
+	{
+	case WM_INITDIALOG:
+
+
+		//MessageBox(NULL, L"fuck", L"see", MB_OK);
+		return FALSE;
+
+	case WM_COMMAND:
+	{
+		int wmId = LOWORD(wParam);
+		int notifyId = HIWORD(wParam);
+
+		switch (wmId)
+		{
+
+		case IDC_EDIT_PWD:
+		case IDC_EDIT_CONFIRM:
+		{
+			TCHAR pwd[128];
+			TCHAR confirm_pwd[128];
+
+			if (notifyId == EN_CHANGE)
+			{
+				SendDlgItemMessage(hDlg, IDC_EDIT_PWD, WM_GETTEXT, 128, (LPARAM)pwd);
+				SendDlgItemMessage(hDlg, IDC_EDIT_CONFIRM, WM_GETTEXT, 128, (LPARAM)confirm_pwd);
+
+				if (wcscmp(pwd, confirm_pwd) == 0 &&
+					wcscmp(pwd, L"") != 0)
+				{
+					SendDlgItemMessage(hDlg, IDC_WIZARDPWD_STATIC_TIP, WM_SETTEXT,
+						NULL, (LPARAM)L"");
+					SendMessage(hDlg, PSM_ENABLEWIZBUTTONS,
+						PSWIZB_NEXT, PSWIZB_NEXT);
+				}
+				else
+				{
+					SendDlgItemMessage(hDlg, IDC_WIZARDPWD_STATIC_TIP, WM_SETTEXT,
+						NULL, (LPARAM)L"aa");
+					SendMessage(hDlg, PSM_ENABLEWIZBUTTONS,
+						NULL, PSWIZB_NEXT);
+				}
+
+
+
+			}
+
+		}
+
+
+		break;
+
+		}
+		return FALSE;
+	}
+
+	case WM_NOTIFY:
+	{
+
+		LPNMHDR pnmh = (LPNMHDR)lParam;
+
+		switch (pnmh->code)
+		{
+
+		case PSN_WIZNEXT:
+		{
+
+			TCHAR confirm_pwd[128];
+
+			SendDlgItemMessage(hDlg, IDC_EDIT_CONFIRM, WM_GETTEXT, 128, (LPARAM)confirm_pwd);
+
+
+			Encrypter a{};
+			a.CreateKeyFile(confirm_pwd);
+			return FALSE;
+		}
+
+
+		case PSN_SETACTIVE:
+
+
+			PropSheet_ShowWizButtons(hDlg,
+				PSWIZB_NEXT,
+				PSWIZB_BACK | PSWIZB_NEXT | PSWIZB_CANCEL);
+
+			SendMessage(hDlg, PSM_ENABLEWIZBUTTONS,
+				NULL, PSWIZB_NEXT);
+
+			return TRUE;
+
+		}
+
+
+	}
+
+
+
+
+
+	}
+	return (INT_PTR)FALSE;
+}
+
+INT_PTR CALLBACK WizardEnjoyProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	//UNREFERENCED_PARAMETER(lParam);
+	switch (message)
+	{
+	case WM_INITDIALOG:
+	{
+		Encrypter a{};
+
+		//a.CreateDbFile();
+		//MessageBox(NULL, L"fuck", L"see", MB_OK);
+		return FALSE;
+	}
+
+
+
+
+	case WM_NOTIFY:
+	{
+
+		LPNMHDR pnmh = (LPNMHDR)lParam;
+
+		switch (pnmh->code)
+		{
+
+
+
+		case PSN_SETACTIVE:
+
+
+
+
+			PropSheet_ShowWizButtons(hDlg,
+				PSWIZB_FINISH | PSWIZB_BACK,
+				PSWIZB_BACK | PSWIZB_NEXT | PSWIZB_CANCEL | PSWIZB_FINISH);
+
+			PropSheet_SetFinishText(hDlg, L"aa");
+			return TRUE;
+
+		}
+
+
+	}
+
+
+
+
+
+	}
+	return (INT_PTR)FALSE;
+}
+
+void init()
+{
+	// set file paths
+	TCHAR file_path[MAX_STR_LEN];
+
+	GetModuleFileName(NULL, file_path, MAX_STR_LEN);
+
+	TCHAR* p = wcsrchr(file_path, '\\');
+	*p = '\0';
+
+	lstrcpy(g_cur_var_dir, file_path);
+	lstrcat(g_cur_var_dir, L"\\var");
+
+	lstrcpy(g_key_file, file_path);
+	lstrcat(g_key_file, L"\\var\\.key");
+
+
+	lstrcpy(g_db_file, file_path);
+	lstrcat(g_db_file, L"\\var\\cherryblossom.db3");
+
+	lstrcpy(g_db_file_s, g_db_file);
+	lstrcat(g_db_file_s, L"s");
+
+
+	lstrcpy(g_config_file, file_path);
+	lstrcat(g_config_file, L"\\var\\config.ini");
+
+	UnicodeToUTF8(g_db_file, g_chr_db_file);
+
+	
+
+	
+
+}
+
+
+
+static bool _FileExists(LPTSTR file)
+{
+	DWORD dwAttrib = GetFileAttributes(file);
+
+	return (dwAttrib != INVALID_FILE_ATTRIBUTES &&
+		!(dwAttrib & FILE_ATTRIBUTE_DIRECTORY));
+}
+
+bool IsFirstRun()
+{
+	return (!_FileExists(g_key_file) &&
+		!_FileExists(g_db_file) &&
+		!_FileExists(g_config_file));
+
+}

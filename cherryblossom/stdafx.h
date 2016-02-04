@@ -19,5 +19,9 @@
 
 
 // TODO:  在此处引用程序需要的其他头文件
+#include <commctrl.h>
+#pragma comment(lib, "comctl32.lib")
+
+
 #include "defs.h"
 #include "lispsty.h"
