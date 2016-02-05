@@ -47,6 +47,7 @@ Encrypter::~Encrypter()
 
 bool Encrypter::Validate(LPTSTR key)
 {
+	
 	bool is_valid = true;
 
 	// read md5 and salt

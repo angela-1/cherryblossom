@@ -38,3 +38,5 @@ extern TCHAR g_config_file[MAX_STR_LEN];
 extern char g_chr_db_file[MAX_STR_LEN];
 
 
+extern TCHAR g_key[MAX_STR_LEN];
+

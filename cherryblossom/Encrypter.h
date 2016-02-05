@@ -16,6 +16,8 @@ public:
 	Encrypter();
 	~Encrypter();
 
+	
+
 	bool Validate(LPTSTR key);
 
 	int CreateKeyFile(LPTSTR password);

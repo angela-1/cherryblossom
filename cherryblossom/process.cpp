@@ -262,7 +262,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		delete g_dispatcher;
 
 		Encrypter a{};
-		a.EncryptDBFile(L"f");
+		a.EncryptDBFile(g_key);
 
 		PostQuitMessage(0);
 	}
@@ -697,12 +697,14 @@ INT_PTR CALLBACK LoginProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 
 			TCHAR key[MAX_STR_LEN]; // less than 16
 			SendDlgItemMessage(hDlg, IDC_LOGIN_EDIT_PWD, WM_GETTEXT, (WPARAM)128, (LPARAM)key);
+			
 
 			Encrypter a{};
 
 
 			if (a.Validate(key))
 			{
+				lstrcpy(g_key, key);
 
 				a.DecryptDBFile(key);
 

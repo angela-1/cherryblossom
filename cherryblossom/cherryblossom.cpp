@@ -54,6 +54,9 @@ TCHAR g_db_file_s[MAX_STR_LEN];
 char g_chr_db_file[MAX_STR_LEN];
 TCHAR g_config_file[MAX_STR_LEN];
 
+TCHAR g_key[MAX_STR_LEN];
+
+
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
                      _In_ LPWSTR    lpCmdLine,
