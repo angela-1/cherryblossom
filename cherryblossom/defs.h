@@ -28,3 +28,4 @@
 
 // Encrypter.cpp
 #define MD5_BLOCK 16
+#define AES_BLOCK 16

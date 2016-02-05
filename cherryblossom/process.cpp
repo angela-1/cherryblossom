@@ -255,12 +255,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	}
 	break;
 	case WM_DESTROY:
+	{
 		// free resource
 
 		FreeLibrary(g_resource);
 		delete g_dispatcher;
 
+		Encrypter a{};
+		a.EncryptDBFile(L"f");
+
 		PostQuitMessage(0);
+	}
+
 		break;
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
@@ -697,6 +703,9 @@ INT_PTR CALLBACK LoginProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 
 			if (a.Validate(key))
 			{
+
+				a.DecryptDBFile(key);
+
 				EndDialog(hDlg, TRUE);
 				return TRUE;
 
@@ -953,6 +962,11 @@ INT_PTR CALLBACK WizardPwdProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
 
 			Encrypter a{};
 			a.CreateKeyFile(confirm_pwd);
+
+			a.EncryptDBFile(confirm_pwd);
+
+			// TODO: delete g_db_file
+
 			return FALSE;
 		}
 

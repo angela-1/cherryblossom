@@ -19,7 +19,8 @@ public:
 	bool Validate(LPTSTR key);
 
 	int CreateKeyFile(LPTSTR password);
-
+	int EncryptDBFile(LPTSTR key);
+	int DecryptDBFile(LPTSTR key);
 
 
 };

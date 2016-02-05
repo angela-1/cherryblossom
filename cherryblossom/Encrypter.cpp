@@ -117,3 +117,83 @@ int Encrypter::CreateKeyFile(LPTSTR password)
 
 	return 0;
 }
+
+int Encrypter::EncryptDBFile(LPTSTR key)
+{
+	HANDLE hFile = CreateFile(g_db_file, GENERIC_READ, 0, NULL, OPEN_EXISTING,
+		FILE_ATTRIBUTE_NORMAL, NULL);
+	size_t file_length = (size_t)GetFileSize(hFile, NULL);
+	CloseHandle(hFile);
+
+	size_t a = file_length % AES_BLOCK;
+	size_t block_length = 0;
+	
+	if (a > 0)
+	{
+		block_length = AES_BLOCK*(file_length / AES_BLOCK) + AES_BLOCK;
+		
+	} 
+	else
+	{
+		block_length = file_length;
+	}
+
+
+	uchar bytekey[16];
+	char strkey[MAX_STR_LEN];
+
+	UnicodeToUTF8(key, strkey);
+	memcpy_s(bytekey, 16, strkey, 16);
+
+	uchar* bytesrc = (uchar*)malloc((size_t)block_length);
+	uchar* bytedst = (uchar*)malloc((size_t)block_length);
+
+	_ReadBinFile(g_db_file, bytesrc, block_length);
+
+	encrypt(bytesrc, bytedst, block_length, bytekey);
+
+	_WriteBinFile(g_db_file_s, bytedst, block_length);
+	
+	DeleteFile(g_db_file);
+
+	return 0;
+}
+
+int Encrypter::DecryptDBFile(LPTSTR key)
+{
+	HANDLE hFile = CreateFile(g_db_file_s, GENERIC_READ, 0, NULL, OPEN_EXISTING,
+		FILE_ATTRIBUTE_NORMAL, NULL);
+	size_t file_length = (size_t)GetFileSize(hFile, NULL);
+	CloseHandle(hFile);
+
+	size_t a = file_length % AES_BLOCK;
+	size_t block_length = 0;
+
+	if (a > 0)
+	{
+		block_length = AES_BLOCK*(file_length / AES_BLOCK) + AES_BLOCK;
+
+	}
+	else
+	{
+		block_length = file_length;
+	}
+
+
+	uchar bytekey[16];
+	char strkey[MAX_STR_LEN];
+
+	UnicodeToUTF8(key, strkey);
+	memcpy_s(bytekey, 16, strkey, 16);
+
+	uchar* bytesrc = (uchar*)malloc((size_t)block_length);
+	uchar* bytedst = (uchar*)malloc((size_t)block_length);
+
+	_ReadBinFile(g_db_file_s, bytesrc, block_length);
+
+	decrypt(bytesrc, bytedst, block_length, bytekey);
+
+	_WriteBinFile(g_db_file, bytedst, block_length);
+
+	return 0;
+}
