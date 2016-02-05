@@ -189,11 +189,17 @@ int Encrypter::DecryptDBFile(LPTSTR key)
 	uchar* bytesrc = (uchar*)malloc((size_t)block_length);
 	uchar* bytedst = (uchar*)malloc((size_t)block_length);
 
+	memset(bytesrc, 0, block_length);
+	memset(bytedst, 0, block_length);
+
 	_ReadBinFile(g_db_file_s, bytesrc, block_length);
 
 	decrypt(bytesrc, bytedst, block_length, bytekey);
 
 	_WriteBinFile(g_db_file, bytedst, block_length);
+
+	free(bytesrc);
+	free(bytedst);
 
 	return 0;
 }
