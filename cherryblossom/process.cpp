@@ -225,6 +225,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		}
 
 		break;
+		case IDM_SETTING:
+			DialogBox(g_inst, MAKEINTRESOURCE(IDD_SETTING), hWnd, SettingProc);
+			break;
 		case IDM_ABOUT:
 
 			DialogBox(g_inst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, AboutProc);
@@ -756,6 +759,96 @@ INT_PTR CALLBACK LoginProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 
 }
 
+INT_PTR CALLBACK SettingProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	switch (message)
+	{
+	case WM_INITDIALOG:
+	{
+		SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_ADDSTRING, 0, (LPARAM)L"ÖÐÎÄ");
+		SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_ADDSTRING, 0, (LPARAM)L"English");
+
+		TCHAR lang[MAX_STR_LEN];
+		GetPrivateProfileString(TEXT("cherryblossom"),
+			TEXT("language"), L"zh-CN", lang, MAX_STR_LEN, g_config_file);
+		if (wcscmp(lang, L"en-US") == 0)
+		{
+			int cursel = SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_FINDSTRING, -1, (LPARAM)L"English");
+			SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_SETCURSEL, cursel, (LPARAM)0);
+		}
+		else
+		{
+			SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_SETCURSEL, 1, (LPARAM)0);
+		}
+		
+
+
+
+	}
+
+
+	return FALSE;
+
+	case WM_COMMAND:
+	{
+		int key = LOWORD(wParam);
+		switch (key)
+		{
+		case IDC_COMBO_LANG:
+		{
+			if (HIWORD(wParam) == CBN_SELCHANGE)
+			{
+				TCHAR lpch[MAX_STR_LEN];
+				int sel_index = SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_GETCURSEL, 0, 0);
+				SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_GETLBTEXT, sel_index, (LPARAM)lpch);
+				
+				//MessageBox(NULL, lpch, L"see now", MB_OK);
+				if (wcscmp(lpch, L"English") == 0)
+				{
+					WritePrivateProfileString(TEXT("cherryblossom"),
+						TEXT("language"), L"en-US", g_config_file);
+				}
+				else
+				{
+					WritePrivateProfileString(TEXT("cherryblossom"),
+						TEXT("language"), L"zh-CN", g_config_file);
+				}
+
+				
+				SendDlgItemMessage(hDlg, IDC_SETTING_STATIC_TIP,
+					WM_SETTEXT, 0, (LPARAM)L"next time");
+
+
+			}
+
+		}
+			break;
+		case IDOK:
+		case IDCANCEL:
+			EndDialog(hDlg, FALSE);
+			return FALSE;
+			break;
+		default:
+			break;
+		}
+
+	}
+
+	break;
+	case WM_CTLCOLORSTATIC:
+		SetBkMode((HDC)wParam, TRANSPARENT);
+		return (BOOL)((HBRUSH)GetStockObject(NULL_BRUSH));
+	case WM_CTLCOLORDLG:
+	
+		return (BOOL)((HBRUSH)GetStockObject(WHITE_BRUSH));
+
+	
+
+
+	}
+	return (INT_PTR)FALSE;
+}
+
 void ShowWizard(HWND hwndOwner)
 {
 
@@ -1138,7 +1231,7 @@ int CreateConfigFile()
 
 
 	GetUserDefaultLocaleName(lp, 128);
-	TCHAR locale_name[128] = L"[cherry]\r\nlanguage=";
+	TCHAR locale_name[128] = L"[cherryblossom]\r\nlanguage=";
 	//_stprintf_s(locale_name, _TEXT("[cherry]\r\nlanguage=%s"), lp);
 
 	lstrcat(locale_name, lp);

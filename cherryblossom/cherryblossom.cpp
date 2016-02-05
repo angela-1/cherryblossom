@@ -67,14 +67,28 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	g_inst = hInstance; // 将实例句柄存储在全局变量中
 	
-						// load langauage resource
-	LoadResDll(NULL);
-
 	// set fonts
 	OnInitFont(NULL);
 
 
 	OnInitPath();
+
+	// load langauage resource
+	TCHAR lang[MAX_STR_LEN];
+	GetPrivateProfileString(TEXT("cherryblossom"),
+		TEXT("language"), L"zh-CN", lang, MAX_STR_LEN, g_config_file);
+	if (wcscmp(lang, L"en-US") == 0)
+	{
+		LoadResDll(1033);
+	}
+	else
+	{
+		LoadResDll(2052);
+	}
+
+	
+
+
 
 	// TODO: judge if it is first run. to show guide.
 	if (IsFirstRun())
