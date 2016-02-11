@@ -648,21 +648,21 @@ INT_PTR CALLBACK LoginProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 	{
 		int idc[] = {
 			IDC_LOGIN_EDIT_PWD,
-			IDC_LOGIN_STATIC_PWD,
 			IDC_LOGIN_STATIC_WELCOME,
+			IDC_LOGIN_STATIC_PWD,
 			IDC_LOGIN_STATIC_TIP
 		};
 		int ids[] = {
-			0,
-			IDS_LOGIN_STATIC_PWD,
-			IDS_LOGIN_STATIC_WELCOME,
-			IDS_LOGIN_STATIC_TIP
+			0,		
+			IDS_LOGIN_WELCOME,
+			IDS_LOGIN_PASSWD,
+			IDS_LOGIN_CAUTION
 		};
 
 
 		TCHAR static_str[128];
 
-		LoadString(g_resource, IDS_LOGIN_TITLE, static_str, 128);
+		LoadString(g_resource, IDS_LOGIN_CAPTION, static_str, 128);
 		SetWindowText(hDlg, static_str);
 
 		for (size_t i = 1; i < (sizeof(idc) / sizeof(idc[0]) - 1); i++)
