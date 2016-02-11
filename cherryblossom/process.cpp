@@ -717,8 +717,12 @@ INT_PTR CALLBACK LoginProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 			}
 			else
 			{
+				TCHAR static_str[MAX_STR_LEN];
+
+				LoadString(g_resource, IDS_LOGIN_CAUTION, static_str, MAX_STR_LEN);
+
 				SendDlgItemMessage(hDlg, IDC_LOGIN_STATIC_TIP,
-					WM_SETTEXT, 0, (LPARAM)L"wrong");
+					WM_SETTEXT, 0, (LPARAM)static_str);
 				return FALSE;
 			}
 
@@ -765,15 +769,20 @@ INT_PTR CALLBACK SettingProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
 	{
 	case WM_INITDIALOG:
 	{
-		SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_ADDSTRING, 0, (LPARAM)L"ÖÐÎÄ");
-		SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_ADDSTRING, 0, (LPARAM)L"English");
+		TCHAR static_str[MAX_STR_LEN];
+
+		LoadString(g_resource, IDS_SETTING_LANG_EN, static_str, MAX_STR_LEN);
+		SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_ADDSTRING, 0, (LPARAM)static_str);
+		LoadString(g_resource, IDS_SETTING_LANG_ZH, static_str, MAX_STR_LEN);
+		SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_ADDSTRING, 0, (LPARAM)static_str);
 
 		TCHAR lang[MAX_STR_LEN];
 		GetPrivateProfileString(TEXT("cherryblossom"),
 			TEXT("language"), L"zh-CN", lang, MAX_STR_LEN, g_config_file);
 		if (wcscmp(lang, L"en-US") == 0)
 		{
-			int cursel = SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_FINDSTRING, -1, (LPARAM)L"English");
+			LoadString(g_resource, IDS_SETTING_LANG_EN, static_str, MAX_STR_LEN);
+			int cursel = SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_FINDSTRING, -1, (LPARAM)static_str);
 			SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_SETCURSEL, cursel, (LPARAM)0);
 		}
 		else
@@ -802,8 +811,12 @@ INT_PTR CALLBACK SettingProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
 				int sel_index = SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_GETCURSEL, 0, 0);
 				SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_GETLBTEXT, sel_index, (LPARAM)lpch);
 				
+				TCHAR static_str[MAX_STR_LEN];
+
+				LoadString(g_resource, IDS_SETTING_LANG_EN, static_str, MAX_STR_LEN);
+
 				//MessageBox(NULL, lpch, L"see now", MB_OK);
-				if (wcscmp(lpch, L"English") == 0)
+				if (wcscmp(lpch, static_str) == 0)
 				{
 					WritePrivateProfileString(TEXT("cherryblossom"),
 						TEXT("language"), L"en-US", g_config_file);
@@ -815,8 +828,10 @@ INT_PTR CALLBACK SettingProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
 				}
 
 				
+				LoadString(g_resource, IDS_SETTING_LANGTIP, static_str, MAX_STR_LEN);
+
 				SendDlgItemMessage(hDlg, IDC_SETTING_STATIC_TIP,
-					WM_SETTEXT, 0, (LPARAM)L"next time");
+					WM_SETTEXT, 0, (LPARAM)static_str);
 
 
 			}
