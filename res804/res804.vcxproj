@@ -97,7 +97,8 @@
       <NoEntryPoint>true</NoEntryPoint>
     </Link>
     <PostBuildEvent>
-      <Command>$(SolutionDir)utils\ResText.exe extract $(TargetDir)$(TargetFileName)*$(ProjectDir)resource.h $(SolutionDir)lang\res409.po</Command>
+      <Command>$(SolutionDir)utils\ResText.exe extract $(TargetDir)$(TargetFileName)*$(ProjectDir)resource.h $(SolutionDir)lang\res409.po
+$(SolutionDir)utils\ResText.exe apply $(TargetDir)$(TargetFileName) $(TargetDir)res409.dll $(SolutionDir)lang\res409.po 1033</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
