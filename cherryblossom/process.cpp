@@ -270,7 +270,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		PostQuitMessage(0);
 	}
 
-		break;
+	break;
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}
@@ -284,7 +284,21 @@ INT_PTR CALLBACK AboutProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 	switch (message)
 	{
 	case WM_INITDIALOG:
-		return (INT_PTR)t;
+	{
+		TCHAR static_str[MAX_STR_LEN];
+
+		LoadString(g_resource, IDS_ABOUT_CAPTION, static_str, MAX_STR_LEN);
+		SetWindowText(hDlg, static_str);
+
+		LoadString(g_resource, IDS_ABOUT_VERSION, static_str, MAX_STR_LEN);
+		SendDlgItemMessage(hDlg, IDC_ABOUT_VERSION, WM_SETTEXT, 0, (LPARAM)static_str);
+		LoadString(g_resource, IDS_ABOUT_COPYRIGHT, static_str, MAX_STR_LEN);
+		SendDlgItemMessage(hDlg, IDC_ABOUT_COPYRIGHT, WM_SETTEXT, 0, (LPARAM)static_str);
+		LoadString(g_resource, IDS_ABOUT_OK, static_str, MAX_STR_LEN);
+		SendDlgItemMessage(hDlg, IDOK, WM_SETTEXT, 0, (LPARAM)static_str);
+
+	}
+	return (INT_PTR)t;
 
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
@@ -653,7 +667,7 @@ INT_PTR CALLBACK LoginProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 			IDC_LOGIN_STATIC_TIP
 		};
 		int ids[] = {
-			0,		
+			0,
 			IDS_LOGIN_WELCOME,
 			IDS_LOGIN_PASSWD,
 			IDS_LOGIN_CAUTION
@@ -700,7 +714,7 @@ INT_PTR CALLBACK LoginProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 
 			TCHAR key[MAX_STR_LEN]; // less than 16
 			SendDlgItemMessage(hDlg, IDC_LOGIN_EDIT_PWD, WM_GETTEXT, (WPARAM)128, (LPARAM)key);
-			
+
 
 			Encrypter a{};
 
@@ -789,7 +803,7 @@ INT_PTR CALLBACK SettingProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
 		{
 			SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_SETCURSEL, 1, (LPARAM)0);
 		}
-		
+
 
 
 
@@ -810,7 +824,7 @@ INT_PTR CALLBACK SettingProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
 				TCHAR lpch[MAX_STR_LEN];
 				int sel_index = SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_GETCURSEL, 0, 0);
 				SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_GETLBTEXT, sel_index, (LPARAM)lpch);
-				
+
 				TCHAR static_str[MAX_STR_LEN];
 
 				LoadString(g_resource, IDS_SETTING_LANG_EN, static_str, MAX_STR_LEN);
@@ -827,7 +841,7 @@ INT_PTR CALLBACK SettingProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
 						TEXT("language"), L"zh-CN", g_config_file);
 				}
 
-				
+
 				LoadString(g_resource, IDS_SETTING_LANGTIP, static_str, MAX_STR_LEN);
 
 				SendDlgItemMessage(hDlg, IDC_SETTING_STATIC_TIP,
@@ -837,7 +851,7 @@ INT_PTR CALLBACK SettingProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
 			}
 
 		}
-			break;
+		break;
 		case IDOK:
 		case IDCANCEL:
 			EndDialog(hDlg, FALSE);
@@ -854,10 +868,10 @@ INT_PTR CALLBACK SettingProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
 		SetBkMode((HDC)wParam, TRANSPARENT);
 		return (BOOL)((HBRUSH)GetStockObject(NULL_BRUSH));
 	case WM_CTLCOLORDLG:
-	
+
 		return (BOOL)((HBRUSH)GetStockObject(WHITE_BRUSH));
 
-	
+
 
 
 	}

@@ -67,6 +67,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	g_inst = hInstance; // 将实例句柄存储在全局变量中
 	
+	
 	// set fonts
 	OnInitFont(NULL);
 
