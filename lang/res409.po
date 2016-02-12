@@ -1,0 +1,248 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 1900-01-01 00:00+0000\n"
+"PO-Revision-Date: 2016-02-12 22:09+0800\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en\n"
+"X-Generator: Poedit 1.8.7\n"
+
+# msgid/msgstr fields for Accelerator keys
+# Format is: "ID:xxxxxx:VACS+X" where:
+#    ID:xxxxx = the menu ID corresponding to the accelerator
+#    V = Virtual key (or blank if not used) - nearly always set!
+#    A = Alt key     (or blank if not used)
+#    C = Ctrl key    (or blank if not used)
+#    S = Shift key   (or blank if not used)
+#    X = upper case character
+# e.g. "V CS+Q" == Ctrl + Shift + 'Q'
+# ONLY Accelerator Keys with corresponding alphanumeric characters can be
+# updated i.e. function keys (F2), special keys (Delete, HoMe) etc. will not.
+# ONLY change the msgstr field. Do NOT change any other.
+# If you do not want to change an Accelerator Key, copy msgid to msgstr
+# msgid/msgstr fields for Accelerator keys
+# Format is: "ID:xxxxxx:VACS+X" where:
+#    ID:xxxxx = the menu ID corresponding to the accelerator
+#    V = Virtual key (or blank if not used) - nearly always set!
+#    A = Alt key     (or blank if not used)
+#    C = Ctrl key    (or blank if not used)
+#    S = Shift key   (or blank if not used)
+#    X = upper case character
+# e.g. "V CS+Q" == Ctrl + Shift + 'Q'
+# ONLY Accelerator Keys with corresponding alphanumeric characters can be
+# updated i.e. function keys (F2), special keys (Delete, HoMe) etc. will not.
+# ONLY change the msgstr field. Do NOT change any other.
+# If you do not want to change an Accelerator Key, copy msgid to msgstr
+#. Resource IDs: (IDS_SETTING_LANG_EN)
+msgid "English(Unitied States)"
+msgstr "English(Unitied States)"
+
+#. Resource IDs: (IDS_ABOUT_COPYRIGHT)
+msgid "© 2016 Angela-1"
+msgstr "© 2016 Angela-1"
+
+#. Resource IDs: (IDS_SETTING_LANGTIP)
+msgid "下一次启动时生效"
+msgstr "Take effect the next time."
+
+#. Resource IDs: (IDS_SETTING_LANG_ZH)
+msgid "中文（简体）"
+msgstr ""
+
+#. Resource IDs: (IDS_WIZARD_WELCOME_CAPTION)
+msgid "介绍"
+msgstr ""
+
+#. Resource IDs: (IDS_SETTING_MODPWD)
+msgid "修改密码"
+msgstr ""
+
+#. Resource IDs: (104 - Menu)
+msgid "关于(&A) ..."
+msgstr ""
+
+#. Resource IDs: (IDS_ABOUT_CAPTION)
+msgid "关于樱花"
+msgstr ""
+
+#. Resource IDs: (IDS_MAIN_LISTNEWTIP)
+msgid "列表为空，请添加账户。"
+msgstr ""
+
+#. Resource IDs: (IDS_MAIN_BUTTON_DEL)
+msgid "删除"
+msgstr ""
+
+#. Resource IDs: (IDS_LABEL_CANCEL)
+msgid "取消"
+msgstr ""
+
+#. Resource IDs: (IDS_ADD_NOTE, IDS_LABEL_NOTE)
+msgid "备注："
+msgstr ""
+
+#. Resource IDs: (IDS_LABEL_OK)
+msgid "好"
+msgstr ""
+
+#. Resource IDs: (IDS_SETTING_DONE)
+msgid "完成"
+msgstr ""
+
+#. Resource IDs: (IDS_LABEL_PASSWORD)
+msgid "密码："
+msgstr ""
+
+#. Resource IDs: (IDS_LOGIN_CAUTION, IDS_SETTING_PWDTIP)
+msgid "密钥错误！"
+msgstr ""
+
+#. Resource IDs: (IDS_LOGIN_PASSWD)
+msgid "密钥："
+msgstr ""
+
+#. Resource IDs: (ID_40002 - Menu)
+msgid "导出(&E) ..."
+msgstr ""
+
+#. Resource IDs: (65535 - PopupMenu)
+msgid "帮助(&H)"
+msgstr ""
+
+#. Resource IDs: (65535 - PopupMenu)
+msgid "文件(&F)"
+msgstr ""
+
+#. Resource IDs: (ID_40003 - Menu)
+msgid "文档(&D)"
+msgstr ""
+
+#. Resource IDs: (IDS_SETTING_NEWPWD)
+msgid "新密码："
+msgstr ""
+
+#. Resource IDs: (IDS_SETTING_OLDPWD)
+msgid "旧密码："
+msgstr ""
+
+#. Resource IDs: (IDS_ADD_LASTMOD, IDS_LABEL_LASTMOD)
+msgid "最后修改："
+msgstr ""
+
+#. Resource IDs: (IDS_MAIN_LISTNULLTIP)
+msgid "未找到项目！"
+msgstr ""
+
+#. Resource IDs: (IDS_ADD_TIPNULL)
+msgid "标签不能为空！"
+msgstr ""
+
+#. Resource IDs: (IDS_ADD_TIPEXIST)
+msgid "标签已存在！"
+msgstr ""
+
+#. Resource IDs: (IDS_LABEL_TAG)
+msgid "标签："
+msgstr ""
+
+#. Resource IDs: (IDS_ABOUT_VERSION)
+msgid "樱花，1.0 版"
+msgstr ""
+
+#. Resource IDs: (IDS_APP_TITLE)
+msgid "樱花：一个加密的账号本"
+msgstr ""
+
+#. Resource IDs: (IDS_LOGIN_WELCOME)
+msgid "欢迎使用"
+msgstr ""
+
+#. Resource IDs: (IDS_CONFIRM_CAPTION)
+msgid "注意"
+msgstr ""
+
+#. Resource IDs: (IDS_MAIN_BUTTON_ADD)
+msgid "添加"
+msgstr ""
+
+#. Resource IDs: (IDS_ADD_CAPTION)
+msgid "添加账户"
+msgstr ""
+
+#. Resource IDs: (IDS_MAIN_BUTTON_CLEAR)
+msgid "清除"
+msgstr ""
+
+#. Resource IDs: (IDS_MAIN_MAINTIP)
+msgid "点击左侧列表查看账户信息。"
+msgstr ""
+
+#. Resource IDs: (IDS_LABEL_USER)
+msgid "用户名："
+msgstr ""
+
+#. Resource IDs: (IDS_LABEL_PHONE)
+msgid "电话："
+msgstr ""
+
+#. Resource IDs: (IDS_LOGIN_CAPTION)
+msgid "登录"
+msgstr ""
+
+#. Resource IDs: (IDS_SETTING_CONFIRMPWD)
+msgid "确认密码："
+msgstr ""
+
+#. Resource IDs: (IDS_LABEL_CATEGORY)
+msgid "类别："
+msgstr ""
+
+#. Resource IDs: (IDS_MAIN_BUTTON_EDIT)
+msgid "编辑"
+msgstr ""
+
+#. Resource IDs: (IDS_EDIT_CAPTION)
+msgid "编辑账户"
+msgstr ""
+
+#. Resource IDs: (IDS_CONFIRM_WILLDEL)
+msgid "要删除以下账户的全部信息吗？"
+msgstr ""
+
+#. Resource IDs: (IDS_SETTING_CAPTION)
+msgid "设置"
+msgstr ""
+
+#. Resource IDs: (40004 - Menu)
+msgid "设置(&O)"
+msgstr ""
+
+#. Resource IDs: (IDS_SETTING_LANG)
+msgid "语言："
+msgstr ""
+
+#. Resource IDs: (105 - Menu)
+msgid "退出(&X)"
+msgstr ""
+
+#. Resource IDs: (IDS_SETTING_CHOOSELANG)
+msgid "选择语言"
+msgstr ""
+
+#. Resource IDs: (IDS_LABEL_MAIL)
+msgid "邮箱："
+msgstr ""
+
+#. Resource IDs: (IDS_LABEL_URL)
+msgid "链接："
+msgstr ""

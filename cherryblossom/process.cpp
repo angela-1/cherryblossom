@@ -323,12 +323,12 @@ BOOL LoadResDll(LANGID lang_id)
 	if (lang_id != NULL)
 	{
 
-		_stprintf_s(g_tcsTemp, _TEXT("res%x.dll"), lang_id);
+		_stprintf_s(g_tcsTemp, _TEXT("lang\\res%x.dll"), lang_id);
 
 		if ((g_resource = LoadLibrary(g_tcsTemp)) == NULL)
 		{
 			// we didn't find the desired language satellite DLL, lets go with English (default).
-			g_resource = LoadLibrary(_TEXT("res804.dll"));
+			g_resource = LoadLibrary(_TEXT("lang\\res804.dll"));
 		}
 
 	}
