@@ -141,19 +141,23 @@ static int callback(void *NotUsed, int argc, char **argv, char **azColName)
 	wchar_t pyshort[MAX_ITEM_LEN];
 	wchar_t pyfull[MAX_ITEM_LEN];
 
+	//if (strcmp(argv[0], "") != 0)
+	//{
+		UTF8ToUnicode(argv[0], tag);
 
-	UTF8ToUnicode(argv[0], tag);
+		UTF8ToUnicode(argv[1], pyshort);
+		UTF8ToUnicode(argv[2], pyfull);
 
-	UTF8ToUnicode(argv[1], pyshort);
-	UTF8ToUnicode(argv[2], pyfull);
+		AccountItem account;
+		lstrcpy(account.tag, tag);
+		lstrcpy(account.pyshort, pyshort);
+		lstrcpy(account.pyfull, pyfull);
 
-	AccountItem account;
-	lstrcpy(account.tag, tag);
-	lstrcpy(account.pyshort, pyshort);
-	lstrcpy(account.pyfull, pyfull);
+		Dispatcher::GetInstance()->GetList()->push_back(account);
+		
+	
 
-	Dispatcher::GetInstance()->GetList()->push_back(account);
-	//(Dispatcher::GetInstance()->GetList()).push_back(account);
+
 
 
 	return 0;

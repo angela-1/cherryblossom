@@ -18,22 +18,7 @@
 extern Dispatcher* g_dispatcher;
 
 
-int idc[] = {
-	IDC_EDIT_SEARCH,
-	IDC_LISTBOX_ACCOUNT,
-	IDC_BUTTON_CLEAR,
-	IDC_BUTTON_ADD,
-	IDC_BUTTON_EDIT,
-	IDC_BUTTON_DELETE
-};
-int ids[] = {
-	0,
-	0,
-	IDS_MAIN_BUTTON_CLEAR,
-	IDS_MAIN_BUTTON_ADD,
-	IDS_MAIN_BUTTON_EDIT,
-	IDS_MAIN_BUTTON_DEL
-};
+
 
 
 
@@ -41,15 +26,15 @@ int ids[] = {
 BOOL OnInitFont(HWND hWnd)
 {
 	// Initialize the default font for Windows.
-	g_main_font = CreateFont(20, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
+	g_main_font = CreateFont(18, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
 		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
 		DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"MicroSoft Yahei");
 
-	g_mono_font = CreateFont(20, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
+	g_mono_font = CreateFont(18, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
 		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
 		DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"Consolas");
 
-	g_symbol = CreateFont(20, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
+	g_symbol = CreateFont(18, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
 		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
 		DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"Segoe UI Symbol");
 
@@ -58,6 +43,23 @@ BOOL OnInitFont(HWND hWnd)
 
 BOOL OnInitControl(HWND hWnd)
 {
+	int idc[] = {
+		IDC_EDIT_SEARCH,
+		IDC_LISTBOX_ACCOUNT,
+		IDC_BUTTON_CLEAR,
+		IDC_BUTTON_ADD,
+		IDC_BUTTON_EDIT,
+		IDC_BUTTON_DELETE
+	};
+	int ids[] = {
+		0,
+		0,
+		IDS_MAIN_BUTTON_CLEAR,
+		IDS_MAIN_BUTTON_ADD,
+		IDS_MAIN_BUTTON_EDIT,
+		IDS_MAIN_BUTTON_DEL
+	};
+
 	TCHAR buttontext[MAX_LOADSTRING];
 
 
@@ -69,13 +71,10 @@ BOOL OnInitControl(HWND hWnd)
 		0, 0, 0, 0, hWnd, (HMENU)IDC_LISTBOX_ACCOUNT, g_inst, NULL);
 
 	//SendMessage(account_listbox, LB_ADDSTRING, (WPARAM)0, (LPARAM)L"SFS");
+	
+	RefreshListbox(hWnd);
 
-	for each (auto var in *(g_dispatcher->GetList()))
-	{
-
-		SendMessage(account_listbox, LB_ADDSTRING, (WPARAM)0, (LPARAM)var.tag);
-
-	}
+	
 
 	SendMessage(GetDlgItem(hWnd, IDC_EDIT_SEARCH), WM_SETFONT, (WPARAM)g_main_font, TRUE);
 	SendMessage(GetDlgItem(hWnd, IDC_EDIT_SEARCH), EM_LIMITTEXT, (WPARAM)20, 0);
@@ -99,6 +98,23 @@ BOOL OnInitControl(HWND hWnd)
 
 BOOL OnResizeControl(HWND hWnd, LPARAM lParam)
 {
+	int idc[] = {
+		IDC_EDIT_SEARCH,
+		IDC_LISTBOX_ACCOUNT,
+		IDC_BUTTON_CLEAR,
+		IDC_BUTTON_ADD,
+		IDC_BUTTON_EDIT,
+		IDC_BUTTON_DELETE
+	};
+	int ids[] = {
+		0,
+		0,
+		IDS_MAIN_BUTTON_CLEAR,
+		IDS_MAIN_BUTTON_ADD,
+		IDS_MAIN_BUTTON_EDIT,
+		IDS_MAIN_BUTTON_DEL
+	};
+
 	int width = LOWORD(lParam);
 	int height = HIWORD(lParam);
 
@@ -200,16 +216,33 @@ void RefreshListbox(HWND hWnd)
 	}
 
 	// add new data
-
-	for each (auto var in *(g_dispatcher->GetList()))
+	if (g_dispatcher->GetList()->size() > 0)
 	{
+		for each (auto var in *(g_dispatcher->GetList()))
+		{
 
-		SendMessage(account_listbox, LB_ADDSTRING, (WPARAM)0, (LPARAM)var.tag);
+			SendMessage(account_listbox, LB_ADDSTRING, (WPARAM)0, (LPARAM)var.tag);
+
+		}
+		int ind = SendMessage(account_listbox, LB_FINDSTRING, (WPARAM)-1, (LPARAM)(*(g_dispatcher->GetList())).back().tag);
+
+		SendMessage(account_listbox, LB_SETCURSEL, (WPARAM)ind, (LPARAM)0);
+	}
+	else
+	{
+		TCHAR static_str[MAX_STR_LEN];
+		LoadString(g_resource, IDS_MAIN_LISTNEWTIP, static_str, MAX_STR_LEN);
+		SendMessage(account_listbox, LB_ADDSTRING, (WPARAM)0, (LPARAM)static_str);
+
 	}
 
-	int ind = SendMessage(account_listbox, LB_FINDSTRING, (WPARAM)-1, (LPARAM)(*(g_dispatcher->GetList())).back().tag);
+	//for each (auto var in *(g_dispatcher->GetList()))
+	//{
 
-	SendMessage(account_listbox, LB_SETCURSEL, (WPARAM)ind, (LPARAM)0);
+	//	SendMessage(account_listbox, LB_ADDSTRING, (WPARAM)0, (LPARAM)var.tag);
+	//}
+
+
 
 
 
@@ -229,18 +262,42 @@ void OnPaint(HWND hWnd, HDC hdc)
 
 
 
-	TextOut(hdc, 480, 12, TEXT("Apple"), wcslen(TEXT("Apple")));
+	//TextOut(hdc, 480, 12, TEXT("Apple"), wcslen(TEXT("Apple")));
 
 	HWND account_listbox = GetDlgItem(hWnd, IDC_LISTBOX_ACCOUNT);
 	TCHAR lpch[MAX_ITEM_LEN];
 	int ind = SendMessage(account_listbox, LB_GETCURSEL, (WPARAM)0, (LPARAM)0);
 	SendMessage(account_listbox, LB_GETTEXT, (WPARAM)ind, (LPARAM)lpch);
 
-	if (ind != -1)
+	if (ind != -1 && g_dispatcher->GetList()->size() > 0)
 	{
+		int ids[] =
+		{
 
-		LPTSTR title[9] = { L"tag", L"category", L"url",L"user",
-			L"password", L"phone", L"mail", L"note", L"lastmod" };
+			IDS_LABEL_TAG,
+			IDS_LABEL_CATEGORY,
+			IDS_LABEL_URL,
+			IDS_LABEL_USER,
+			IDS_LABEL_PASSWORD,
+			IDS_LABEL_PHONE,
+			IDS_LABEL_MAIL,
+			IDS_LABEL_NOTE,
+			IDS_LABEL_LASTMOD
+
+		};
+		TCHAR static_str[MAX_STR_LEN];
+
+		TCHAR title[9][MAX_STR_LEN];
+
+		for (size_t i = 0; i < (sizeof(ids) / sizeof(ids[0])); i++)
+		{
+			LoadString(g_resource, ids[i], static_str, MAX_STR_LEN);
+			wcscpy_s(title[i], static_str);
+			
+		}
+
+		//LPTSTR title[9] = { L"tag", L"category", L"url",L"user",
+			//L"password", L"phone", L"mail", L"note", L"lastmod" };
 		AccountCard* account = g_dispatcher->GetAccount(lpch);
 		LPTSTR detial[9] = { account->tag, account->category,
 			account->url, account->user, account->password,
@@ -257,8 +314,10 @@ void OnPaint(HWND hWnd, HDC hdc)
 	}
 	else
 	{
-		TCHAR* choose = L"choose a account.";
-		TextOut(hdc, 280, 40, choose, lstrlen(choose));
+		TCHAR static_str[MAX_STR_LEN];
+		LoadString(g_resource, IDS_MAIN_MAINTIP, static_str, MAX_STR_LEN);
+		
+		TextOut(hdc, 280, 40, static_str, lstrlen(static_str));
 	}
 
 
@@ -369,8 +428,9 @@ void OnSearchChanged(HWND hWnd)
 
 
 			}
-
-			SendMessage(account_listbox, LB_ADDSTRING, (WPARAM)0, (LPARAM)L"no match");
+			TCHAR static_str[MAX_STR_LEN];
+			LoadString(g_resource, IDS_MAIN_LISTNULLTIP, static_str, MAX_STR_LEN);
+			SendMessage(account_listbox, LB_ADDSTRING, (WPARAM)0, (LPARAM)static_str);
 
 
 		}

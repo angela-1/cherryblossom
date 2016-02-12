@@ -188,7 +188,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				DialogBoxParam(g_inst, MAKEINTRESOURCE(IDD_CONFIRM), hWnd, DeleteProc, (LPARAM)lpch);
 
 				g_dispatcher->RefreshAccountList();
-
+				g_dispatcher->GetAccountCard();
 				RefreshListbox(hWnd);
 
 				SendMessage(account_list, LB_SETCURSEL, (WPARAM)ind, (LPARAM)0);
@@ -294,7 +294,7 @@ INT_PTR CALLBACK AboutProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 		SendDlgItemMessage(hDlg, IDC_ABOUT_VERSION, WM_SETTEXT, 0, (LPARAM)static_str);
 		LoadString(g_resource, IDS_ABOUT_COPYRIGHT, static_str, MAX_STR_LEN);
 		SendDlgItemMessage(hDlg, IDC_ABOUT_COPYRIGHT, WM_SETTEXT, 0, (LPARAM)static_str);
-		LoadString(g_resource, IDS_ABOUT_OK, static_str, MAX_STR_LEN);
+		LoadString(g_resource, IDS_LABEL_OK, static_str, MAX_STR_LEN);
 		SendDlgItemMessage(hDlg, IDOK, WM_SETTEXT, 0, (LPARAM)static_str);
 
 	}
@@ -355,6 +355,47 @@ INT_PTR CALLBACK AddProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 	switch (message)
 	{
 	case WM_INITDIALOG:
+	{
+		int idc[] =
+		{
+			IDC_ADD_TAG,
+			IDC_ADD_CATEGORY,
+			IDC_ADD_URL,
+			IDC_ADD_USER,
+			IDC_ADD_PASSWORD,
+			IDC_ADD_PHONE,
+			IDC_ADD_MAIL,
+			IDC_ADD_NOTE,
+			IDOK,
+			IDCANCEL
+		};
+
+		int ids[] =
+		{
+			IDS_LABEL_TAG,
+			IDS_LABEL_CATEGORY,
+			IDS_LABEL_URL,
+			IDS_LABEL_USER,
+			IDS_LABEL_PASSWORD,
+			IDS_LABEL_PHONE,
+			IDS_LABEL_MAIL,
+			IDS_LABEL_NOTE,
+			IDS_LABEL_OK,
+			IDS_LABEL_CANCEL
+		};
+
+		TCHAR static_str[MAX_STR_LEN];
+
+		LoadString(g_resource, IDS_ADD_CAPTION, static_str, MAX_STR_LEN);
+		SetWindowText(hDlg, static_str);
+
+		for (size_t i = 0; i < (sizeof(idc) / sizeof(idc[0])); i++)
+		{
+			LoadString(g_resource, ids[i], static_str, MAX_STR_LEN);
+			SendDlgItemMessage(hDlg, idc[i], WM_SETTEXT, 0, (LPARAM)static_str);
+			SendDlgItemMessage(hDlg, idc[i], WM_SETFONT, (WPARAM)g_main_font, TRUE);
+		}
+	}
 
 
 		return (INT_PTR)TRUE;
@@ -368,16 +409,19 @@ INT_PTR CALLBACK AddProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 		{
 		case IDOK:
 		{
+			TCHAR static_str[MAX_STR_LEN];
+
+			
 			//save to db
 			// check first
-			TCHAR tag[128];
-			TCHAR category[128];
-			TCHAR url[128];
-			TCHAR user[128];
-			TCHAR password[128];
-			TCHAR phone[128];
-			TCHAR mail[128];
-			TCHAR note[128];
+			TCHAR tag[MAX_STR_LEN];
+			TCHAR category[MAX_STR_LEN];
+			TCHAR url[MAX_STR_LEN];
+			TCHAR user[MAX_STR_LEN];
+			TCHAR password[MAX_STR_LEN];
+			TCHAR phone[MAX_STR_LEN];
+			TCHAR mail[MAX_STR_LEN];
+			TCHAR note[MAX_STR_LEN];
 
 			TCHAR* value_array[8] = {
 				tag,
@@ -391,14 +435,15 @@ INT_PTR CALLBACK AddProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 			};
 
 			int id_array[8] = {
-				IDC_EDIT_TAG,
-				IDC_EDIT_CATEGORY,
-				IDC_EDIT_URL,
-				IDC_EDIT_USER,
-				IDC_EDIT_PASSWORD,
-				IDC_EDIT_PHONE,
-				IDC_EDIT_MAIL,
-				IDC_EDIT_NOTE
+				IDC_ADD_EDIT_TAG,
+				IDC_ADD_EDIT_CATEGORY,
+				IDC_ADD_EDIT_URL,
+				IDC_ADD_EDIT_USER,
+				IDC_ADD_EDIT_PASSWORD,
+				IDC_ADD_EDIT_PHONE,
+				IDC_ADD_EDIT_MAIL,
+				IDC_ADD_EDIT_NOTE,
+	
 			};
 
 			for (size_t i = 0; i < 8; i++)
@@ -424,18 +469,20 @@ INT_PTR CALLBACK AddProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 				}
 				else
 				{
-					HWND tag_edit = GetDlgItem(hDlg, IDC_EDIT_TAG);
+					HWND tag_edit = GetDlgItem(hDlg, IDC_ADD_EDIT_TAG);
+					LoadString(g_resource, IDS_ADD_TIPEXIST, static_str, MAX_STR_LEN);
 
-					SendMessage(tag_edit, WM_SETTEXT, 0, (LPARAM)L"tag exists");
+					SendMessage(tag_edit, WM_SETTEXT, 0, (LPARAM)static_str);
 
 				}
 
 			}
 			else
 			{
-				HWND tag_edit = GetDlgItem(hDlg, IDC_EDIT_TAG);
+				HWND tag_edit = GetDlgItem(hDlg, IDC_ADD_EDIT_TAG);
+				LoadString(g_resource, IDS_ADD_TIPNULL, static_str, MAX_STR_LEN);
 
-				SendMessage(tag_edit, WM_SETTEXT, 0, (LPARAM)L"can not be null");
+				SendMessage(tag_edit, WM_SETTEXT, 0, (LPARAM)static_str);
 
 			}
 
@@ -473,24 +520,70 @@ INT_PTR CALLBACK EditProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_INITDIALOG:
 	{
+
+		int idc[] =
+		{
+
+			IDC_EDIT_TAG,
+			IDC_EDIT_CATEGORY,
+			IDC_EDIT_URL,
+			IDC_EDIT_USER,
+			IDC_EDIT_PASSWORD,
+			IDC_EDIT_PHONE,
+			IDC_EDIT_MAIL,
+			IDC_EDIT_NOTE,
+			IDOK,
+			IDCANCEL
+		};
+
+		int ids[] =
+		{
+			IDS_LABEL_TAG,
+			IDS_LABEL_CATEGORY,
+			IDS_LABEL_URL,
+			IDS_LABEL_USER,
+			IDS_LABEL_PASSWORD,
+			IDS_LABEL_PHONE,
+			IDS_LABEL_MAIL,
+			IDS_LABEL_NOTE,
+			IDS_LABEL_OK,
+			IDS_LABEL_CANCEL
+
+
+		};
+
+		TCHAR static_str[MAX_STR_LEN];
+
+		LoadString(g_resource, IDS_EDIT_CAPTION, static_str, MAX_STR_LEN);
+		SetWindowText(hDlg, static_str);
+
+		for (size_t i = 0; i < (sizeof(idc) / sizeof(idc[0])); i++)
+		{
+			LoadString(g_resource, ids[i], static_str, MAX_STR_LEN);
+			SendDlgItemMessage(hDlg, idc[i], WM_SETTEXT, 0, (LPARAM)static_str);
+			SendDlgItemMessage(hDlg, idc[i], WM_SETFONT, (WPARAM)g_main_font, TRUE);
+		}
+
+		// old
 		TCHAR* lpch = (TCHAR*)lParam;
 
 		//MessageBox(NULL, lpch, TEXT("see"), MB_OK);
 		AccountCard* account = g_dispatcher->GetAccount(lpch);
 
 
-		SendDlgItemMessage(hDlg, IDC_STATIC_TAG, WM_SETTEXT, 0, (LPARAM)account->tag);
 		SendDlgItemMessage(hDlg, IDC_EDIT_TAG, WM_SETTEXT, 0, (LPARAM)account->tag);
+		SendDlgItemMessage(hDlg, IDC_EDIT_EDIT_TAG, WM_SETTEXT, 0, (LPARAM)account->tag);
 
-		SendDlgItemMessage(hDlg, IDC_EDIT_CATEGORY, WM_SETTEXT, 0, (LPARAM)account->category);
-		SendDlgItemMessage(hDlg, IDC_EDIT_URL, WM_SETTEXT, 0, (LPARAM)account->url);
-		SendDlgItemMessage(hDlg, IDC_EDIT_USER, WM_SETTEXT, 0, (LPARAM)account->user);
-		SendDlgItemMessage(hDlg, IDC_EDIT_PASSWORD, WM_SETTEXT, 0, (LPARAM)account->password);
-		SendDlgItemMessage(hDlg, IDC_EDIT_PHONE, WM_SETTEXT, 0, (LPARAM)account->phone);
-		SendDlgItemMessage(hDlg, IDC_EDIT_MAIL, WM_SETTEXT, 0, (LPARAM)account->mail);
-		SendDlgItemMessage(hDlg, IDC_EDIT_NOTE, WM_SETTEXT, 0, (LPARAM)account->note);
+		SendDlgItemMessage(hDlg, IDC_EDIT_EDIT_CATEGORY, WM_SETTEXT, 0, (LPARAM)account->category);
+		SendDlgItemMessage(hDlg, IDC_EDIT_EDIT_URL, WM_SETTEXT, 0, (LPARAM)account->url);
+		SendDlgItemMessage(hDlg, IDC_EDIT_EDIT_USER, WM_SETTEXT, 0, (LPARAM)account->user);
+		SendDlgItemMessage(hDlg, IDC_EDIT_EDIT_PASSWORD, WM_SETTEXT, 0, (LPARAM)account->password);
+		SendDlgItemMessage(hDlg, IDC_EDIT_EDIT_PHONE, WM_SETTEXT, 0, (LPARAM)account->phone);
+		SendDlgItemMessage(hDlg, IDC_EDIT_EDIT_MAIL, WM_SETTEXT, 0, (LPARAM)account->mail);
+		SendDlgItemMessage(hDlg, IDC_EDIT_EDIT_NOTE, WM_SETTEXT, 0, (LPARAM)account->note);
 
 		//SendDlgItemMessage(hDlg, IDC_STATIC, WM_SETTEXT, 0, (LPARAM)TEXT("FF"));
+
 
 
 
@@ -510,14 +603,14 @@ INT_PTR CALLBACK EditProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 		{
 			//save to db, use update
 			// check first
-			TCHAR tag[128];
-			TCHAR category[128];
-			TCHAR url[128];
-			TCHAR user[128];
-			TCHAR password[128];
-			TCHAR phone[128];
-			TCHAR mail[128];
-			TCHAR note[128];
+			TCHAR tag[MAX_STR_LEN];
+			TCHAR category[MAX_STR_LEN];
+			TCHAR url[MAX_STR_LEN];
+			TCHAR user[MAX_STR_LEN];
+			TCHAR password[MAX_STR_LEN];
+			TCHAR phone[MAX_STR_LEN];
+			TCHAR mail[MAX_STR_LEN];
+			TCHAR note[MAX_STR_LEN];
 
 			TCHAR* value_array[8] = {
 				tag,
@@ -531,14 +624,14 @@ INT_PTR CALLBACK EditProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 			};
 
 			int idc_array[8] = {
-				IDC_EDIT_TAG,
-				IDC_EDIT_CATEGORY,
-				IDC_EDIT_URL,
-				IDC_EDIT_USER,
-				IDC_EDIT_PASSWORD,
-				IDC_EDIT_PHONE,
-				IDC_EDIT_MAIL,
-				IDC_EDIT_NOTE
+				IDC_EDIT_EDIT_TAG,
+				IDC_EDIT_EDIT_CATEGORY,
+				IDC_EDIT_EDIT_URL,
+				IDC_EDIT_EDIT_USER,
+				IDC_EDIT_EDIT_PASSWORD,
+				IDC_EDIT_EDIT_PHONE,
+				IDC_EDIT_EDIT_MAIL,
+				IDC_EDIT_EDIT_NOTE
 			};
 
 
@@ -593,12 +686,33 @@ INT_PTR CALLBACK DeleteProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPara
 	case WM_INITDIALOG:
 	{
 
+		TCHAR static_str[MAX_STR_LEN];
+
+		LoadString(g_resource, IDS_CONFIRM_CAPTION, static_str, MAX_STR_LEN);
+		SetWindowText(hDlg, static_str);
+
+		LoadString(g_resource, IDS_CONFIRM_WILLDEL, static_str, MAX_STR_LEN);
+		SendDlgItemMessage(hDlg, IDC_CONFIRM_DELTIP, WM_SETTEXT, 0, (LPARAM)static_str);
+
+
+
 		TCHAR* lpch = (TCHAR*)lParam;
 		//MessageBox(NULL, lpch, TEXT("see"), MB_OK);
 
-
-
 		SendDlgItemMessage(hDlg, IDC_STATIC_DELTAG, WM_SETTEXT, 0, (LPARAM)lpch);
+
+		LoadString(g_resource, IDS_LABEL_OK, static_str, MAX_STR_LEN);
+		SendDlgItemMessage(hDlg, IDOK, WM_SETTEXT, 0, (LPARAM)static_str);
+		LoadString(g_resource, IDS_LABEL_CANCEL, static_str, MAX_STR_LEN);
+		SendDlgItemMessage(hDlg, IDCANCEL, WM_SETTEXT, 0, (LPARAM)static_str);
+
+
+		SendDlgItemMessage(hDlg, IDC_STATIC_DELTIP, WM_SETFONT, (WPARAM)g_main_font, TRUE);
+		SendDlgItemMessage(hDlg, IDC_STATIC_DELTAG, WM_SETFONT, (WPARAM)g_main_font, TRUE);
+		SendDlgItemMessage(hDlg, IDOK, WM_SETFONT, (WPARAM)g_main_font, TRUE);
+		SendDlgItemMessage(hDlg, IDCANCEL, WM_SETFONT, (WPARAM)g_main_font, TRUE);
+
+
 
 		return (INT_PTR)TRUE;
 	}
@@ -664,24 +778,27 @@ INT_PTR CALLBACK LoginProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 			IDC_LOGIN_EDIT_PWD,
 			IDC_LOGIN_STATIC_WELCOME,
 			IDC_LOGIN_STATIC_PWD,
-			IDC_LOGIN_STATIC_TIP
+			IDC_LOGIN_STATIC_TIP,
+			IDOK
 		};
 		int ids[] = {
 			0,
 			IDS_LOGIN_WELCOME,
 			IDS_LOGIN_PASSWD,
-			IDS_LOGIN_CAUTION
+			IDS_LOGIN_CAUTION,
+			IDS_LABEL_OK
+
 		};
 
 
-		TCHAR static_str[128];
+		TCHAR static_str[MAX_STR_LEN];
 
-		LoadString(g_resource, IDS_LOGIN_CAPTION, static_str, 128);
+		LoadString(g_resource, IDS_LOGIN_CAPTION, static_str, MAX_STR_LEN);
 		SetWindowText(hDlg, static_str);
 
-		for (size_t i = 1; i < (sizeof(idc) / sizeof(idc[0]) - 1); i++)
+		for (size_t i = 1; i < (sizeof(idc) / sizeof(idc[0])); i++)
 		{
-			LoadString(g_resource, ids[i], static_str, 128);
+			LoadString(g_resource, ids[i], static_str, MAX_STR_LEN);
 			SendDlgItemMessage(hDlg, idc[i], WM_SETTEXT, 0, (LPARAM)static_str);
 			SendDlgItemMessage(hDlg, idc[i], WM_SETFONT, (WPARAM)g_main_font, TRUE);
 		}
@@ -713,7 +830,7 @@ INT_PTR CALLBACK LoginProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 
 
 			TCHAR key[MAX_STR_LEN]; // less than 16
-			SendDlgItemMessage(hDlg, IDC_LOGIN_EDIT_PWD, WM_GETTEXT, (WPARAM)128, (LPARAM)key);
+			SendDlgItemMessage(hDlg, IDC_LOGIN_EDIT_PWD, WM_GETTEXT, (WPARAM)MAX_STR_LEN, (LPARAM)key);
 
 
 			Encrypter a{};
@@ -783,12 +900,53 @@ INT_PTR CALLBACK SettingProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
 	{
 	case WM_INITDIALOG:
 	{
+		int idc[] =
+		{
+			IDC_SETTING_GROUPPWD,
+			IDC_SETTING_OLDPWD,
+			IDC_SETTING_NEWPWD,
+			IDC_SETTING_CONFIRMPWD,
+			IDC_SETTING_BUTTON_DONE,
+			IDC_SETTING_GROUPLANG,
+			IDC_SETTING_LANG,
+			IDOK,
+			IDCANCEL
+		};
+
+		INT ids[] =
+		{
+			IDS_SETTING_MODPWD,
+			IDS_SETTING_OLDPWD,
+			IDS_SETTING_NEWPWD,
+			IDS_SETTING_CONFIRMPWD,
+			IDS_SETTING_DONE,
+			IDS_SETTING_CHOOSELANG,
+			IDS_SETTING_LANG,
+			IDS_LABEL_OK,
+			IDS_LABEL_CANCEL
+		};
+
 		TCHAR static_str[MAX_STR_LEN];
+		
+		LoadString(g_resource, IDS_SETTING_CAPTION, static_str, MAX_STR_LEN);
+		SetWindowText(hDlg, static_str);
+		
+		for (size_t i = 0; i < (sizeof(idc) / sizeof(idc[0])); i++)
+		{
+			LoadString(g_resource, ids[i], static_str, MAX_STR_LEN);
+			SendDlgItemMessage(hDlg, idc[i], WM_SETTEXT, 0, (LPARAM)static_str);
+			SendDlgItemMessage(hDlg, idc[i], WM_SETFONT, (WPARAM)g_main_font, TRUE);
+		}
 
 		LoadString(g_resource, IDS_SETTING_LANG_EN, static_str, MAX_STR_LEN);
 		SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_ADDSTRING, 0, (LPARAM)static_str);
 		LoadString(g_resource, IDS_SETTING_LANG_ZH, static_str, MAX_STR_LEN);
 		SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_ADDSTRING, 0, (LPARAM)static_str);
+
+		SendDlgItemMessage(hDlg, IDC_COMBO_LANG, WM_SETFONT, (WPARAM)g_main_font, TRUE);
+		SendDlgItemMessage(hDlg, IDC_SETTING_TIP, WM_SETFONT, (WPARAM)g_main_font, TRUE);
+		SendDlgItemMessage(hDlg, IDC_SETTING_STATIC_TIP, WM_SETFONT, (WPARAM)g_main_font, TRUE);
+
 
 		TCHAR lang[MAX_STR_LEN];
 		GetPrivateProfileString(TEXT("cherryblossom"),
@@ -1031,13 +1189,13 @@ INT_PTR CALLBACK WizardPwdProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
 		case IDC_EDIT_PWD:
 		case IDC_EDIT_CONFIRM:
 		{
-			TCHAR pwd[128];
-			TCHAR confirm_pwd[128];
+			TCHAR pwd[MAX_STR_LEN];
+			TCHAR confirm_pwd[MAX_STR_LEN];
 
 			if (notifyId == EN_CHANGE)
 			{
-				SendDlgItemMessage(hDlg, IDC_EDIT_PWD, WM_GETTEXT, 128, (LPARAM)pwd);
-				SendDlgItemMessage(hDlg, IDC_EDIT_CONFIRM, WM_GETTEXT, 128, (LPARAM)confirm_pwd);
+				SendDlgItemMessage(hDlg, IDC_EDIT_PWD, WM_GETTEXT, MAX_STR_LEN, (LPARAM)pwd);
+				SendDlgItemMessage(hDlg, IDC_EDIT_CONFIRM, WM_GETTEXT, MAX_STR_LEN, (LPARAM)confirm_pwd);
 
 				if (wcscmp(pwd, confirm_pwd) == 0 &&
 					wcscmp(pwd, L"") != 0)
@@ -1079,9 +1237,9 @@ INT_PTR CALLBACK WizardPwdProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
 		case PSN_WIZNEXT:
 		{
 
-			TCHAR confirm_pwd[128];
+			TCHAR confirm_pwd[MAX_STR_LEN];
 
-			SendDlgItemMessage(hDlg, IDC_EDIT_CONFIRM, WM_GETTEXT, 128, (LPARAM)confirm_pwd);
+			SendDlgItemMessage(hDlg, IDC_EDIT_CONFIRM, WM_GETTEXT, MAX_STR_LEN, (LPARAM)confirm_pwd);
 
 
 			Encrypter a{};
@@ -1256,21 +1414,21 @@ pyshort text, pyfull text)";
 
 int CreateConfigFile()
 {
-	TCHAR lp[128];
+	TCHAR lp[MAX_STR_LEN];
 
 
-	GetUserDefaultLocaleName(lp, 128);
-	TCHAR locale_name[128] = L"[cherryblossom]\r\nlanguage=";
+	GetUserDefaultLocaleName(lp, MAX_STR_LEN);
+	TCHAR locale_name[MAX_STR_LEN] = L"[cherryblossom]\r\nlanguage=";
 	//_stprintf_s(locale_name, _TEXT("[cherry]\r\nlanguage=%s"), lp);
 
 	lstrcat(locale_name, lp);
 
-	char buf[128];
+	char buf[MAX_STR_LEN];
 	UnicodeToANSI(locale_name, buf);
 
 	HANDLE hFile = CreateFile(g_config_file, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS,
 		FILE_ATTRIBUTE_NORMAL, NULL);
-	//char buf[128] = "[cherry]\r\nlanguage=zh-CN";
+	
 	DWORD numofbyte;
 	WriteFile(hFile, buf, strlen(buf), &numofbyte, NULL);
 
