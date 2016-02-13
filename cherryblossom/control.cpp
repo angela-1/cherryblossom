@@ -270,7 +270,7 @@ void OnPaint(HWND hWnd, HDC hdc)
 	//TextOut(hdc, 480, 12, TEXT("Apple"), wcslen(TEXT("Apple")));
 
 	HWND account_listbox = GetDlgItem(hWnd, IDC_LISTBOX_ACCOUNT);
-	TCHAR lpch[MAX_ITEM_LEN];
+	TCHAR lpch[MAX_STR_LEN];
 	int ind = SendMessage(account_listbox, LB_GETCURSEL, (WPARAM)0, (LPARAM)0);
 	SendMessage(account_listbox, LB_GETTEXT, (WPARAM)ind, (LPARAM)lpch);
 
@@ -313,8 +313,12 @@ void OnPaint(HWND hWnd, HDC hdc)
 		{
 			SetTextAlign(hdc, TA_RIGHT | TA_TOP);
 			TextOut(hdc, 300, 12 + 25 * i, title[i], lstrlen(title[i]));
+
 			SetTextAlign(hdc, TA_LEFT | TA_TOP);
 			TextOut(hdc, 320, 12 + 25 * i, detial[i], lstrlen(detial[i]));
+			
+			
+
 		}
 	}
 	else
@@ -335,6 +339,7 @@ void OnSearchChanged(HWND hWnd)
 	// first, get the text
 
 	TCHAR cur_text[20];
+	cur_text[0] = 20;
 	int cur_text_len = SendMessage(GetDlgItem(hWnd, IDC_EDIT_SEARCH), 
 		EM_GETLINE, 0, (LPARAM)cur_text);
 	cur_text[cur_text_len] = TEXT('\0');

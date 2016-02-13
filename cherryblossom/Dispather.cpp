@@ -74,15 +74,15 @@ AccountCard * Dispatcher::GetAccountCard()
 
 static int detialcallback(void *NotUsed, int argc, char **argv, char **azColName)
 {
-	wchar_t tag[MAX_ITEM_LEN];
-	wchar_t category[MAX_ITEM_LEN];
-	wchar_t url[MAX_ITEM_LEN];
-	wchar_t user[MAX_ITEM_LEN];
-	wchar_t password[MAX_ITEM_LEN];
-	wchar_t phone[MAX_ITEM_LEN];
-	wchar_t mail[MAX_ITEM_LEN];
-	wchar_t note[MAX_ITEM_LEN];
-	wchar_t lastmod[MAX_ITEM_LEN];
+	wchar_t tag[MAX_STR_LEN];
+	wchar_t category[MAX_STR_LEN];
+	wchar_t url[MAX_STR_LEN];
+	wchar_t user[MAX_STR_LEN];
+	wchar_t password[MAX_STR_LEN];
+	wchar_t phone[MAX_STR_LEN];
+	wchar_t mail[MAX_STR_LEN];
+	wchar_t note[MAX_STR_LEN];
+	wchar_t lastmod[MAX_STR_LEN];
 
 
 	UTF8ToUnicode(argv[1], tag);
@@ -137,9 +137,9 @@ AccountCard * Dispatcher::GetAccount(LPTSTR tag)
 
 static int callback(void *NotUsed, int argc, char **argv, char **azColName)
 {
-	wchar_t tag[MAX_ITEM_LEN];
-	wchar_t pyshort[MAX_ITEM_LEN];
-	wchar_t pyfull[MAX_ITEM_LEN];
+	wchar_t tag[MAX_STR_LEN];
+	wchar_t pyshort[MAX_STR_LEN];
+	wchar_t pyfull[MAX_STR_LEN];
 
 	//if (strcmp(argv[0], "") != 0)
 	//{

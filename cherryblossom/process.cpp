@@ -165,7 +165,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		case IDC_BUTTON_EDIT:
 		{
 			HWND account_list = GetDlgItem(hWnd, IDC_LISTBOX_ACCOUNT);
-			TCHAR lpch[MAX_ITEM_LEN];
+			TCHAR lpch[MAX_STR_LEN];
 			int ind = SendMessage(account_list, LB_GETCURSEL, (WPARAM)0, (LPARAM)0);
 			if (ind != -1 && g_dispatcher->GetList()->size() > 0)
 			{
@@ -184,7 +184,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		case IDC_BUTTON_DELETE:
 		{
 			HWND account_list = GetDlgItem(hWnd, IDC_LISTBOX_ACCOUNT);
-			TCHAR lpch[MAX_ITEM_LEN];
+			TCHAR lpch[MAX_STR_LEN];
 			int ind = SendMessage(account_list, LB_GETCURSEL, (WPARAM)0, (LPARAM)0);
 			if (ind != -1 && g_dispatcher->GetList()->size() > 0)
 			{
@@ -290,6 +290,8 @@ INT_PTR CALLBACK AboutProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 	{
 	case WM_INITDIALOG:
 	{
+		OnSetFont(hDlg, NULL);
+
 		TCHAR static_str[MAX_STR_LEN];
 
 		LoadString(g_resource, IDS_ABOUT_CAPTION, static_str, MAX_STR_LEN);
@@ -442,6 +444,7 @@ INT_PTR CALLBACK AddProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 				note
 			};
 
+
 			int id_array[8] = {
 				IDC_ADD_EDIT_TAG,
 				IDC_ADD_EDIT_CATEGORY,
@@ -456,11 +459,20 @@ INT_PTR CALLBACK AddProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 
 			for (size_t i = 0; i < 8; i++)
 			{
+				value_array[i][0] = MAX_STR_LEN;
+				SendDlgItemMessage(hDlg, id_array[i], EM_LIMITTEXT, (WPARAM)100, 0);
+			}
+
+			for (size_t i = 0; i < 7; i++)
+			{
 				int line_len = SendDlgItemMessage(hDlg, id_array[i], EM_GETLINE, 0, (LPARAM)value_array[i]);
 				/*HWND editControl = GetDlgItem(hDlg, ids[i]);*/
 				//int sendLength = SendMessage(editControl, EM_GETLINE, 0, (LPARAM)wstr);
 				value_array[i][line_len] = TEXT('\0');
+
 			}
+
+			SendDlgItemMessage(hDlg, id_array[7], WM_GETTEXT, MAX_STR_LEN, (LPARAM)value_array[7]);
 
 
 			if (wcscmp(tag, L"") != 0)
@@ -633,6 +645,11 @@ INT_PTR CALLBACK EditProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 				note
 			};
 
+			for (size_t i = 0; i < 8; i++)
+			{
+				value_array[i][0] = MAX_STR_LEN;
+			}
+
 			int idc_array[8] = {
 				IDC_EDIT_EDIT_TAG,
 				IDC_EDIT_EDIT_CATEGORY,
@@ -646,13 +663,14 @@ INT_PTR CALLBACK EditProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 
 
 
-			for (size_t i = 0; i < 8; i++)
+			for (size_t i = 0; i < 7; i++)
 			{
 				int sendLength = SendDlgItemMessage(hDlg, idc_array[i], EM_GETLINE, 0, (LPARAM)value_array[i]);
-				/*HWND editControl = GetDlgItem(hDlg, ids[i]);*/
-				//int sendLength = SendMessage(editControl, EM_GETLINE, 0, (LPARAM)wstr);
 				value_array[i][sendLength] = TEXT('\0');
 			}
+
+			SendDlgItemMessage(hDlg, idc_array[7], WM_GETTEXT, MAX_STR_LEN, (LPARAM)value_array[7]);
+
 
 			TCHAR* lpch = (TCHAR*)lParam;
 
@@ -740,7 +758,7 @@ INT_PTR CALLBACK DeleteProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPara
 		{
 		case IDOK:
 		{
-			TCHAR tag[MAX_ITEM_LEN];
+			TCHAR tag[MAX_STR_LEN];
 
 			int ind = SendMessage(GetDlgItem(GetParent(hDlg), IDC_LISTBOX_ACCOUNT), LB_GETCURSEL, (WPARAM)0, (LPARAM)0);
 
