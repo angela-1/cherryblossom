@@ -111,6 +111,19 @@ msgstr ""
 # updated i.e. function keys (F2), special keys (Delete, HoMe) etc. will not.
 # ONLY change the msgstr field. Do NOT change any other.
 # If you do not want to change an Accelerator Key, copy msgid to msgstr
+# msgid/msgstr fields for Accelerator keys
+# Format is: "ID:xxxxxx:VACS+X" where:
+#    ID:xxxxx = the menu ID corresponding to the accelerator
+#    V = Virtual key (or blank if not used) - nearly always set!
+#    A = Alt key     (or blank if not used)
+#    C = Ctrl key    (or blank if not used)
+#    S = Shift key   (or blank if not used)
+#    X = upper case character
+# e.g. "V CS+Q" == Ctrl + Shift + 'Q'
+# ONLY Accelerator Keys with corresponding alphanumeric characters can be
+# updated i.e. function keys (F2), special keys (Delete, HoMe) etc. will not.
+# ONLY change the msgstr field. Do NOT change any other.
+# If you do not want to change an Accelerator Key, copy msgid to msgstr
 #. Resource IDs: (IDS_SETTING_LANG_EN)
 msgid "English(Unitied States)"
 msgstr "English(Unitied States)"
@@ -125,7 +138,11 @@ msgstr "Take effect the next time."
 
 #. Resource IDs: (IDS_WIZARD_NEXT)
 msgid "下一步"
-msgstr ""
+msgstr "Next"
+
+#. Resource IDs: (IDS_WIZARDPWD_NOTSAME)
+msgid "两次输入的密码不同！"
+msgstr "Two password are different!"
 
 #. Resource IDs: (IDS_SETTING_LANG_ZH)
 msgid "中文（简体）"
@@ -164,28 +181,28 @@ msgid "好"
 msgstr "OK"
 
 #. Resource IDs: (IDS_WIZARDPWD_FORGET)
-msgid "如果您忘记了密钥，将再也无法读取数据！切记！"
-msgstr ""
+msgid "如果您忘记了密码，将再也无法读取数据！切记！"
+msgstr "If you forget the password, you will lose all your data! Remember it!"
 
-#. Resource IDs: (IDS_SETTING_DONE)
+#. Resource IDs: (IDS_SETTING_DONE, IDS_WIZARDENJOY_DONE)
 msgid "完成"
 msgstr "Done"
 
-#. Resource IDs: (IDS_LABEL_PASSWORD)
+#. Resource IDs: (IDS_LOGIN_CAUTION, IDS_SETTING_PWDTIP)
+msgid "密码错误！"
+msgstr "Wrong password!"
+
+#. Resource IDs: (IDS_LABEL_PASSWORD, IDS_LOGIN_PASSWD, IDS_WIZARDPWD_PWD)
 msgid "密码："
 msgstr "Password:"
-
-#. Resource IDs: (IDS_LOGIN_CAUTION, IDS_SETTING_PWDTIP)
-msgid "密钥错误！"
-msgstr "Wrong key!"
-
-#. Resource IDs: (IDS_LOGIN_PASSWD)
-msgid "密钥："
-msgstr "Key:"
 
 #. Resource IDs: (ID_40002 - Menu)
 msgid "导出(&E) ..."
 msgstr "&Export ..."
+
+#. Resource IDs: (IDS_WIZARDENJOY_TIP)
+msgid "希望您使用愉快！"
+msgstr "Enjoy it!"
 
 #. Resource IDs: (65535 - PopupMenu)
 msgid "帮助(&H)"
@@ -193,7 +210,7 @@ msgstr "&Help"
 
 #. Resource IDs: (IDS_WIZARDWELCOME_TIP2)
 msgid "数据使用AES加密保证安全。"
-msgstr ""
+msgstr "Data is encrypted by AES."
 
 #. Resource IDs: (65535 - PopupMenu)
 msgid "文件(&F)"
@@ -275,13 +292,13 @@ msgstr "Phone:"
 msgid "登录"
 msgstr "Login"
 
-#. Resource IDs: (IDS_SETTING_CONFIRMPWD)
+#. Resource IDs: (IDS_SETTING_CONFIRMPWD, IDS_WIZARDPWD_CONFIRMPWD)
 msgid "确认密码："
 msgstr "Confirm:"
 
 #. Resource IDs: (IDS_WIZARD_WELCOME_CAPTION)
 msgid "简介"
-msgstr ""
+msgstr "Introduction"
 
 #. Resource IDs: (IDS_LABEL_CATEGORY)
 msgid "类别："
@@ -312,8 +329,8 @@ msgid "语言："
 msgstr "Language:"
 
 #. Resource IDs: (IDS_WIZARDPWD_SETPWD)
-msgid "请设置一个密钥并牢记它"
-msgstr ""
+msgid "请设置一个密码并牢记它"
+msgstr "Please set a password and remember it"
 
 #. Resource IDs: (105 - Menu)
 msgid "退出(&X)"
@@ -325,11 +342,15 @@ msgstr "Choose language"
 
 #. Resource IDs: (IDS_WIZARDWELCOME_TIP1)
 msgid "通过拼音首字母、全拼、文字快速搜索。"
-msgstr ""
+msgstr "Search by pinyin and word."
 
 #. Resource IDs: (IDS_LABEL_MAIL)
 msgid "邮箱："
 msgstr "Mail:"
+
+#. Resource IDs: (IDS_WIZARDENJOY_USE)
+msgid "配置完成，可以开始使用了"
+msgstr "Done, can start."
 
 #. Resource IDs: (IDS_LABEL_URL)
 msgid "链接："
@@ -337,5 +358,5 @@ msgstr "URL:"
 
 #. Resource IDs: (IDS_WIZARD_CAPTION)
 msgid "需要完成一些设置"
-msgstr ""
+msgstr "Need to do some config."
 

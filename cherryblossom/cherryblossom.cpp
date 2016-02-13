@@ -74,6 +74,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	OnInitPath();
 
+
+
 	// load langauage resource
 	TCHAR lang[MAX_STR_LEN];
 	GetPrivateProfileString(TEXT("cherryblossom"),
@@ -88,14 +90,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	}
 
 	
-
-
-
 	// TODO: judge if it is first run. to show guide.
 	if (IsFirstRun())
 	{
 		ShowWizard(NULL);
 	}
+
+
+
 	
 
 	// TODO: show login page.

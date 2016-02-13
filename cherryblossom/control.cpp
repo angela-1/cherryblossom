@@ -43,6 +43,9 @@ BOOL OnInitFont(HWND hWnd)
 
 BOOL OnInitControl(HWND hWnd)
 {
+	
+
+
 	int idc[] = {
 		IDC_EDIT_SEARCH,
 		IDC_LISTBOX_ACCOUNT,
@@ -76,9 +79,9 @@ BOOL OnInitControl(HWND hWnd)
 
 	
 
-	SendMessage(GetDlgItem(hWnd, IDC_EDIT_SEARCH), WM_SETFONT, (WPARAM)g_main_font, TRUE);
+	//SendMessage(GetDlgItem(hWnd, IDC_EDIT_SEARCH), WM_SETFONT, (WPARAM)g_main_font, TRUE);
 	SendMessage(GetDlgItem(hWnd, IDC_EDIT_SEARCH), EM_LIMITTEXT, (WPARAM)20, 0);
-	SendMessage(GetDlgItem(hWnd, IDC_LISTBOX_ACCOUNT), WM_SETFONT, (WPARAM)g_main_font, TRUE);
+	//SendMessage(GetDlgItem(hWnd, IDC_LISTBOX_ACCOUNT), WM_SETFONT, (WPARAM)g_main_font, TRUE);
 
 
 	for (size_t i = 2; i < (sizeof(idc)/sizeof(idc[0])); i++)
@@ -87,10 +90,11 @@ BOOL OnInitControl(HWND hWnd)
 		CreateWindow(_T("BUTTON"),
 			buttontext, WS_CHILD | WS_VISIBLE,
 			0, 0, 0, 0, hWnd, (HMENU)idc[i], g_inst, NULL);
-		SendMessage(GetDlgItem(hWnd, idc[i]), WM_SETFONT, (WPARAM)g_main_font, t);
+		//SendMessage(GetDlgItem(hWnd, idc[i]), WM_SETFONT, (WPARAM)g_main_font, t);
 	}
 
 
+	OnSetFont(hWnd, NULL);
 
 	return t;
 
@@ -460,4 +464,29 @@ BOOL CALLBACK SetFontProc(HWND hWnd, LPARAM lParam)
 {
 	SendMessage(hWnd, WM_SETFONT, (WPARAM)g_main_font, TRUE);
 	return t;
+}
+
+void ShowStaticTip(HWND hDlg, int control_id, LPTSTR str)
+{
+	RECT rctip;
+
+	GetWindowRect(GetDlgItem(hDlg, control_id),	&rctip);
+
+	POINT lt{ rctip.left, rctip.top };
+
+	ScreenToClient(hDlg, &lt);
+
+	POINT rb{ rctip.right, rctip.bottom };
+
+	ScreenToClient(hDlg, &rb);
+
+	rctip.left = lt.x;
+	rctip.top = lt.y;
+	rctip.right = rb.x;
+	rctip.bottom = rb.y;
+
+	InvalidateRect(hDlg, &rctip, TRUE);
+
+	SendDlgItemMessage(hDlg, control_id, WM_SETTEXT,
+		NULL, (LPARAM)str);
 }

@@ -361,6 +361,9 @@ INT_PTR CALLBACK AddProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_INITDIALOG:
 	{
+
+		OnSetFont(hDlg, NULL);
+
 		int idc[] =
 		{
 			IDC_ADD_TAG,
@@ -398,7 +401,7 @@ INT_PTR CALLBACK AddProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 		{
 			LoadString(g_resource, ids[i], static_str, MAX_STR_LEN);
 			SendDlgItemMessage(hDlg, idc[i], WM_SETTEXT, 0, (LPARAM)static_str);
-			SendDlgItemMessage(hDlg, idc[i], WM_SETFONT, (WPARAM)g_main_font, TRUE);
+			//SendDlgItemMessage(hDlg, idc[i], WM_SETFONT, (WPARAM)g_main_font, TRUE);
 		}
 	}
 
@@ -525,6 +528,8 @@ INT_PTR CALLBACK EditProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_INITDIALOG:
 	{
+		OnSetFont(hDlg, NULL);
+
 
 		int idc[] =
 		{
@@ -566,7 +571,7 @@ INT_PTR CALLBACK EditProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 		{
 			LoadString(g_resource, ids[i], static_str, MAX_STR_LEN);
 			SendDlgItemMessage(hDlg, idc[i], WM_SETTEXT, 0, (LPARAM)static_str);
-			SendDlgItemMessage(hDlg, idc[i], WM_SETFONT, (WPARAM)g_main_font, TRUE);
+			//SendDlgItemMessage(hDlg, idc[i], WM_SETFONT, (WPARAM)g_main_font, TRUE);
 		}
 
 		// old
@@ -690,6 +695,7 @@ INT_PTR CALLBACK DeleteProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPara
 	{
 	case WM_INITDIALOG:
 	{
+		OnSetFont(hDlg, NULL);
 
 		TCHAR static_str[MAX_STR_LEN];
 
@@ -712,11 +718,11 @@ INT_PTR CALLBACK DeleteProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPara
 		SendDlgItemMessage(hDlg, IDCANCEL, WM_SETTEXT, 0, (LPARAM)static_str);
 
 
-		SendDlgItemMessage(hDlg, IDC_STATIC_DELTIP, WM_SETFONT, (WPARAM)g_main_font, TRUE);
+		/*SendDlgItemMessage(hDlg, IDC_STATIC_DELTIP, WM_SETFONT, (WPARAM)g_main_font, TRUE);
 		SendDlgItemMessage(hDlg, IDC_STATIC_DELTAG, WM_SETFONT, (WPARAM)g_main_font, TRUE);
 		SendDlgItemMessage(hDlg, IDOK, WM_SETFONT, (WPARAM)g_main_font, TRUE);
 		SendDlgItemMessage(hDlg, IDCANCEL, WM_SETFONT, (WPARAM)g_main_font, TRUE);
-
+*/
 
 
 		return (INT_PTR)TRUE;
@@ -779,18 +785,20 @@ INT_PTR CALLBACK LoginProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 	{
 	case WM_INITDIALOG:
 	{
+		OnSetFont(hDlg, NULL);
+
 		int idc[] = {
 			IDC_LOGIN_EDIT_PWD,
 			IDC_LOGIN_STATIC_WELCOME,
 			IDC_LOGIN_STATIC_PWD,
-			IDC_LOGIN_STATIC_TIP,
+
 			IDOK
 		};
 		int ids[] = {
 			0,
 			IDS_LOGIN_WELCOME,
 			IDS_LOGIN_PASSWD,
-			IDS_LOGIN_CAUTION,
+
 			IDS_LABEL_OK
 
 		};
@@ -805,15 +813,9 @@ INT_PTR CALLBACK LoginProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 		{
 			LoadString(g_resource, ids[i], static_str, MAX_STR_LEN);
 			SendDlgItemMessage(hDlg, idc[i], WM_SETTEXT, 0, (LPARAM)static_str);
-			SendDlgItemMessage(hDlg, idc[i], WM_SETFONT, (WPARAM)g_main_font, TRUE);
+			
 		}
 
-
-
-		SendDlgItemMessage(hDlg, idc[0], WM_SETFONT, (WPARAM)g_main_font, TRUE);
-
-		SendDlgItemMessage(hDlg, idc[3], WM_SETTEXT, 0, (LPARAM)NULL);
-		SendDlgItemMessage(hDlg, idc[3], WM_SETFONT, (WPARAM)g_main_font, TRUE);
 
 		SetFocus(GetDlgItem(hDlg, IDC_LOGIN_EDIT_PWD));
 
@@ -827,8 +829,20 @@ INT_PTR CALLBACK LoginProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 	case WM_COMMAND:
 	{
 		int key = LOWORD(wParam);
+		int notifyId = HIWORD(wParam);
+
 		switch (key)
 		{
+		case IDC_LOGIN_EDIT_PWD:
+		{
+			if (notifyId == EN_CHANGE)
+			{
+				
+				ShowStaticTip(hDlg, IDC_LOGIN_STATIC_TIP, L"");
+			}
+
+		}
+		break;
 		case IDOK:
 
 		{
@@ -857,8 +871,8 @@ INT_PTR CALLBACK LoginProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 
 				LoadString(g_resource, IDS_LOGIN_CAUTION, static_str, MAX_STR_LEN);
 
-				SendDlgItemMessage(hDlg, IDC_LOGIN_STATIC_TIP,
-					WM_SETTEXT, 0, (LPARAM)static_str);
+				ShowStaticTip(hDlg, IDC_LOGIN_STATIC_TIP, static_str);
+
 				return FALSE;
 			}
 
@@ -905,6 +919,9 @@ INT_PTR CALLBACK SettingProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
 	{
 	case WM_INITDIALOG:
 	{
+		OnSetFont(hDlg, NULL);
+
+
 		int idc[] =
 		{
 			IDC_SETTING_GROUPPWD,
@@ -940,7 +957,7 @@ INT_PTR CALLBACK SettingProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
 		{
 			LoadString(g_resource, ids[i], static_str, MAX_STR_LEN);
 			SendDlgItemMessage(hDlg, idc[i], WM_SETTEXT, 0, (LPARAM)static_str);
-			SendDlgItemMessage(hDlg, idc[i], WM_SETFONT, (WPARAM)g_main_font, TRUE);
+			//SendDlgItemMessage(hDlg, idc[i], WM_SETFONT, (WPARAM)g_main_font, TRUE);
 		}
 
 		LoadString(g_resource, IDS_SETTING_LANG_EN, static_str, MAX_STR_LEN);
@@ -948,9 +965,9 @@ INT_PTR CALLBACK SettingProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
 		LoadString(g_resource, IDS_SETTING_LANG_ZH, static_str, MAX_STR_LEN);
 		SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_ADDSTRING, 0, (LPARAM)static_str);
 
-		SendDlgItemMessage(hDlg, IDC_COMBO_LANG, WM_SETFONT, (WPARAM)g_main_font, TRUE);
+		/*SendDlgItemMessage(hDlg, IDC_COMBO_LANG, WM_SETFONT, (WPARAM)g_main_font, TRUE);
 		SendDlgItemMessage(hDlg, IDC_SETTING_TIP, WM_SETFONT, (WPARAM)g_main_font, TRUE);
-		SendDlgItemMessage(hDlg, IDC_SETTING_STATIC_TIP, WM_SETFONT, (WPARAM)g_main_font, TRUE);
+		SendDlgItemMessage(hDlg, IDC_SETTING_STATIC_TIP, WM_SETFONT, (WPARAM)g_main_font, TRUE);*/
 
 
 		TCHAR lang[MAX_STR_LEN];
@@ -978,8 +995,20 @@ INT_PTR CALLBACK SettingProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
 	case WM_COMMAND:
 	{
 		int key = LOWORD(wParam);
+		int notifyId = HIWORD(wParam);
+
 		switch (key)
 		{
+		case IDC_SETTING_EDIT_OLDPWD:
+		case IDC_SETTING_EDIT_NEWPWD:
+		case IDC_SETTING_EDIT_CONFIRMPWD:
+		{
+			if (notifyId == EN_CHANGE)
+			{
+
+			}
+		}
+		break;
 		case IDC_COMBO_LANG:
 		{
 			if (HIWORD(wParam) == CBN_SELCHANGE)
@@ -1058,6 +1087,7 @@ void ShowWizard(HWND hwndOwner)
 
 	psp.pszTemplate = MAKEINTRESOURCE(IDD_WIZARD_WELCOME);
 	psp.pfnDlgProc = WizardWelcomeProc;
+	ahpsp[0] = CreatePropertySheetPage(&psp);
 
 	PROPSHEETPAGE psp1 = { sizeof(psp1) };
 
@@ -1070,21 +1100,18 @@ void ShowWizard(HWND hwndOwner)
 
 	psp1.pszTemplate = MAKEINTRESOURCE(IDD_WIZARD_PWD);
 	psp1.pfnDlgProc = WizardPwdProc;
-
+	ahpsp[1] = CreatePropertySheetPage(&psp1);
 
 	PROPSHEETPAGE psp2 = { sizeof(psp2) };
 
 	psp2.hInstance = g_inst;
 	psp2.dwFlags = PSP_USEHEADERTITLE;
 	psp2.lParam = (LPARAM)NULL;
-	
-	psp2.pszHeaderTitle = L"aaa";
+	LoadString(g_resource, IDS_WIZARDENJOY_USE, static_str, MAX_STR_LEN);
+	psp2.pszHeaderTitle = static_str;
 
 	psp2.pszTemplate = MAKEINTRESOURCE(IDD_WIZARD_ENJOY);
 	psp2.pfnDlgProc = WizardEnjoyProc;
-
-	ahpsp[0] = CreatePropertySheetPage(&psp);
-	ahpsp[1] = CreatePropertySheetPage(&psp1);
 
 	ahpsp[2] = CreatePropertySheetPage(&psp2);
 
@@ -1153,7 +1180,7 @@ INT_PTR CALLBACK WizardWelcomeProc(HWND hDlg, UINT message, WPARAM wParam, LPARA
 		{
 			LoadString(g_resource, ids[i], static_str, MAX_STR_LEN);
 			SendDlgItemMessage(hDlg, idc[i], WM_SETTEXT, 0, (LPARAM)static_str);
-			//SendDlgItemMessage(hDlg, idc[i], WM_SETFONT, (WPARAM)g_main_font, TRUE);
+			
 		}
 
 
@@ -1220,12 +1247,35 @@ INT_PTR CALLBACK WizardPwdProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
 	switch (message)
 	{
 	case WM_INITDIALOG:
-
+	{
 		OnSetFont(hDlg, NULL);
 
+		int idc[] =
+		{
+			IDC_WIZARDPWD_TIP1,
+			IDC_WIZARDPWD_PWD,
+			IDC_WIZARDPWD_CONFIRMPWD
+		};
+
+		int ids[] =
+		{
+			IDS_WIZARDPWD_FORGET,
+			IDS_WIZARDPWD_PWD,
+			IDS_WIZARDPWD_CONFIRMPWD
+		};
+
+		TCHAR static_str[MAX_STR_LEN];
 
 
-		//MessageBox(NULL, L"fuck", L"see", MB_OK);
+
+		for (size_t i = 0; i < (sizeof(idc) / sizeof(idc[0])); i++)
+		{
+			LoadString(g_resource, ids[i], static_str, MAX_STR_LEN);
+			SendDlgItemMessage(hDlg, idc[i], WM_SETTEXT, 0, (LPARAM)static_str);
+
+		}
+	}
+
 		return FALSE;
 
 	case WM_COMMAND:
@@ -1250,15 +1300,21 @@ INT_PTR CALLBACK WizardPwdProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
 				if (wcscmp(pwd, confirm_pwd) == 0 &&
 					wcscmp(pwd, L"") != 0)
 				{
-					SendDlgItemMessage(hDlg, IDC_WIZARDPWD_STATIC_TIP, WM_SETTEXT,
-						NULL, (LPARAM)L"");
+					ShowStaticTip(hDlg, IDC_WIZARDPWD_TIP2, L"");
+					
 					SendMessage(hDlg, PSM_ENABLEWIZBUTTONS,
 						PSWIZB_NEXT, PSWIZB_NEXT);
 				}
 				else
 				{
-					SendDlgItemMessage(hDlg, IDC_WIZARDPWD_STATIC_TIP, WM_SETTEXT,
-						NULL, (LPARAM)L"aa");
+					TCHAR static_str[MAX_STR_LEN];
+
+					LoadString(g_resource, IDS_WIZARDPWD_NOTSAME, 
+						static_str, MAX_STR_LEN);
+						
+					
+					ShowStaticTip(hDlg, IDC_WIZARDPWD_TIP2, static_str);
+
 					SendMessage(hDlg, PSM_ENABLEWIZBUTTONS,
 						NULL, PSWIZB_NEXT);
 				}
@@ -1340,6 +1396,16 @@ INT_PTR CALLBACK WizardEnjoyProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM 
 	case WM_INITDIALOG:
 	{
 		CreateConfigFile();
+
+		OnSetFont(hDlg, NULL);
+
+		TCHAR static_str[MAX_STR_LEN];
+
+		LoadString(g_resource, IDS_WIZARDENJOY_TIP,
+			static_str, MAX_STR_LEN);
+		SendDlgItemMessage(hDlg, IDC_WIZARDENJOY_TIP, WM_SETTEXT,
+			NULL, (LPARAM)static_str);
+		
 		return FALSE;
 	}
 
@@ -1365,7 +1431,12 @@ INT_PTR CALLBACK WizardEnjoyProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM 
 				PSWIZB_FINISH,
 				PSWIZB_BACK | PSWIZB_NEXT | PSWIZB_CANCEL | PSWIZB_FINISH);
 
-			PropSheet_SetFinishText(hDlg, L"aa");
+			TCHAR static_str[MAX_STR_LEN];
+
+			LoadString(g_resource, IDS_WIZARDENJOY_DONE,
+				static_str, MAX_STR_LEN);
+
+			PropSheet_SetFinishText(hDlg, static_str);
 			return TRUE;
 
 		}
