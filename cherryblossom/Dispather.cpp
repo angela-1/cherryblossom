@@ -155,10 +155,6 @@ static int callback(void *NotUsed, int argc, char **argv, char **azColName)
 
 		Dispatcher::GetInstance()->GetList()->push_back(account);
 		
-	
-
-
-
 
 	return 0;
 }
@@ -169,8 +165,7 @@ void Dispatcher::MakeAccountList()
 
 	Model::open_db(g_chr_db_file);
 
-	int row = 0, column = 0;
-	char **result = NULL;
+
 
 
 	char* csql = "select tag, pyshort, pyfull from accounts;";

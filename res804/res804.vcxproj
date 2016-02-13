@@ -78,6 +78,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)$(Configuration)\lang\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -131,7 +132,12 @@ $(SolutionDir)utils\ResText.exe apply $(TargetDir)$(TargetFileName) $(TargetDir)
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <NoEntryPoint>true</NoEntryPoint>
     </Link>
+    <PostBuildEvent>
+      <Command>$(SolutionDir)utils\ResText.exe extract $(TargetDir)$(TargetFileName)*$(ProjectDir)resource.h $(SolutionDir)lang\res409.po
+$(SolutionDir)utils\ResText.exe apply $(TargetDir)$(TargetFileName) $(TargetDir)res409.dll $(SolutionDir)lang\res409.po 1033</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>

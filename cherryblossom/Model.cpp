@@ -3,7 +3,7 @@
 
 #include "Model.h"
 
-
+#include "convert.h"
 
 
 
@@ -52,8 +52,10 @@ void Model::exec_sql(char *sql, int(*callback)(void*, int, char**, char**))
 	int rc = sqlite3_exec(db, sql, callback, 0, &err_msg);
 	if (rc != SQLITE_OK) {
 
-		MessageBox(NULL, TEXT("SQL error."), TEXT("test"), MB_OK);
-
+		
+		TCHAR uerr[MAX_STR_LEN];
+		UTF8ToUnicode(err_msg, uerr);
+		MessageBox(NULL, uerr, TEXT("Caution"), MB_OK);
 
 		sqlite3_free(err_msg);
 

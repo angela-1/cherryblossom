@@ -142,6 +142,7 @@ int Encrypter::EncryptDBFile(LPTSTR key)
 
 	uchar bytekey[16];
 	char strkey[MAX_STR_LEN];
+	memset(strkey, 0, MAX_STR_LEN);
 
 	UnicodeToUTF8(key, strkey);
 	memcpy_s(bytekey, 16, strkey, 16);
@@ -183,6 +184,7 @@ int Encrypter::DecryptDBFile(LPTSTR key)
 
 	uchar bytekey[16];
 	char strkey[MAX_STR_LEN];
+	memset(strkey, 0, MAX_STR_LEN);
 
 	UnicodeToUTF8(key, strkey);
 	memcpy_s(bytekey, 16, strkey, 16);
