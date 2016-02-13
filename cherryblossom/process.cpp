@@ -949,10 +949,10 @@ INT_PTR CALLBACK SettingProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
 		};
 
 		TCHAR static_str[MAX_STR_LEN];
-		
+
 		LoadString(g_resource, IDS_SETTING_CAPTION, static_str, MAX_STR_LEN);
 		SetWindowText(hDlg, static_str);
-		
+
 		for (size_t i = 0; i < (sizeof(idc) / sizeof(idc[0])); i++)
 		{
 			LoadString(g_resource, ids[i], static_str, MAX_STR_LEN);
@@ -986,7 +986,7 @@ INT_PTR CALLBACK SettingProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
 
 
 
-
+	
 	}
 
 
@@ -999,16 +999,75 @@ INT_PTR CALLBACK SettingProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
 
 		switch (key)
 		{
-		case IDC_SETTING_EDIT_OLDPWD:
+		
 		case IDC_SETTING_EDIT_NEWPWD:
 		case IDC_SETTING_EDIT_CONFIRMPWD:
 		{
 			if (notifyId == EN_CHANGE)
 			{
+				TCHAR pwd[MAX_STR_LEN];
+				TCHAR confirm_pwd[MAX_STR_LEN];
 
+				if (notifyId == EN_CHANGE)
+				{
+					SendDlgItemMessage(hDlg, IDC_SETTING_EDIT_NEWPWD, WM_GETTEXT, MAX_STR_LEN, (LPARAM)pwd);
+					SendDlgItemMessage(hDlg, IDC_SETTING_EDIT_CONFIRMPWD, WM_GETTEXT, MAX_STR_LEN, (LPARAM)confirm_pwd);
+
+					if (wcscmp(pwd, confirm_pwd) == 0 &&
+						wcscmp(pwd, L"") != 0)
+					{
+						ShowStaticTip(hDlg, IDC_SETTING_TIP, L"");
+						EnableWindow(GetDlgItem(hDlg, IDC_SETTING_BUTTON_DONE),
+							TRUE);
+					}
+					else
+					{
+						TCHAR static_str[MAX_STR_LEN];
+
+						LoadString(g_resource, IDS_WIZARDPWD_NOTSAME,
+							static_str, MAX_STR_LEN);
+
+
+						ShowStaticTip(hDlg, IDC_SETTING_TIP, static_str);
+						EnableWindow(GetDlgItem(hDlg, IDC_SETTING_BUTTON_DONE),
+							FALSE);
+
+					}
+
+				}
 			}
 		}
 		break;
+		case IDC_SETTING_BUTTON_DONE:
+		{
+			// validate old password
+			TCHAR pwd[MAX_STR_LEN];
+			SendDlgItemMessage(hDlg, IDC_SETTING_EDIT_OLDPWD, WM_GETTEXT, MAX_STR_LEN, (LPARAM)pwd);
+			TCHAR confirm_pwd[MAX_STR_LEN];
+			SendDlgItemMessage(hDlg, IDC_SETTING_EDIT_CONFIRMPWD, WM_GETTEXT, MAX_STR_LEN, (LPARAM)confirm_pwd);
+
+			Encrypter a{};
+			if (a.Validate(pwd))
+			{
+				a.CreateKeyFile(confirm_pwd);
+				lstrcpy(g_key, confirm_pwd);
+				DestroyWindow(GetParent(hDlg));
+				
+			}
+			else
+			{
+				TCHAR static_str[MAX_STR_LEN];
+
+				LoadString(g_resource, IDS_SETTING_PWDWRONG,
+					static_str, MAX_STR_LEN);
+				ShowStaticTip(hDlg, IDC_SETTING_TIP, static_str);
+			}
+
+
+
+		}
+
+			break;
 		case IDC_COMBO_LANG:
 		{
 			if (HIWORD(wParam) == CBN_SELCHANGE)
