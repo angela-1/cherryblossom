@@ -35,6 +35,7 @@ TCHAR** PinYin::GetPYChar(TCHAR* tag, ifstream* dict, TCHAR py_char[2][MAX_STR_L
 	//TCHAR tmppy[2][MAX_STR_STRING];
 
 	//memcpy_s(py_char[1], 200, tag, lstrlen(tag));
+	CharLower(tag);
 	
 	lstrcpy(py_char[0], tag);
 
