@@ -187,6 +187,8 @@ copy "$(ProjectDir)sqlite3.dll"  "$(TargetDir)sqlite3.dll"  /y</Command>
     <Image Include="bitmap1.bmp" />
     <Image Include="C:\Users\Baby\Desktop\fff.bmp" />
     <Image Include="cherryblossom.ico" />
+    <Image Include="pic1.bmp" />
+    <Image Include="pic2.bmp" />
     <Image Include="small.ico" />
   </ItemGroup>
   <ItemGroup>

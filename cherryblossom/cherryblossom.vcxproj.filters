@@ -108,6 +108,12 @@
     <Image Include="C:\Users\Baby\Desktop\fff.bmp">
       <Filter>资源文件</Filter>
     </Image>
+    <Image Include="pic2.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="pic1.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.org" />

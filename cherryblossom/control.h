@@ -33,3 +33,8 @@ void OnPaint(HWND hWnd, HDC hdc);
 
 // show complete list
 void OnSearchChanged(HWND hWnd);
+
+// set control font
+void OnSetFont(HWND hWnd, LPARAM lParam);
+BOOL CALLBACK SetFontProc(HWND hWnd, LPARAM lParam);
+	

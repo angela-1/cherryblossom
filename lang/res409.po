@@ -123,13 +123,13 @@ msgstr "© 2016 Angela-1"
 msgid "下一次启动时生效"
 msgstr "Take effect the next time."
 
+#. Resource IDs: (IDS_WIZARD_NEXT)
+msgid "下一步"
+msgstr ""
+
 #. Resource IDs: (IDS_SETTING_LANG_ZH)
 msgid "中文（简体）"
 msgstr "中文（简体）"
-
-#. Resource IDs: (IDS_WIZARD_WELCOME_CAPTION)
-msgid "介绍"
-msgstr ""
 
 #. Resource IDs: (IDS_SETTING_MODPWD)
 msgid "修改密码"
@@ -163,6 +163,10 @@ msgstr "Note:"
 msgid "好"
 msgstr "OK"
 
+#. Resource IDs: (IDS_WIZARDPWD_FORGET)
+msgid "如果您忘记了密钥，将再也无法读取数据！切记！"
+msgstr ""
+
 #. Resource IDs: (IDS_SETTING_DONE)
 msgid "完成"
 msgstr "Done"
@@ -186,6 +190,10 @@ msgstr "&Export ..."
 #. Resource IDs: (65535 - PopupMenu)
 msgid "帮助(&H)"
 msgstr "&Help"
+
+#. Resource IDs: (IDS_WIZARDWELCOME_TIP2)
+msgid "数据使用AES加密保证安全。"
+msgstr ""
 
 #. Resource IDs: (65535 - PopupMenu)
 msgid "文件(&F)"
@@ -271,6 +279,10 @@ msgstr "Login"
 msgid "确认密码："
 msgstr "Confirm:"
 
+#. Resource IDs: (IDS_WIZARD_WELCOME_CAPTION)
+msgid "简介"
+msgstr ""
+
 #. Resource IDs: (IDS_LABEL_CATEGORY)
 msgid "类别："
 msgstr "Category:"
@@ -299,6 +311,10 @@ msgstr "&Setting"
 msgid "语言："
 msgstr "Language:"
 
+#. Resource IDs: (IDS_WIZARDPWD_SETPWD)
+msgid "请设置一个密钥并牢记它"
+msgstr ""
+
 #. Resource IDs: (105 - Menu)
 msgid "退出(&X)"
 msgstr "&Exit"
@@ -307,6 +323,10 @@ msgstr "&Exit"
 msgid "选择语言"
 msgstr "Choose language"
 
+#. Resource IDs: (IDS_WIZARDWELCOME_TIP1)
+msgid "通过拼音首字母、全拼、文字快速搜索。"
+msgstr ""
+
 #. Resource IDs: (IDS_LABEL_MAIL)
 msgid "邮箱："
 msgstr "Mail:"
@@ -314,4 +334,8 @@ msgstr "Mail:"
 #. Resource IDs: (IDS_LABEL_URL)
 msgid "链接："
 msgstr "URL:"
+
+#. Resource IDs: (IDS_WIZARD_CAPTION)
+msgid "需要完成一些设置"
+msgstr ""
 

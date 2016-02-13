@@ -1043,7 +1043,7 @@ INT_PTR CALLBACK SettingProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
 
 void ShowWizard(HWND hwndOwner)
 {
-
+	TCHAR static_str[MAX_STR_LEN];
 
 	HPROPSHEETPAGE ahpsp[3];
 
@@ -1052,7 +1052,9 @@ void ShowWizard(HWND hwndOwner)
 	psp.hInstance = g_inst;
 	psp.dwFlags = PSP_USEHEADERTITLE;;
 	psp.lParam = (LPARAM)NULL;
-	psp.pszHeaderTitle = L"ª∂”≠ π”√";
+	
+	LoadString(g_resource, IDS_WIZARD_WELCOME_CAPTION, static_str, MAX_STR_LEN);
+	psp.pszHeaderTitle = static_str;
 
 	psp.pszTemplate = MAKEINTRESOURCE(IDD_WIZARD_WELCOME);
 	psp.pfnDlgProc = WizardWelcomeProc;
@@ -1062,7 +1064,9 @@ void ShowWizard(HWND hwndOwner)
 	psp1.hInstance = g_inst;
 	psp1.dwFlags = PSP_USEHEADERTITLE;
 	psp1.lParam = (LPARAM)NULL;
-	psp1.pszHeaderTitle = L"aaa";
+	LoadString(g_resource, IDS_WIZARDPWD_SETPWD, static_str, MAX_STR_LEN);
+
+	psp1.pszHeaderTitle = static_str;
 
 	psp1.pszTemplate = MAKEINTRESOURCE(IDD_WIZARD_PWD);
 	psp1.pfnDlgProc = WizardPwdProc;
@@ -1073,6 +1077,7 @@ void ShowWizard(HWND hwndOwner)
 	psp2.hInstance = g_inst;
 	psp2.dwFlags = PSP_USEHEADERTITLE;
 	psp2.lParam = (LPARAM)NULL;
+	
 	psp2.pszHeaderTitle = L"aaa";
 
 	psp2.pszTemplate = MAKEINTRESOURCE(IDD_WIZARD_ENJOY);
@@ -1096,7 +1101,10 @@ void ShowWizard(HWND hwndOwner)
 	//psh.dwFlags = PSH_WIZARD97 |PSH_WATERMARK | PSH_HEADER;
 	//psh.pszbmWatermark = MAKEINTRESOURCE(IDB_BITMAP2);
 	//psh.pszbmHeader = MAKEINTRESOURCE(IDB_BITMAP2);
-	psh.pszCaption = L"aaa";
+	
+	LoadString(g_resource, IDS_WIZARD_CAPTION, static_str, MAX_STR_LEN);
+
+	psh.pszCaption = static_str;
 	psh.nStartPage = 0;
 	psh.nPages = 3;
 
@@ -1121,6 +1129,35 @@ INT_PTR CALLBACK WizardWelcomeProc(HWND hDlg, UINT message, WPARAM wParam, LPARA
 		CreateDirectory(g_cur_var_dir, NULL);
 
 		CreateDB();
+
+		// show string
+		OnSetFont(hDlg, NULL);
+
+		int idc[] =
+		{
+			IDC_WIZARDWELCOME_TIP1,
+			IDC_WIZARDWELCOME_TIP2
+		};
+
+		int ids[] =
+		{
+			IDS_WIZARDWELCOME_TIP2,
+			IDS_WIZARDWELCOME_TIP1
+		};
+
+		TCHAR static_str[MAX_STR_LEN];
+
+
+
+		for (size_t i = 0; i < (sizeof(idc) / sizeof(idc[0])); i++)
+		{
+			LoadString(g_resource, ids[i], static_str, MAX_STR_LEN);
+			SendDlgItemMessage(hDlg, idc[i], WM_SETTEXT, 0, (LPARAM)static_str);
+			//SendDlgItemMessage(hDlg, idc[i], WM_SETFONT, (WPARAM)g_main_font, TRUE);
+		}
+
+
+
 
 		return FALSE;
 	}
@@ -1149,13 +1186,18 @@ INT_PTR CALLBACK WizardWelcomeProc(HWND hDlg, UINT message, WPARAM wParam, LPARA
 
 
 		case PSN_SETACTIVE:
+		{
+			TCHAR static_str[MAX_STR_LEN];
 
-
-
+			LoadString(g_resource, IDS_WIZARD_NEXT, static_str, MAX_STR_LEN);
+			PropSheet_SetNextText(hDlg, static_str);
 
 			PropSheet_ShowWizButtons(hDlg,
 				PSWIZB_NEXT,
 				PSWIZB_BACK | PSWIZB_NEXT | PSWIZB_CANCEL);
+		}
+
+
 
 			return TRUE;
 
@@ -1178,6 +1220,9 @@ INT_PTR CALLBACK WizardPwdProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
 	switch (message)
 	{
 	case WM_INITDIALOG:
+
+		OnSetFont(hDlg, NULL);
+
 
 
 		//MessageBox(NULL, L"fuck", L"see", MB_OK);
@@ -1260,6 +1305,10 @@ INT_PTR CALLBACK WizardPwdProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
 
 		case PSN_SETACTIVE:
 
+			TCHAR static_str[MAX_STR_LEN];
+
+			LoadString(g_resource, IDS_WIZARD_NEXT, static_str, MAX_STR_LEN);
+			PropSheet_SetNextText(hDlg, static_str);
 
 			PropSheet_ShowWizButtons(hDlg,
 				PSWIZB_NEXT,
@@ -1313,7 +1362,7 @@ INT_PTR CALLBACK WizardEnjoyProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM 
 
 
 			PropSheet_ShowWizButtons(hDlg,
-				PSWIZB_FINISH | PSWIZB_BACK,
+				PSWIZB_FINISH,
 				PSWIZB_BACK | PSWIZB_NEXT | PSWIZB_CANCEL | PSWIZB_FINISH);
 
 			PropSheet_SetFinishText(hDlg, L"aa");

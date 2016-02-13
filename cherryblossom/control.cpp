@@ -449,3 +449,15 @@ void OnSearchChanged(HWND hWnd)
 
 
 }
+
+void OnSetFont(HWND hWnd, LPARAM lParam)
+{
+	EnumChildWindows(hWnd, SetFontProc, lParam);
+	
+}
+
+BOOL CALLBACK SetFontProc(HWND hWnd, LPARAM lParam)
+{
+	SendMessage(hWnd, WM_SETFONT, (WPARAM)g_main_font, TRUE);
+	return t;
+}
