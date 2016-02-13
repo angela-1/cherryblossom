@@ -1,8 +1,9 @@
 ﻿
 
-#+TITLE: cherryblossom
+#+TITLE: 樱花
 #+OPTIONS: toc:2 num:nil ^:nil
 
+[[file:cherryblossom.png]]
 
 #+BEGIN_QUOTE
 写作这个程序的时候，正值家乡冬樱花盛开，便以此为名。
