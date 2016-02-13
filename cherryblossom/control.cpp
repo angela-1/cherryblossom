@@ -95,6 +95,7 @@ BOOL OnInitControl(HWND hWnd)
 
 
 	OnSetFont(hWnd, NULL);
+	SetFocus(search_edit);
 
 	return t;
 
