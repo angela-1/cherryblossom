@@ -30,11 +30,110 @@
 
 * 前言
 
-** 测试标题 
-
-*** 测试标题
-
-**** 我晕哦
+*樱花* 是一个用来管理各种账户的程序，它将各种各样的账户如微信账号，微博账号，电子邮件账号等保存在数据库中，并加密存储。在读取的时候，使用拼音首字母或者全拼或者字符来快速获取账号信息。
 
 
-***** 差了一个
+* 特性
+- 支持拼音首字母、全拼、部分拼音、中文的快速搜索
+- 加密保存密码和数据
+- 支持导出账户
+- 多国语言支持，目前有中文和英语
+
+
+* 使用的工具
+
+- SQLite 3
+- OpenSSL 的加密库
+- 网上找的一份拼音表
+- TortoiseSVN 的 Restext 工具
+
+
+* 数据库
+
+** 数据库表设计
+
+需要一个表： =accounts=
+表结构如下：
+
+#+CAPTION: Database table 1
+| field    | id          | tag             | category | url            |
+|----------+-------------+-----------------+----------+----------------|
+| col      | 0           | 1               | 2        | 3              |
+|----------+-------------+-----------------+----------+----------------|
+| type     | integer     | text            | text     | text           |
+| property | primary key | unique not null |          |                |
+| value    | 1,2,3       | Google          | www      | www.google.com |
+| length   | auto        | 20              | 20       | 200            |
+
+#+CAPTION: Database table 2
+| field    | user    | password | note           | lastmod             | pyshort | pyfull |
+|----------+---------+----------+----------------+---------------------+---------+--------|
+| col      | 4       | 5        | 6              | 7                   | 8       | 9      |
+|----------+---------+----------+----------------+---------------------+---------+--------|
+| type     | text    | text     | text           | nowtime             | text    | text   |
+| property |         |          |                | not null default    |         |        |
+| value    | ruoshui | mima     | google account | 1990-02-14 14:21:03 | google  | google |
+| length   | 100     | 16       | 200            | 20                  | 20      | 100    |
+
+
+** 数据库命令
+
+
+*** Create table
+
+#+BEGIN_SRC sql
+create table accounts(
+	id integer primary key, 
+	tag text unique not null, 
+	category text, 
+	url text, 
+	user text, 
+	password text, 
+	phone text, 
+	mail text, 
+	note text, 
+	lastmod TimeStamp NOT NULL DEFAULT (datetime('now','localtime')), 
+	pyshort text, pyfull text);
+
+#+END_SRC
+
+
+
+*** Insert data
+
+#+BEGIN_SRC sql
+insert into accounts (tag, category, url, user, password, phone, mail, note, pyshort, pyfull) 
+    values("tag" "category" "url" "user" "password" "phone" "mail" "note" "pyshort" "pyfull");
+#+END_SRC
+
+
+
+*** Update data
+#+BEGIN_SRC sql
+update accounts set category="category" url="url" user="user" password="password" phone="phone" 
+    mail="mail" notes="notes" lastmodified="datetime('now','localtime')" where tag="tag";
+
+#+END_SRC
+
+
+
+*** Delete data
+
+#+BEGIN_SRC sql
+delete from accounts where tag="tag";
+#+END_SRC
+
+
+
+
+
+
+
+
+
+
+
+* 多语言
+ 
+ 使用了来自 [[https://sourceforge.net/projects/tortoisesvn/][TortoiseSVN]] 的资源 dll 处理工具 =ResText= ，它将纯资源 dll 解析出来，生成 po 文件供翻译，然后用翻译好的文件生成新的资源 dll。
+
