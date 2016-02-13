@@ -167,12 +167,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			HWND account_list = GetDlgItem(hWnd, IDC_LISTBOX_ACCOUNT);
 			TCHAR lpch[MAX_ITEM_LEN];
 			int ind = SendMessage(account_list, LB_GETCURSEL, (WPARAM)0, (LPARAM)0);
-			SendMessage(account_list, LB_GETTEXT, (WPARAM)ind, (LPARAM)lpch);
+			if (ind != -1 && g_dispatcher->GetList()->size() > 0)
+			{
 
-			//MessageBox(NULL, lpch, TEXT("see"), MB_OK);
-			DialogBoxParam(g_inst, MAKEINTRESOURCE(IDD_EDIT), hWnd, EditProc, (LPARAM)lpch);
+				SendMessage(account_list, LB_GETTEXT, (WPARAM)ind, (LPARAM)lpch);
 
-			InvalidateRect(hWnd, NULL, true);
+				//MessageBox(NULL, lpch, TEXT("see"), MB_OK);
+				DialogBoxParam(g_inst, MAKEINTRESOURCE(IDD_EDIT), hWnd, EditProc, (LPARAM)lpch);
+
+				InvalidateRect(hWnd, NULL, true);
+			}
+
 
 		}
 		break;
@@ -181,7 +186,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			HWND account_list = GetDlgItem(hWnd, IDC_LISTBOX_ACCOUNT);
 			TCHAR lpch[MAX_ITEM_LEN];
 			int ind = SendMessage(account_list, LB_GETCURSEL, (WPARAM)0, (LPARAM)0);
-			if (ind != -1)
+			if (ind != -1 && g_dispatcher->GetList()->size() > 0)
 			{
 				SendMessage(account_list, LB_GETTEXT, (WPARAM)ind, (LPARAM)lpch);
 

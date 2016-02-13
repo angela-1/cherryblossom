@@ -59,6 +59,58 @@ msgstr ""
 # updated i.e. function keys (F2), special keys (Delete, HoMe) etc. will not.
 # ONLY change the msgstr field. Do NOT change any other.
 # If you do not want to change an Accelerator Key, copy msgid to msgstr
+# msgid/msgstr fields for Accelerator keys
+# Format is: "ID:xxxxxx:VACS+X" where:
+#    ID:xxxxx = the menu ID corresponding to the accelerator
+#    V = Virtual key (or blank if not used) - nearly always set!
+#    A = Alt key     (or blank if not used)
+#    C = Ctrl key    (or blank if not used)
+#    S = Shift key   (or blank if not used)
+#    X = upper case character
+# e.g. "V CS+Q" == Ctrl + Shift + 'Q'
+# ONLY Accelerator Keys with corresponding alphanumeric characters can be
+# updated i.e. function keys (F2), special keys (Delete, HoMe) etc. will not.
+# ONLY change the msgstr field. Do NOT change any other.
+# If you do not want to change an Accelerator Key, copy msgid to msgstr
+# msgid/msgstr fields for Accelerator keys
+# Format is: "ID:xxxxxx:VACS+X" where:
+#    ID:xxxxx = the menu ID corresponding to the accelerator
+#    V = Virtual key (or blank if not used) - nearly always set!
+#    A = Alt key     (or blank if not used)
+#    C = Ctrl key    (or blank if not used)
+#    S = Shift key   (or blank if not used)
+#    X = upper case character
+# e.g. "V CS+Q" == Ctrl + Shift + 'Q'
+# ONLY Accelerator Keys with corresponding alphanumeric characters can be
+# updated i.e. function keys (F2), special keys (Delete, HoMe) etc. will not.
+# ONLY change the msgstr field. Do NOT change any other.
+# If you do not want to change an Accelerator Key, copy msgid to msgstr
+# msgid/msgstr fields for Accelerator keys
+# Format is: "ID:xxxxxx:VACS+X" where:
+#    ID:xxxxx = the menu ID corresponding to the accelerator
+#    V = Virtual key (or blank if not used) - nearly always set!
+#    A = Alt key     (or blank if not used)
+#    C = Ctrl key    (or blank if not used)
+#    S = Shift key   (or blank if not used)
+#    X = upper case character
+# e.g. "V CS+Q" == Ctrl + Shift + 'Q'
+# ONLY Accelerator Keys with corresponding alphanumeric characters can be
+# updated i.e. function keys (F2), special keys (Delete, HoMe) etc. will not.
+# ONLY change the msgstr field. Do NOT change any other.
+# If you do not want to change an Accelerator Key, copy msgid to msgstr
+# msgid/msgstr fields for Accelerator keys
+# Format is: "ID:xxxxxx:VACS+X" where:
+#    ID:xxxxx = the menu ID corresponding to the accelerator
+#    V = Virtual key (or blank if not used) - nearly always set!
+#    A = Alt key     (or blank if not used)
+#    C = Ctrl key    (or blank if not used)
+#    S = Shift key   (or blank if not used)
+#    X = upper case character
+# e.g. "V CS+Q" == Ctrl + Shift + 'Q'
+# ONLY Accelerator Keys with corresponding alphanumeric characters can be
+# updated i.e. function keys (F2), special keys (Delete, HoMe) etc. will not.
+# ONLY change the msgstr field. Do NOT change any other.
+# If you do not want to change an Accelerator Key, copy msgid to msgstr
 #. Resource IDs: (IDS_SETTING_LANG_EN)
 msgid "English(Unitied States)"
 msgstr "English(Unitied States)"
@@ -73,7 +125,7 @@ msgstr "Take effect the next time."
 
 #. Resource IDs: (IDS_SETTING_LANG_ZH)
 msgid "中文（简体）"
-msgstr ""
+msgstr "中文（简体）"
 
 #. Resource IDs: (IDS_WIZARD_WELCOME_CAPTION)
 msgid "介绍"
@@ -81,185 +133,185 @@ msgstr ""
 
 #. Resource IDs: (IDS_SETTING_MODPWD)
 msgid "修改密码"
-msgstr ""
+msgstr "Change password"
 
 #. Resource IDs: (104 - Menu)
 msgid "关于(&A) ..."
-msgstr ""
+msgstr "&About ..."
 
 #. Resource IDs: (IDS_ABOUT_CAPTION)
 msgid "关于樱花"
-msgstr ""
+msgstr "About cherryblossom"
 
 #. Resource IDs: (IDS_MAIN_LISTNEWTIP)
-msgid "列表为空，请添加账户。"
-msgstr ""
+msgid "列表为空。"
+msgstr "List is empty."
 
 #. Resource IDs: (IDS_MAIN_BUTTON_DEL)
 msgid "删除"
-msgstr ""
+msgstr "Del"
 
 #. Resource IDs: (IDS_LABEL_CANCEL)
 msgid "取消"
-msgstr ""
+msgstr "Cancel"
 
 #. Resource IDs: (IDS_ADD_NOTE, IDS_LABEL_NOTE)
 msgid "备注："
-msgstr ""
+msgstr "Note:"
 
 #. Resource IDs: (IDS_LABEL_OK)
 msgid "好"
-msgstr ""
+msgstr "OK"
 
 #. Resource IDs: (IDS_SETTING_DONE)
 msgid "完成"
-msgstr ""
+msgstr "Done"
 
 #. Resource IDs: (IDS_LABEL_PASSWORD)
 msgid "密码："
-msgstr ""
+msgstr "Password:"
 
 #. Resource IDs: (IDS_LOGIN_CAUTION, IDS_SETTING_PWDTIP)
 msgid "密钥错误！"
-msgstr ""
+msgstr "Wrong key!"
 
 #. Resource IDs: (IDS_LOGIN_PASSWD)
 msgid "密钥："
-msgstr ""
+msgstr "Key:"
 
 #. Resource IDs: (ID_40002 - Menu)
 msgid "导出(&E) ..."
-msgstr ""
+msgstr "&Export ..."
 
 #. Resource IDs: (65535 - PopupMenu)
 msgid "帮助(&H)"
-msgstr ""
+msgstr "&Help"
 
 #. Resource IDs: (65535 - PopupMenu)
 msgid "文件(&F)"
-msgstr ""
+msgstr "&File"
 
 #. Resource IDs: (ID_40003 - Menu)
 msgid "文档(&D)"
-msgstr ""
+msgstr "&Documentation"
 
 #. Resource IDs: (IDS_SETTING_NEWPWD)
 msgid "新密码："
-msgstr ""
+msgstr "New:"
 
 #. Resource IDs: (IDS_SETTING_OLDPWD)
 msgid "旧密码："
-msgstr ""
+msgstr "Old:"
 
 #. Resource IDs: (IDS_ADD_LASTMOD, IDS_LABEL_LASTMOD)
 msgid "最后修改："
-msgstr ""
+msgstr "Last modified:"
 
 #. Resource IDs: (IDS_MAIN_LISTNULLTIP)
 msgid "未找到项目！"
-msgstr ""
+msgstr "No match!"
 
 #. Resource IDs: (IDS_ADD_TIPNULL)
 msgid "标签不能为空！"
-msgstr ""
+msgstr "The tag can't be null!"
 
 #. Resource IDs: (IDS_ADD_TIPEXIST)
 msgid "标签已存在！"
-msgstr ""
+msgstr "The tag already exists!"
 
 #. Resource IDs: (IDS_LABEL_TAG)
 msgid "标签："
-msgstr ""
+msgstr "Tag:"
 
 #. Resource IDs: (IDS_ABOUT_VERSION)
 msgid "樱花，1.0 版"
-msgstr ""
+msgstr "cherryblossom, version 1.0"
 
 #. Resource IDs: (IDS_APP_TITLE)
 msgid "樱花：一个加密的账号本"
-msgstr ""
+msgstr "cherryblossom: An encrypt account book"
 
 #. Resource IDs: (IDS_LOGIN_WELCOME)
 msgid "欢迎使用"
-msgstr ""
+msgstr "Welcome"
 
 #. Resource IDs: (IDS_CONFIRM_CAPTION)
 msgid "注意"
-msgstr ""
+msgstr "Caution"
 
 #. Resource IDs: (IDS_MAIN_BUTTON_ADD)
 msgid "添加"
-msgstr ""
+msgstr "Add"
 
 #. Resource IDs: (IDS_ADD_CAPTION)
 msgid "添加账户"
-msgstr ""
+msgstr "Add account"
 
 #. Resource IDs: (IDS_MAIN_BUTTON_CLEAR)
 msgid "清除"
-msgstr ""
+msgstr "Clear"
 
 #. Resource IDs: (IDS_MAIN_MAINTIP)
 msgid "点击左侧列表查看账户信息。"
-msgstr ""
+msgstr "Click the item in left listbox to show details."
 
 #. Resource IDs: (IDS_LABEL_USER)
 msgid "用户名："
-msgstr ""
+msgstr "User:"
 
 #. Resource IDs: (IDS_LABEL_PHONE)
 msgid "电话："
-msgstr ""
+msgstr "Phone:"
 
 #. Resource IDs: (IDS_LOGIN_CAPTION)
 msgid "登录"
-msgstr ""
+msgstr "Login"
 
 #. Resource IDs: (IDS_SETTING_CONFIRMPWD)
 msgid "确认密码："
-msgstr ""
+msgstr "Confirm:"
 
 #. Resource IDs: (IDS_LABEL_CATEGORY)
 msgid "类别："
-msgstr ""
+msgstr "Category:"
 
 #. Resource IDs: (IDS_MAIN_BUTTON_EDIT)
 msgid "编辑"
-msgstr ""
+msgstr "Edit"
 
 #. Resource IDs: (IDS_EDIT_CAPTION)
 msgid "编辑账户"
-msgstr ""
+msgstr "Edit account"
 
 #. Resource IDs: (IDS_CONFIRM_WILLDEL)
 msgid "要删除以下账户的全部信息吗？"
-msgstr ""
+msgstr "Are you sure to delete the account below?"
 
 #. Resource IDs: (IDS_SETTING_CAPTION)
 msgid "设置"
-msgstr ""
+msgstr "Setting"
 
 #. Resource IDs: (40004 - Menu)
 msgid "设置(&O)"
-msgstr ""
+msgstr "&Setting"
 
 #. Resource IDs: (IDS_SETTING_LANG)
 msgid "语言："
-msgstr ""
+msgstr "Language:"
 
 #. Resource IDs: (105 - Menu)
 msgid "退出(&X)"
-msgstr ""
+msgstr "&Exit"
 
 #. Resource IDs: (IDS_SETTING_CHOOSELANG)
 msgid "选择语言"
-msgstr ""
+msgstr "Choose language"
 
 #. Resource IDs: (IDS_LABEL_MAIL)
 msgid "邮箱："
-msgstr ""
+msgstr "Mail:"
 
 #. Resource IDs: (IDS_LABEL_URL)
 msgid "链接："
-msgstr ""
+msgstr "URL:"
 
