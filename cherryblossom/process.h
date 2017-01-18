@@ -15,7 +15,7 @@ INT_PTR CALLBACK    DeleteProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK LoginProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
 
 INT_PTR CALLBACK SettingProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
-
+INT_PTR CALLBACK ExportProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
 
 // load resource
 BOOL LoadResDll(LANGID lang_id);

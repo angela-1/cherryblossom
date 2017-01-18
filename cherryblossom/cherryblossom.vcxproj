@@ -28,7 +28,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -41,7 +41,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -92,6 +92,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalOptions>/Profile %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PreBuildEvent>
       <Command>rd "$(TargetDir)share" /s /q
@@ -160,6 +161,7 @@ copy "$(ProjectDir)sqlite3.dll"  "$(TargetDir)sqlite3.dll"  /y</Command>
     <ClInclude Include="defs.h" />
     <ClInclude Include="Dispather.h" />
     <ClInclude Include="Encrypter.h" />
+    <ClInclude Include="Exporter.h" />
     <ClInclude Include="global.h" />
     <ClInclude Include="lispsty.h" />
     <ClInclude Include="Model.h" />
@@ -176,6 +178,7 @@ copy "$(ProjectDir)sqlite3.dll"  "$(TargetDir)sqlite3.dll"  /y</Command>
     <ClCompile Include="convert.cpp" />
     <ClCompile Include="Dispather.cpp" />
     <ClCompile Include="Encrypter.cpp" />
+    <ClCompile Include="Exporter.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="PinYin.cpp" />
     <ClCompile Include="process.cpp" />
@@ -190,9 +193,11 @@ copy "$(ProjectDir)sqlite3.dll"  "$(TargetDir)sqlite3.dll"  /y</Command>
     <ResourceCompile Include="cherryblossom.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\cherryblossom.png" />
     <Image Include="bitmap1.bmp" />
     <Image Include="C:\Users\Baby\Desktop\fff.bmp" />
     <Image Include="cherryblossom.ico" />
+    <Image Include="icon1.ico" />
     <Image Include="pic1.bmp" />
     <Image Include="pic2.bmp" />
     <Image Include="small.ico" />
@@ -202,7 +207,7 @@ copy "$(ProjectDir)sqlite3.dll"  "$(TargetDir)sqlite3.dll"  /y</Command>
     <None Include="sqlite3.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="libencrypt.lib" />
+    <Library Include="aescrypto.lib" />
     <Library Include="sqlite3.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

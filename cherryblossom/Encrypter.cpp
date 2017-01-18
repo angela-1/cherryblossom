@@ -5,9 +5,9 @@
 
 #include "global.h"
 
-#include "../libencrypt/libencrypt.h"
+#include "../aescrypto/aescrypto.h"
 
-#pragma comment(lib, "libencrypt.lib")
+#pragma comment(lib, "aescrypto.lib")
 
 
 
@@ -74,7 +74,7 @@ bool Encrypter::Validate(LPTSTR key)
 	*p = '\0';
 	
 	uchar keysaltmd5[MD5_BLOCK]; //128bit
-	digest_md5(keystr, keysaltmd5);
+	cb_digest_md5(keystr, keysaltmd5);
 
 	
 	for (size_t i = 0; i < MD5_BLOCK; i++)
@@ -94,7 +94,7 @@ int Encrypter::CreateKeyFile(LPTSTR password)
 	uchar md5salt[MD5_BLOCK*2]; // + 128bit salt
 
 	uchar saltnum[16];
-	salt(saltnum, 16);
+	cb_salt(saltnum, 16);
 
 
 	char keystr[MAX_STR_LEN];
@@ -108,7 +108,7 @@ int Encrypter::CreateKeyFile(LPTSTR password)
 	q += MD5_BLOCK;
 	*q = '\0';
 	
-	digest_md5(keystr, keysaltmd5);
+	cb_digest_md5(keystr, keysaltmd5);
 
 	memcpy_s(md5salt, MD5_BLOCK*2, keysaltmd5, MD5_BLOCK);
 	uchar* p = md5salt + MD5_BLOCK;
@@ -152,7 +152,7 @@ int Encrypter::EncryptDBFile(LPTSTR key)
 
 	_ReadBinFile(g_db_file, bytesrc, block_length);
 
-	encrypt(bytesrc, bytedst, block_length, bytekey);
+	cb_encrypt(bytesrc, bytedst, block_length, bytekey);
 
 	_WriteBinFile(g_db_file_s, bytedst, block_length);
 	
@@ -197,7 +197,7 @@ int Encrypter::DecryptDBFile(LPTSTR key)
 
 	_ReadBinFile(g_db_file_s, bytesrc, block_length);
 
-	decrypt(bytesrc, bytedst, block_length, bytekey);
+	cb_decrypt(bytesrc, bytedst, block_length, bytekey);
 
 	_WriteBinFile(g_db_file, bytedst, block_length);
 

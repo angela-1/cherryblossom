@@ -60,6 +60,9 @@
     <ClInclude Include="Encrypter.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Exporter.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -89,6 +92,9 @@
     <ClCompile Include="Encrypter.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Exporter.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="cherryblossom.rc">
@@ -114,6 +120,12 @@
     <Image Include="pic1.bmp">
       <Filter>资源文件</Filter>
     </Image>
+    <Image Include="icon1.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="..\cherryblossom.png">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.org" />
@@ -121,6 +133,6 @@
   </ItemGroup>
   <ItemGroup>
     <Library Include="sqlite3.lib" />
-    <Library Include="libencrypt.lib" />
+    <Library Include="aescrypto.lib" />
   </ItemGroup>
 </Project>

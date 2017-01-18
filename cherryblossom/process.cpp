@@ -15,6 +15,7 @@
 
 #include "Dispather.h"
 #include "Encrypter.h"
+#include "Exporter.h"
 
 #include "Model.h"
 
@@ -49,7 +50,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 	wcex.cbClsExtra = 0;
 	wcex.cbWndExtra = 0;
 	wcex.hInstance = hInstance;
-	wcex.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_CHERRYBLOSSOM));
+	wcex.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDB_PNG1));
 	wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
 	//wcex.lpszMenuName = MAKEINTRESOURCEW(IDC_CHERRYBLOSSOM); // read menu from resource dll
@@ -232,6 +233,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 		case IDM_SETTING:
 			DialogBox(g_inst, MAKEINTRESOURCE(IDD_SETTING), hWnd, SettingProc);
+			break;
+		case IDM_EXPORT:
+			DialogBox(g_inst, MAKEINTRESOURCE(IDD_EXPORT), hWnd, ExportProc);
 			break;
 		case IDM_ABOUT:
 
@@ -1142,6 +1146,225 @@ INT_PTR CALLBACK SettingProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
 
 
 
+
+	}
+	return (INT_PTR)FALSE;
+}
+
+INT_PTR CALLBACK ExportProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	switch (message)
+	{
+	case WM_INITDIALOG:
+	{
+		OnSetFont(hDlg, NULL);
+
+
+		int idc[] =
+		{
+			IDC_SETTING_GROUPPWD,
+			IDC_SETTING_OLDPWD,
+			IDC_SETTING_NEWPWD,
+			IDC_SETTING_CONFIRMPWD,
+			IDC_SETTING_BUTTON_DONE,
+			IDC_SETTING_GROUPLANG,
+			IDC_SETTING_LANG,
+			IDOK,
+			IDCANCEL
+		};
+
+		INT ids[] =
+		{
+			IDS_SETTING_MODPWD,
+			IDS_SETTING_OLDPWD,
+			IDS_SETTING_NEWPWD,
+			IDS_SETTING_CONFIRMPWD,
+			IDS_SETTING_DONE,
+			IDS_SETTING_CHOOSELANG,
+			IDS_SETTING_LANG,
+			IDS_LABEL_OK,
+			IDS_LABEL_CANCEL
+		};
+
+		TCHAR static_str[MAX_STR_LEN];
+
+		LoadString(g_resource, IDS_SETTING_CAPTION, static_str, MAX_STR_LEN);
+		SetWindowText(hDlg, static_str);
+
+		for (size_t i = 0; i < (sizeof(idc) / sizeof(idc[0])); i++)
+		{
+			LoadString(g_resource, ids[i], static_str, MAX_STR_LEN);
+			SendDlgItemMessage(hDlg, idc[i], WM_SETTEXT, 0, (LPARAM)static_str);
+			//SendDlgItemMessage(hDlg, idc[i], WM_SETFONT, (WPARAM)g_main_font, TRUE);
+		}
+
+		LoadString(g_resource, IDS_SETTING_LANG_EN, static_str, MAX_STR_LEN);
+		SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_ADDSTRING, 0, (LPARAM)static_str);
+		LoadString(g_resource, IDS_SETTING_LANG_ZH, static_str, MAX_STR_LEN);
+		SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_ADDSTRING, 0, (LPARAM)static_str);
+
+		/*SendDlgItemMessage(hDlg, IDC_COMBO_LANG, WM_SETFONT, (WPARAM)g_main_font, TRUE);
+		SendDlgItemMessage(hDlg, IDC_SETTING_TIP, WM_SETFONT, (WPARAM)g_main_font, TRUE);
+		SendDlgItemMessage(hDlg, IDC_SETTING_STATIC_TIP, WM_SETFONT, (WPARAM)g_main_font, TRUE);*/
+
+
+		TCHAR lang[MAX_STR_LEN];
+		GetPrivateProfileString(TEXT("cherryblossom"),
+			TEXT("language"), L"zh-CN", lang, MAX_STR_LEN, g_config_file);
+		if (wcscmp(lang, L"en-US") == 0)
+		{
+			LoadString(g_resource, IDS_SETTING_LANG_EN, static_str, MAX_STR_LEN);
+			int cursel = SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_FINDSTRING, -1, (LPARAM)static_str);
+			SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_SETCURSEL, cursel, (LPARAM)0);
+		}
+		else
+		{
+			SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_SETCURSEL, 1, (LPARAM)0);
+		}
+
+
+
+
+	}
+
+
+	return FALSE;
+
+	case WM_COMMAND:
+	{
+		int key = LOWORD(wParam);
+		int notifyId = HIWORD(wParam);
+
+		switch (key)
+		{
+
+		case IDC_SETTING_EDIT_NEWPWD:
+		case IDC_SETTING_EDIT_CONFIRMPWD:
+		{
+			if (notifyId == EN_CHANGE)
+			{
+				TCHAR pwd[MAX_STR_LEN];
+				TCHAR confirm_pwd[MAX_STR_LEN];
+
+				if (notifyId == EN_CHANGE)
+				{
+					SendDlgItemMessage(hDlg, IDC_SETTING_EDIT_NEWPWD, WM_GETTEXT, MAX_STR_LEN, (LPARAM)pwd);
+					SendDlgItemMessage(hDlg, IDC_SETTING_EDIT_CONFIRMPWD, WM_GETTEXT, MAX_STR_LEN, (LPARAM)confirm_pwd);
+
+					if (wcscmp(pwd, confirm_pwd) == 0 &&
+						wcscmp(pwd, L"") != 0)
+					{
+						ShowStaticTip(hDlg, IDC_SETTING_TIP, L"");
+						EnableWindow(GetDlgItem(hDlg, IDC_SETTING_BUTTON_DONE),
+							TRUE);
+					}
+					else
+					{
+						TCHAR static_str[MAX_STR_LEN];
+
+						LoadString(g_resource, IDS_WIZARDPWD_NOTSAME,
+							static_str, MAX_STR_LEN);
+
+
+						ShowStaticTip(hDlg, IDC_SETTING_TIP, static_str);
+						EnableWindow(GetDlgItem(hDlg, IDC_SETTING_BUTTON_DONE),
+							FALSE);
+
+					}
+
+				}
+			}
+		}
+		break;
+		case IDC_SETTING_BUTTON_DONE:
+		{
+			// validate old password
+			TCHAR pwd[MAX_STR_LEN];
+			SendDlgItemMessage(hDlg, IDC_SETTING_EDIT_OLDPWD, WM_GETTEXT, MAX_STR_LEN, (LPARAM)pwd);
+			TCHAR confirm_pwd[MAX_STR_LEN];
+			SendDlgItemMessage(hDlg, IDC_SETTING_EDIT_CONFIRMPWD, WM_GETTEXT, MAX_STR_LEN, (LPARAM)confirm_pwd);
+
+			Encrypter a{};
+			if (a.Validate(pwd))
+			{
+				a.CreateKeyFile(confirm_pwd);
+				lstrcpy(g_key, confirm_pwd);
+				DestroyWindow(GetParent(hDlg));
+
+			}
+			else
+			{
+				TCHAR static_str[MAX_STR_LEN];
+
+				LoadString(g_resource, IDS_SETTING_PWDWRONG,
+					static_str, MAX_STR_LEN);
+				ShowStaticTip(hDlg, IDC_SETTING_TIP, static_str);
+			}
+
+
+
+		}
+
+		break;
+		case IDC_COMBO_LANG:
+		{
+			if (HIWORD(wParam) == CBN_SELCHANGE)
+			{
+				TCHAR lpch[MAX_STR_LEN];
+				int sel_index = SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_GETCURSEL, 0, 0);
+				SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_GETLBTEXT, sel_index, (LPARAM)lpch);
+
+				TCHAR static_str[MAX_STR_LEN];
+
+				LoadString(g_resource, IDS_SETTING_LANG_EN, static_str, MAX_STR_LEN);
+
+				//MessageBox(NULL, lpch, L"see now", MB_OK);
+				if (wcscmp(lpch, static_str) == 0)
+				{
+					WritePrivateProfileString(TEXT("cherryblossom"),
+						TEXT("language"), L"en-US", g_config_file);
+				}
+				else
+				{
+					WritePrivateProfileString(TEXT("cherryblossom"),
+						TEXT("language"), L"zh-CN", g_config_file);
+				}
+
+
+				LoadString(g_resource, IDS_SETTING_LANGTIP, static_str, MAX_STR_LEN);
+
+				SendDlgItemMessage(hDlg, IDC_SETTING_STATIC_TIP,
+					WM_SETTEXT, 0, (LPARAM)static_str);
+
+
+			}
+
+		}
+		break;
+		case IDOK:
+		{
+			//AssembleHtml();
+			Exporter::ExportTxt(L"aa", L"ËµÄãÃÃµÄnimei");
+		}
+		case IDCANCEL:
+			EndDialog(hDlg, FALSE);
+			return FALSE;
+			break;
+		default:
+			break;
+		}
+
+	}
+
+	break;
+	case WM_CTLCOLORSTATIC:
+		SetBkMode((HDC)wParam, TRANSPARENT);
+		return (BOOL)((HBRUSH)GetStockObject(NULL_BRUSH));
+	case WM_CTLCOLORDLG:
+
+		return (BOOL)((HBRUSH)GetStockObject(WHITE_BRUSH));
+
+	
 
 	}
 	return (INT_PTR)FALSE;
