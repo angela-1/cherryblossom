@@ -229,7 +229,7 @@ void RefreshListbox(HWND hWnd)
 			SendMessage(account_listbox, LB_ADDSTRING, (WPARAM)0, (LPARAM)var.tag);
 
 		}
-		int ind = SendMessage(account_listbox, LB_FINDSTRING, (WPARAM)-1, (LPARAM)(*(g_dispatcher->GetList())).back().tag);
+		LRESULT ind = SendMessage(account_listbox, LB_FINDSTRING, (WPARAM)-1, (LPARAM)(*(g_dispatcher->GetList())).back().tag);
 
 		SendMessage(account_listbox, LB_SETCURSEL, (WPARAM)ind, (LPARAM)0);
 	}
@@ -271,7 +271,7 @@ void OnPaint(HWND hWnd, HDC hdc)
 
 	HWND account_listbox = GetDlgItem(hWnd, IDC_LISTBOX_ACCOUNT);
 	TCHAR lpch[MAX_STR_LEN];
-	int ind = SendMessage(account_listbox, LB_GETCURSEL, (WPARAM)0, (LPARAM)0);
+	LRESULT ind = SendMessage(account_listbox, LB_GETCURSEL, (WPARAM)0, (LPARAM)0);
 	SendMessage(account_listbox, LB_GETTEXT, (WPARAM)ind, (LPARAM)lpch);
 
 	if (ind != -1 && g_dispatcher->GetList()->size() > 0)
@@ -312,10 +312,10 @@ void OnPaint(HWND hWnd, HDC hdc)
 		for (size_t i = 0; i < 9; i++)
 		{
 			SetTextAlign(hdc, TA_RIGHT | TA_TOP);
-			TextOut(hdc, 300, 12 + 25 * i, title[i], lstrlen(title[i]));
+			TextOut(hdc, 300, 12 + 25 * i, title[i], (int)lstrlen(title[i]));
 
 			SetTextAlign(hdc, TA_LEFT | TA_TOP);
-			TextOut(hdc, 320, 12 + 25 * i, detial[i], lstrlen(detial[i]));
+			TextOut(hdc, 320, 12 + 25 * i, detial[i], (int)lstrlen(detial[i]));
 			
 			
 
@@ -340,7 +340,7 @@ void OnSearchChanged(HWND hWnd)
 
 	TCHAR cur_text[20];
 	cur_text[0] = 20;
-	int cur_text_len = SendMessage(GetDlgItem(hWnd, IDC_EDIT_SEARCH), 
+	LRESULT cur_text_len = SendMessage(GetDlgItem(hWnd, IDC_EDIT_SEARCH), 
 		EM_GETLINE, 0, (LPARAM)cur_text);
 	cur_text[cur_text_len] = TEXT('\0');
 
@@ -360,7 +360,7 @@ void OnSearchChanged(HWND hWnd)
 	}
 
 	
-	search_len = cur_text_len;
+	search_len = (int)cur_text_len;
 	g_dispatcher->company_list.clear();
 
 

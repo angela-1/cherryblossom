@@ -11,23 +11,23 @@
 
 
 
-int Encrypter::_WriteBinFile(LPTSTR file, UCHAR* buf, int buf_len)
+size_t Encrypter::_WriteBinFile(LPTSTR file, UCHAR* buf, size_t buf_len)
 {
 	HANDLE hFile = CreateFile(file, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS,
 		FILE_ATTRIBUTE_NORMAL, NULL);
 	DWORD numofbyte;
-	WriteFile(hFile, buf, buf_len, &numofbyte, NULL);
+	WriteFile(hFile, buf, (DWORD)buf_len, &numofbyte, NULL);
 
 	CloseHandle(hFile);
 	return 0;
 }
 
-int Encrypter::_ReadBinFile(LPTSTR file, UCHAR* buf, int buf_len)
+size_t Encrypter::_ReadBinFile(LPTSTR file, UCHAR* buf, size_t buf_len)
 {
 	HANDLE hFile = CreateFile(file, GENERIC_READ, 0, NULL, OPEN_EXISTING,
 		FILE_ATTRIBUTE_NORMAL, NULL);
 	DWORD numofbyte;
-	ReadFile(hFile, buf, buf_len, &numofbyte, NULL);
+	ReadFile(hFile, buf, (DWORD)buf_len, &numofbyte, NULL);
 
 
 	CloseHandle(hFile);
@@ -65,7 +65,7 @@ bool Encrypter::Validate(LPTSTR key)
 
 	UnicodeToANSI(key, keystr);
 
-	int len = strlen(keystr);
+	size_t len = strlen(keystr);
 	// move the point
 	char* p = keystr + len;
 	// add md5 to key string
@@ -102,7 +102,7 @@ int Encrypter::CreateKeyFile(LPTSTR password)
 
 	UnicodeToANSI(password, keystr);
 
-	int len = strlen(keystr);
+	size_t len = strlen(keystr);
 	char* q = keystr + len;
 	memcpy_s(q, MD5_BLOCK, saltnum, MD5_BLOCK);
 	q += MD5_BLOCK;
@@ -147,12 +147,12 @@ int Encrypter::EncryptDBFile(LPTSTR key)
 	UnicodeToUTF8(key, strkey);
 	memcpy_s(bytekey, 16, strkey, 16);
 
-	uchar* bytesrc = (uchar*)malloc((size_t)block_length);
-	uchar* bytedst = (uchar*)malloc((size_t)block_length);
+	uchar* bytesrc = (uchar*)malloc(block_length);
+	uchar* bytedst = (uchar*)malloc(block_length);
 
 	_ReadBinFile(g_db_file, bytesrc, block_length);
 
-	cb_encrypt(bytesrc, bytedst, block_length, bytekey);
+	cb_encrypt(bytesrc, bytedst, (uint)block_length, bytekey);
 
 	_WriteBinFile(g_db_file_s, bytedst, block_length);
 	
@@ -197,7 +197,7 @@ int Encrypter::DecryptDBFile(LPTSTR key)
 
 	_ReadBinFile(g_db_file_s, bytesrc, block_length);
 
-	cb_decrypt(bytesrc, bytedst, block_length, bytekey);
+	cb_decrypt(bytesrc, bytedst, (uint)block_length, bytekey);
 
 	_WriteBinFile(g_db_file, bytedst, block_length);
 

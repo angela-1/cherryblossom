@@ -74,16 +74,18 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 //
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
-
-	HMENU hmenu = LoadMenu(g_resource, MAKEINTRESOURCE(IDC_CHERRYBLOSSOM));
+	
+	HMENU hmenu = LoadMenu(g_resource, MAKEINTRESOURCE(IDM_CHERRYBLOSSOM));
 	HWND hWnd = CreateWindowW(g_window_class, g_app_title, WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, 0, 600, 360, nullptr, hmenu, hInstance, nullptr);
+
+	//MessageBox(NULL, L"o", L"nimei", MB_OK);
 
 	if (!hWnd)
 	{
 		return nil;
 	}
-
+	
 	ShowWindow(hWnd, nCmdShow);
 	UpdateWindow(hWnd);
 
@@ -167,7 +169,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		{
 			HWND account_list = GetDlgItem(hWnd, IDC_LISTBOX_ACCOUNT);
 			TCHAR lpch[MAX_STR_LEN];
-			int ind = SendMessage(account_list, LB_GETCURSEL, (WPARAM)0, (LPARAM)0);
+			LRESULT ind = SendMessage(account_list, LB_GETCURSEL, (WPARAM)0, (LPARAM)0);
 			if (ind != -1 && g_dispatcher->GetList()->size() > 0)
 			{
 
@@ -186,7 +188,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		{
 			HWND account_list = GetDlgItem(hWnd, IDC_LISTBOX_ACCOUNT);
 			TCHAR lpch[MAX_STR_LEN];
-			int ind = SendMessage(account_list, LB_GETCURSEL, (WPARAM)0, (LPARAM)0);
+			LRESULT ind = SendMessage(account_list, LB_GETCURSEL, (WPARAM)0, (LPARAM)0);
 			if (ind != -1 && g_dispatcher->GetList()->size() > 0)
 			{
 				SendMessage(account_list, LB_GETTEXT, (WPARAM)ind, (LPARAM)lpch);
@@ -469,7 +471,7 @@ INT_PTR CALLBACK AddProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 
 			for (size_t i = 0; i < 7; i++)
 			{
-				int line_len = SendDlgItemMessage(hDlg, id_array[i], EM_GETLINE, 0, (LPARAM)value_array[i]);
+				LRESULT line_len = SendDlgItemMessage(hDlg, id_array[i], EM_GETLINE, 0, (LPARAM)value_array[i]);
 				/*HWND editControl = GetDlgItem(hDlg, ids[i]);*/
 				//int sendLength = SendMessage(editControl, EM_GETLINE, 0, (LPARAM)wstr);
 				value_array[i][line_len] = TEXT('\0');
@@ -669,7 +671,7 @@ INT_PTR CALLBACK EditProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 
 			for (size_t i = 0; i < 7; i++)
 			{
-				int sendLength = SendDlgItemMessage(hDlg, idc_array[i], EM_GETLINE, 0, (LPARAM)value_array[i]);
+				LRESULT sendLength = SendDlgItemMessage(hDlg, idc_array[i], EM_GETLINE, 0, (LPARAM)value_array[i]);
 				value_array[i][sendLength] = TEXT('\0');
 			}
 
@@ -764,7 +766,7 @@ INT_PTR CALLBACK DeleteProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPara
 		{
 			TCHAR tag[MAX_STR_LEN];
 
-			int ind = SendMessage(GetDlgItem(GetParent(hDlg), IDC_LISTBOX_ACCOUNT), LB_GETCURSEL, (WPARAM)0, (LPARAM)0);
+			LRESULT ind = SendMessage(GetDlgItem(GetParent(hDlg), IDC_LISTBOX_ACCOUNT), LB_GETCURSEL, (WPARAM)0, (LPARAM)0);
 
 			SendMessage(GetDlgItem(GetParent(hDlg), IDC_LISTBOX_ACCOUNT), LB_GETTEXT, (WPARAM)ind, (LPARAM)tag);
 
@@ -998,7 +1000,7 @@ INT_PTR CALLBACK SettingProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
 		if (wcscmp(lang, L"en-US") == 0)
 		{
 			LoadString(g_resource, IDS_SETTING_LANG_EN, static_str, MAX_STR_LEN);
-			int cursel = SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_FINDSTRING, -1, (LPARAM)static_str);
+			LRESULT cursel = SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_FINDSTRING, -1, (LPARAM)static_str);
 			SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_SETCURSEL, cursel, (LPARAM)0);
 		}
 		else
@@ -1095,7 +1097,7 @@ INT_PTR CALLBACK SettingProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
 			if (HIWORD(wParam) == CBN_SELCHANGE)
 			{
 				TCHAR lpch[MAX_STR_LEN];
-				int sel_index = SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_GETCURSEL, 0, 0);
+				LRESULT sel_index = SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_GETCURSEL, 0, 0);
 				SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_GETLBTEXT, sel_index, (LPARAM)lpch);
 
 				TCHAR static_str[MAX_STR_LEN];
@@ -1214,7 +1216,7 @@ INT_PTR CALLBACK ExportProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPara
 		if (wcscmp(lang, L"en-US") == 0)
 		{
 			LoadString(g_resource, IDS_SETTING_LANG_EN, static_str, MAX_STR_LEN);
-			int cursel = SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_FINDSTRING, -1, (LPARAM)static_str);
+			LRESULT cursel = SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_FINDSTRING, -1, (LPARAM)static_str);
 			SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_SETCURSEL, cursel, (LPARAM)0);
 		}
 		else
@@ -1311,7 +1313,7 @@ INT_PTR CALLBACK ExportProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPara
 			if (HIWORD(wParam) == CBN_SELCHANGE)
 			{
 				TCHAR lpch[MAX_STR_LEN];
-				int sel_index = SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_GETCURSEL, 0, 0);
+				LRESULT sel_index = SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_GETCURSEL, 0, 0);
 				SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_GETLBTEXT, sel_index, (LPARAM)lpch);
 
 				TCHAR static_str[MAX_STR_LEN];
@@ -1855,7 +1857,7 @@ int CreateConfigFile()
 		FILE_ATTRIBUTE_NORMAL, NULL);
 	
 	DWORD numofbyte;
-	WriteFile(hFile, buf, strlen(buf), &numofbyte, NULL);
+	WriteFile(hFile, buf, (DWORD)strlen(buf), &numofbyte, NULL);
 
 	CloseHandle(hFile);
 	return 0;

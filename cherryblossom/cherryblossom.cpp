@@ -14,7 +14,7 @@
 
 #include "Dispather.h"
 
-
+#include "../res804/resource.h"
 
 
 // Enable Visual Style
@@ -108,8 +108,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	if (!login_p)
 	{
 		PostQuitMessage(0);
+		
 		return FALSE;
 	}
+
+
 
 
 
@@ -123,24 +126,31 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     // 初始化全局字符串
     LoadStringW(g_resource, IDS_APP_TITLE, g_app_title, MAX_LOADSTRING);
-    LoadStringW(hInstance, IDC_CHERRYBLOSSOM, g_window_class, MAX_LOADSTRING);
+    LoadStringW(hInstance, IDS_CHERRYBLOSSOM, g_window_class, MAX_LOADSTRING);
+
+
     MyRegisterClass(hInstance);
+
+	
 
     // 执行应用程序初始化: 
     if (!InitInstance (hInstance, nCmdShow))
     {
+		
         return nil;
     }
-
+	
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_CHERRYBLOSSOM));
 
     MSG msg;
-
+	
     // 主消息循环: 
     while (GetMessage(&msg, nullptr, 0, 0))
     {
+		
         if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
         {
+			
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         }

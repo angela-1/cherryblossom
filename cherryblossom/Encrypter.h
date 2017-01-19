@@ -8,8 +8,8 @@ class Encrypter
 {
 private:
 
-	int _WriteBinFile(LPTSTR file, UCHAR* buf, int buf_len);
-	int _ReadBinFile(LPTSTR file, UCHAR* buf, int buf_len);
+	size_t _WriteBinFile(LPTSTR file, UCHAR* buf, size_t buf_len);
+	size_t _ReadBinFile(LPTSTR file, UCHAR* buf, size_t buf_len);
 
 
 public:
