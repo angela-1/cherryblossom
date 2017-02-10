@@ -263,6 +263,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		PAINTSTRUCT ps;
 		HDC hdc = BeginPaint(hWnd, &ps);
 
+		// for testing
+
+		//RoundRect(hdc, 50, 5, 400, 30,
+		//	2, 2);
+		//Rectangle(hdc, 5, 5, 300, 100);
+
+		// testting end
+
 		OnPaint(hWnd, hdc);
 
 		EndPaint(hWnd, &ps);
