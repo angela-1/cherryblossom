@@ -51,7 +51,7 @@ int RAND_bytes(unsigned char *buf, int num);
 DEPRECATEDIN_1_1_0(int RAND_pseudo_bytes(unsigned char *buf, int num))
 void RAND_seed(const void *buf, int num);
 #if defined(__ANDROID__) && defined(__NDK_FPABI__)
-__NDK_FPABI__	/* __attribute__((pcs("aapcs"))) on ARM */
+__NDK_FPABI__    /* __attribute__((pcs("aapcs"))) on ARM */
 #endif
 void RAND_add(const void *buf, int num, double entropy);
 int RAND_load_file(const char *file, long max_bytes);

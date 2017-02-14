@@ -165,7 +165,7 @@ copy "$(ProjectDir)sqlite3.dll"  "$(TargetDir)sqlite3.dll"  /y</Command>
     <ClInclude Include="global.h" />
     <ClInclude Include="lispsty.h" />
     <ClInclude Include="Model.h" />
-    <ClInclude Include="PinYin.h" />
+    <ClInclude Include="pinyin.h" />
     <ClInclude Include="process.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="sqlite3.h" />
@@ -180,7 +180,7 @@ copy "$(ProjectDir)sqlite3.dll"  "$(TargetDir)sqlite3.dll"  /y</Command>
     <ClCompile Include="Encrypter.cpp" />
     <ClCompile Include="Exporter.cpp" />
     <ClCompile Include="Model.cpp" />
-    <ClCompile Include="PinYin.cpp" />
+    <ClCompile Include="pinyin.cpp" />
     <ClCompile Include="process.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

@@ -1,9 +1,9 @@
 
-/*	defs.h
+/*    defs.h
 *
-*	全局宏定义。
+*    全局宏定义。
 *
-*	这个文件定义了所有需要的常量。
+*    这个文件定义了所有需要的常量。
 *
 */
 
@@ -15,7 +15,7 @@
 #define MAX_STR_STRING 200
 #define MAX_LOADSTRING 100
 
-// PinYin.cpp
+// Pinyin.cpp
 #define MAX_STR_LEN 100
 #define MAX_PATH_LEN 300
 

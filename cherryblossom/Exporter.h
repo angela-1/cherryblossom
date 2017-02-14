@@ -8,18 +8,18 @@
 class Exporter
 {
 private:
-	
-	TCHAR html_template[MAX_STR_STRING];
+    
+    TCHAR html_template[MAX_STR_STRING];
 
 public:
-	Exporter();
-	~Exporter();
+    Exporter();
+    ~Exporter();
 
-	static int count;
+    static int count;
 
-	static void AssembleHtml();
-	static void ExportHtml(TCHAR* output_file, TCHAR* content);
-	static void ExportTxt(TCHAR* output_file, TCHAR* content);
+    static void AssembleHtml();
+    static void ExportHtml(TCHAR* output_file, TCHAR* content);
+    static void ExportTxt(TCHAR* output_file, TCHAR* content);
 
 
 };

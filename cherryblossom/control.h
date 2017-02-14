@@ -37,6 +37,6 @@ void OnSearchChanged(HWND hWnd);
 // set control font
 void OnSetFont(HWND hWnd, LPARAM lParam);
 BOOL CALLBACK SetFontProc(HWND hWnd, LPARAM lParam);
-	
+    
 // refresh static
 void ShowStaticTip(HWND hDlg, int control_id, LPTSTR str);

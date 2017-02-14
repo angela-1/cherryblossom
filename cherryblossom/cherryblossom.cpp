@@ -65,60 +65,60 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
-	g_inst = hInstance; // 将实例句柄存储在全局变量中
-	
-	
-	// set fonts
-	OnInitFont(NULL);
+    g_inst = hInstance; // 将实例句柄存储在全局变量中
+    
+    
+    // set fonts
+    OnInitFont(NULL);
 
 
-	OnInitPath();
-
-
-
-	// load langauage resource
-	TCHAR lang[MAX_STR_LEN];
-	GetPrivateProfileString(TEXT("cherryblossom"),
-		TEXT("language"), L"zh-CN", lang, MAX_STR_LEN, g_config_file);
-	if (wcscmp(lang, L"en-US") == 0)
-	{
-		LoadResDll(1033);
-	}
-	else
-	{
-		LoadResDll(2052);
-	}
-
-	
-	// TODO: judge if it is first run. to show guide.
-	if (IsFirstRun())
-	{
-		ShowWizard(NULL);
-	}
+    OnInitPath();
 
 
 
-	
+    // load langauage resource
+    TCHAR lang[MAX_STR_LEN];
+    GetPrivateProfileString(TEXT("cherryblossom"),
+        TEXT("language"), L"zh-CN", lang, MAX_STR_LEN, g_config_file);
+    if (wcscmp(lang, L"en-US") == 0)
+    {
+        LoadResDll(1033);
+    }
+    else
+    {
+        LoadResDll(2052);
+    }
 
-	// TODO: show login page.
-
-	INT_PTR login_p = DialogBox(hInstance, MAKEINTRESOURCE(IDD_LOGIN), NULL, LoginProc);
-
-
-	if (!login_p)
-	{
-		PostQuitMessage(0);
-		
-		return FALSE;
-	}
+    
+    // TODO: judge if it is first run. to show guide.
+    if (IsFirstRun())
+    {
+        ShowWizard(NULL);
+    }
 
 
 
+    
+
+    // TODO: show login page.
+
+    INT_PTR login_p = DialogBox(hInstance, MAKEINTRESOURCE(IDD_LOGIN), NULL, LoginProc);
 
 
-	// start dispatcher
-	g_dispatcher = Dispatcher::GetInstance();
-	g_dispatcher->MakeAccountList();
+    if (!login_p)
+    {
+        PostQuitMessage(0);
+        
+        return FALSE;
+    }
+
+
+
+
+
+    // start dispatcher
+    g_dispatcher = Dispatcher::GetInstance();
+    g_dispatcher->MakeAccountList();
 
 
 
@@ -131,26 +131,26 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     MyRegisterClass(hInstance);
 
-	
+    
 
     // 执行应用程序初始化: 
     if (!InitInstance (hInstance, nCmdShow))
     {
-		
+        
         return nil;
     }
-	
+    
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_CHERRYBLOSSOM));
 
     MSG msg;
-	
+    
     // 主消息循环: 
     while (GetMessage(&msg, nullptr, 0, 0))
     {
-		
+        
         if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
         {
-			
+            
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         }
