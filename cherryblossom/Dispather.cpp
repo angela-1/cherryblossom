@@ -93,7 +93,7 @@ static int detialcallback(void *NotUsed, int argc, char **argv, char **azColName
     UTF8ToUnicode(argv[6], phone);
     UTF8ToUnicode(argv[7], mail);
     UTF8ToUnicode(argv[8], note);
-    UTF8ToUnicode(argv[9], lastmod);
+    UTF8ToUnicode(argv[10], lastmod);
 
 
 
@@ -200,11 +200,10 @@ void Dispatcher::AddAccount(LPTSTR* value_array)
 
     lstrcpy(pinyin_tag, py_str);
 
-    OutputDebugString(L"fuck");
-    OutputDebugString(value_array[0]);
 
     wchar_t* ii = L"insert into accounts (tag, category, url, user, password, phone, mail, note, pinyin_tag) values";
-    swprintf_s(sql, L"%s ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');",
+
+    swprintf_s(sql, L"%s ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');",
         ii,
         value_array[0],
         value_array[1],
