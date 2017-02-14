@@ -7,8 +7,7 @@
 typedef struct account_item
 {
     wchar_t tag[MAX_STR_LEN];
-    wchar_t pyshort[MAX_STR_LEN];
-    wchar_t pyfull[MAX_STR_LEN];
+    wchar_t pinyin_tag[MAX_STR_LEN];
 
 } AccountItem;
 

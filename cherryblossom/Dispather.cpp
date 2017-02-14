@@ -138,20 +138,18 @@ AccountCard * Dispatcher::GetAccount(LPTSTR tag)
 static int callback(void *NotUsed, int argc, char **argv, char **azColName)
 {
     wchar_t tag[MAX_STR_LEN];
-    wchar_t pyshort[MAX_STR_LEN];
-    wchar_t pyfull[MAX_STR_LEN];
+    wchar_t pinyin_tag[MAX_STR_LEN];
 
     //if (strcmp(argv[0], "") != 0)
     //{
         UTF8ToUnicode(argv[0], tag);
 
-        UTF8ToUnicode(argv[1], pyshort);
-        UTF8ToUnicode(argv[2], pyfull);
+        UTF8ToUnicode(argv[1], pinyin_tag);
+
 
         AccountItem account;
         lstrcpy(account.tag, tag);
-        lstrcpy(account.pyshort, pyshort);
-        lstrcpy(account.pyfull, pyfull);
+        lstrcpy(account.pinyin_tag, pinyin_tag);
 
         Dispatcher::GetInstance()->GetList()->push_back(account);
         
@@ -168,7 +166,7 @@ void Dispatcher::MakeAccountList()
 
 
 
-    char* csql = "select tag, pyshort, pyfull from accounts;";
+    char* csql = "select tag, pinyin_tag from accounts;";
 
     Model::exec_sql(csql, callback);
 
@@ -191,27 +189,21 @@ void Dispatcher::RefreshAccountList()
 
 void Dispatcher::AddAccount(LPTSTR* value_array)
 {
-
-
-
-    TCHAR pyshort[MAX_STR_LEN];
-    TCHAR pyfull[MAX_STR_LEN];
-
+    TCHAR pinyin_tag[MAX_STR_LEN]; 
 
     Model::open_db(g_chr_db_file);
     wchar_t sql[MAX_SQL_LEN];
 
-
-
-    TCHAR py_str[2][MAX_STR_LEN] = { L"",L"" };
+    TCHAR py_str[MAX_STR_LEN] = L"";
 
     Pinyin::get_pinyin_str(value_array[0], py_str);
 
-    lstrcpy(pyshort, py_str[0]);
-    lstrcpy(pyfull, py_str[1]);
+    lstrcpy(pinyin_tag, py_str);
 
+    OutputDebugString(L"fuck");
+    OutputDebugString(value_array[0]);
 
-    wchar_t* ii = L"insert into accounts (tag, category, url, user, password, phone, mail, note, pyshort, pyfull) values";
+    wchar_t* ii = L"insert into accounts (tag, category, url, user, password, phone, mail, note, pinyin_tag) values";
     swprintf_s(sql, L"%s ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');",
         ii,
         value_array[0],
@@ -222,8 +214,7 @@ void Dispatcher::AddAccount(LPTSTR* value_array)
         value_array[5],
         value_array[6],
         value_array[7],
-        pyshort,
-        pyfull);
+        pinyin_tag);
 
     char csql[MAX_SQL_LEN];
     UnicodeToUTF8(sql, csql);

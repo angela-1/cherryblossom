@@ -373,8 +373,7 @@ void OnSearchChanged(HWND hWnd)
         for each (auto var in *search_list)
         {
 
-            if (wcsstr(var.pyshort, cur_text) != NULL
-                || wcsstr(var.pyfull, cur_text) != NULL
+            if (wcsstr(var.pinyin_tag, cur_text) != NULL
                 || wcsstr(var.tag, cur_text) != NULL)
             {
                 g_dispatcher->company_list.push_back(var);

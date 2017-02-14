@@ -1828,8 +1828,8 @@ int CreateDB()
     wchar_t* sql = L"create table accounts(id integer primary key, \
 tag text unique not null, category text, url text, \
 user text, password text, phone text, mail text, note text, \
-lastmod TimeStamp NOT NULL DEFAULT (datetime('now','localtime')), \
-pyshort text, pyfull text)";
+pinyin_tag, \
+lastmod TimeStamp NOT NULL DEFAULT (datetime('now','localtime')))";
 
     char csql[MAX_SQL_LEN];
     UnicodeToUTF8(sql, csql);
