@@ -45,9 +45,6 @@
     <ClInclude Include="sqlite3.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="convert.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Dispather.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -61,6 +58,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="pinyin.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -80,9 +80,6 @@
     <ClCompile Include="Model.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="convert.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Dispather.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -93,6 +90,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="pinyin.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="utils.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

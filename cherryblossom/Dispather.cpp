@@ -5,7 +5,7 @@
 
 #include "Model.h"
 #include "pinyin.h"
-#include "convert.h"
+#include "utils.h"
 
 
 
@@ -82,18 +82,18 @@ static int detialcallback(void *NotUsed, int argc, char **argv, char **azColName
     wchar_t phone[MAX_STR_LEN];
     wchar_t mail[MAX_STR_LEN];
     wchar_t note[MAX_STR_LEN];
-    wchar_t lastmod[MAX_STR_LEN];
+    wchar_t last_mod[MAX_STR_LEN];
 
 
-    UTF8ToUnicode(argv[1], tag);
-    UTF8ToUnicode(argv[2], category);
-    UTF8ToUnicode(argv[3], url);
-    UTF8ToUnicode(argv[4], user);
-    UTF8ToUnicode(argv[5], password);
-    UTF8ToUnicode(argv[6], phone);
-    UTF8ToUnicode(argv[7], mail);
-    UTF8ToUnicode(argv[8], note);
-    UTF8ToUnicode(argv[10], lastmod);
+    utf8_to_unicode(argv[1], tag);
+    utf8_to_unicode(argv[2], category);
+    utf8_to_unicode(argv[3], url);
+    utf8_to_unicode(argv[4], user);
+    utf8_to_unicode(argv[5], password);
+    utf8_to_unicode(argv[6], phone);
+    utf8_to_unicode(argv[7], mail);
+    utf8_to_unicode(argv[8], note);
+    utf8_to_unicode(argv[10], last_mod);
 
 
 
@@ -107,7 +107,7 @@ static int detialcallback(void *NotUsed, int argc, char **argv, char **azColName
     lstrcpy(item->phone, phone);
     lstrcpy(item->mail, mail);
     lstrcpy(item->note, note);
-    lstrcpy(item->lastmod, lastmod);
+    lstrcpy(item->last_mod, last_mod);
 
 
 
@@ -125,7 +125,7 @@ AccountCard * Dispatcher::GetAccount(LPTSTR tag)
     swprintf_s(sql, L"%s where tag='%s';",
         ii, tag);
     char csql[MAX_SQL_LEN];
-    UnicodeToUTF8(sql, csql);
+    unicode_to_utf8(sql, csql);
 
     Model::exec_sql(csql, detialcallback);
 
@@ -142,9 +142,9 @@ static int callback(void *NotUsed, int argc, char **argv, char **azColName)
 
     //if (strcmp(argv[0], "") != 0)
     //{
-        UTF8ToUnicode(argv[0], tag);
+        utf8_to_unicode(argv[0], tag);
 
-        UTF8ToUnicode(argv[1], pinyin_tag);
+        utf8_to_unicode(argv[1], pinyin_tag);
 
 
         AccountItem account;
@@ -216,7 +216,7 @@ void Dispatcher::AddAccount(LPTSTR* value_array)
         pinyin_tag);
 
     char csql[MAX_SQL_LEN];
-    UnicodeToUTF8(sql, csql);
+    unicode_to_utf8(sql, csql);
 
     Model::exec_sql(csql, NULL);
 
@@ -238,7 +238,7 @@ void Dispatcher::EditAccount(LPTSTR* value_array)
     wchar_t sql[MAX_SQL_LEN];
 
     wchar_t* ii = L"update accounts";
-    swprintf_s(sql, L"%s set category='%s', url='%s', user='%s', password='%s', phone='%s', mail='%s', note='%s', lastmod=%s where tag='%s';",
+    swprintf_s(sql, L"%s set category='%s', url='%s', user='%s', password='%s', phone='%s', mail='%s', note='%s', last_mod=%s where tag='%s';",
         ii,
         value_array[1],
         value_array[2],
@@ -252,7 +252,7 @@ void Dispatcher::EditAccount(LPTSTR* value_array)
 
     char csql[MAX_SQL_LEN];
 
-    UnicodeToUTF8(sql, csql);
+    unicode_to_utf8(sql, csql);
 
     Model::exec_sql(csql, NULL);
 
@@ -272,7 +272,7 @@ void Dispatcher::DeleteAccount(LPTSTR tag)
     swprintf_s(sql, L"%s where tag='%s';",
         ii, tag);
     char csql[MAX_SQL_LEN];
-    UnicodeToUTF8(sql, csql);
+    unicode_to_utf8(sql, csql);
 
     Model::exec_sql(csql, NULL);
 

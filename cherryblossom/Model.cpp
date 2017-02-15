@@ -3,7 +3,7 @@
 
 #include "Model.h"
 
-#include "convert.h"
+#include "utils.h"
 
 
 
@@ -54,8 +54,8 @@ void Model::exec_sql(char *sql, int(*callback)(void*, int, char**, char**))
 
         
         TCHAR uerr[MAX_STR_LEN];
-        UTF8ToUnicode(err_msg, uerr);
-        MessageBox(NULL, uerr, TEXT("Caution"), MB_OK);
+        utf8_to_unicode(err_msg, uerr);
+        MessageBox(NULL, uerr, TEXT("¾¯¸æ"), MB_OK);
 
         sqlite3_free(err_msg);
 

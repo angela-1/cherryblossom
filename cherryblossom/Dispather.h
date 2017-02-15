@@ -22,7 +22,7 @@ typedef struct account_card
     wchar_t phone[MAX_STR_LEN];
     wchar_t mail[MAX_STR_LEN];
     wchar_t note[MAX_STR_LEN];
-    wchar_t lastmod[MAX_STR_LEN];
+    wchar_t last_mod[MAX_STR_LEN];
 
 } AccountCard;
 

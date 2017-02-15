@@ -5,7 +5,7 @@
 #include <string>
 
 #include "Exporter.h"
-#include "convert.h"
+#include "utils.h"
 #include "global.h"
 
 using namespace std;
@@ -32,7 +32,7 @@ static int detialcallback(void *NotUsed, int argc, char **argv, char **azColName
     wchar_t phone[MAX_STR_LEN];
     wchar_t mail[MAX_STR_LEN];
     wchar_t note[MAX_STR_LEN];
-    wchar_t lastmod[MAX_STR_LEN];
+    wchar_t last_mod[MAX_STR_LEN];
 
 
     //UTF8ToUnicode(argv[1], tag);
@@ -43,7 +43,7 @@ static int detialcallback(void *NotUsed, int argc, char **argv, char **azColName
     //UTF8ToUnicode(argv[6], phone);
     //UTF8ToUnicode(argv[7], mail);
     //UTF8ToUnicode(argv[8], note);
-    //UTF8ToUnicode(argv[9], lastmod);
+    //UTF8ToUnicode(argv[9], last_mod);
 
     
 //    Exporter::count = argv[1];
@@ -63,7 +63,7 @@ void Exporter::AssembleHtml()
     wchar_t* ii = L"select count(*) from accounts;";
     swprintf_s(sql, L"%s", ii);
     char csql[MAX_SQL_LEN];
-    UnicodeToUTF8(sql, csql);
+    unicode_to_utf8(sql, csql);
 
 //    Model::exec_sql(csql, countcallback);
 
@@ -95,7 +95,7 @@ void Exporter::ExportTxt(TCHAR* output_file, TCHAR* content)
 
         output_file_p << "fuck" << endl;
 
-        UnicodeToUTF8(content, buf);
+        unicode_to_utf8(content, buf);
         output_file_p << buf << endl;
         //TCHAR p[2];
         //TCHAR* q = tag;

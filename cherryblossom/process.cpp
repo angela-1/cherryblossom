@@ -9,8 +9,7 @@
 #include "process.h"
 
 #include "control.h"
-#include "convert.h"
-
+#include "utils.h"
 
 
 #include "Dispather.h"
@@ -1788,7 +1787,7 @@ void OnInitPath()
     lstrcpy(g_config_file, file_path);
     lstrcat(g_config_file, L"\\var\\config.ini");
 
-    UnicodeToUTF8(g_db_file, g_chr_db_file);
+    unicode_to_utf8(g_db_file, g_chr_db_file);
 
 
 
@@ -1798,19 +1797,13 @@ void OnInitPath()
 
 
 
-static bool _FileExists(LPTSTR file)
-{
-    DWORD dwAttrib = GetFileAttributes(file);
 
-    return (dwAttrib != INVALID_FILE_ATTRIBUTES &&
-        !(dwAttrib & FILE_ATTRIBUTE_DIRECTORY));
-}
 
 bool IsFirstRun()
 {
-    return (!_FileExists(g_key_file) &&
-        !_FileExists(g_db_file) &&
-        !_FileExists(g_config_file));
+    return (!file_exists(g_key_file) &&
+        !file_exists(g_db_file) &&
+        !file_exists(g_config_file));
 
 }
 
@@ -1829,10 +1822,10 @@ int CreateDB()
 tag text unique not null, category text, url text, \
 user text, password text, phone text, mail text, note text, \
 pinyin_tag, \
-lastmod TimeStamp NOT NULL DEFAULT (datetime('now','localtime')))";
+last_mod TimeStamp NOT NULL DEFAULT (datetime('now','localtime')))";
 
     char csql[MAX_SQL_LEN];
-    UnicodeToUTF8(sql, csql);
+    unicode_to_utf8(sql, csql);
 
     Model::exec_sql(csql, NULL);
 
@@ -1858,7 +1851,7 @@ int CreateConfigFile()
     lstrcat(locale_name, lp);
 
     char buf[MAX_STR_LEN];
-    UnicodeToANSI(locale_name, buf);
+    unicode_to_ansi(locale_name, buf);
 
     HANDLE hFile = CreateFile(g_config_file, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS,
         FILE_ATTRIBUTE_NORMAL, NULL);

@@ -28,7 +28,7 @@
 #include "stdafx.h"
 
 #include "pinyin.h"
-#include "convert.h"
+#include "utils.h"
 
 
 
@@ -64,8 +64,8 @@ TCHAR* Pinyin::get_pinyin_char(TCHAR* tag, ifstream* dict,
       TCHAR chn_buf[MAX_PINYIN_LEN];
       TCHAR pinyin_buf[MAX_PINYIN_LEN];
 
-      UTF8ToUnicode(buf, chn_buf);
-      UTF8ToUnicode(p + 1, pinyin_buf);
+      utf8_to_unicode(buf, chn_buf);
+      utf8_to_unicode(p + 1, pinyin_buf);
 
       if (wcscmp(chn_buf, tag) == 0) {
         lstrcat(tmp_pinyin, pinyin_buf);
