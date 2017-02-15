@@ -13,7 +13,7 @@ namespace UnitTest1
 	{
 	public:
 		
-		TEST_METHOD(TestMethod1)
+		TEST_METHOD(Test__get_pinyin_str)
 		{
 
      
@@ -26,7 +26,7 @@ namespace UnitTest1
 		}
 
 
-    TEST_METHOD(TestMethod2)
+    TEST_METHOD(Test__get_pinyin_char)
     {
       wstring py_dict = wstring(L"F:\\home\\angela\\repo\\cherryblossom\\UnitTest1\\share\\pydic.txt");
       ifstream dict(py_dict, ios::in);
@@ -45,7 +45,7 @@ namespace UnitTest1
 
     }
 
-    TEST_METHOD(TestMethod3)
+    TEST_METHOD(Test_get_pinyin_char2)
     {
       wstring py_dict = wstring(L"F:\\home\\angela\\repo\\cherryblossom\\UnitTest1\\share\\pydic.txt");
       ifstream dict(py_dict, ios::in);

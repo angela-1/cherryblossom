@@ -30,6 +30,8 @@
 #define CHERRYBLOSSOM_UTILS_H_
 
 
+LPTSTR trim_space(TCHAR* str);
+bool fuzzy_search(wchar_t* string, wchar_t* search);
 bool file_exists(LPTSTR file);
 
 void utf8_to_unicode(char *str, wchar_t *end);

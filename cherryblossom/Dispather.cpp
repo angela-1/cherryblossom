@@ -200,6 +200,7 @@ void Dispatcher::AddAccount(LPTSTR* value_array)
 
     lstrcpy(pinyin_tag, py_str);
 
+    TCHAR tmp_str[MAX_STR_LEN] = L"";
 
     wchar_t* ii = L"insert into accounts (tag, category, url, user, password, phone, mail, note, pinyin_tag) values";
 

@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{D3C31AA5-4292-452A-B663-273BBEB2A402}</ProjectGuid>
+    <ProjectGuid>{D3F13A3A-B712-4FE0-A0E1-232F03463777}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>UnitTest1</RootNamespace>
+    <RootNamespace>UnitTest2</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -83,13 +83,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\cherryblossom\defs.h" />
-    <ClInclude Include="..\cherryblossom\pinyin.h" />
     <ClInclude Include="..\cherryblossom\utils.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\cherryblossom\pinyin.cpp" />
     <ClCompile Include="..\cherryblossom\utils.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

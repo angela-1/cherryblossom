@@ -29,10 +29,74 @@
 #include "stdafx.h"
 #include "utils.h"
 
+#include <string>
+
+using std::wstring;
 
 
-bool file_exists(LPTSTR file)
+LPTSTR trim_space(TCHAR* str)
 {
+
+  int result = 0;
+  int n = 0;
+  //定义两个下标  一个从0开始  一个从后面开始  
+  int i, j;
+
+  if (str == NULL)
+  {
+    return NULL;
+  }
+
+  //第一个下标
+  i = 0;
+  //最后一个下标， 是 \0前面的字符的下标  
+  j = lstrlen(str) - 1;
+
+  //如果是空白字符 并且不为'\0' 开始下标自增
+  while (str[i] == L' ' && str[i] != L'\0')
+  // while (isspace(str[i]) && str[i] != '\0')
+  {
+    i++;
+  }
+
+  //如果是空白字符 并且j不是0 末尾下标自减  
+  while (str[j] == L' ' && j > 0)
+  {
+    j--;
+  }
+
+  //用后面的下标 减去 前面的下标 获取到中间的字符数量    
+  //因为多减一个 所以再加一  
+  //这就获取到了 有效字符串 不含有\0 的字符个数   
+  n = j - i + 1;
+
+  //从 p+i的位置 拷贝 n个字符到 buf中去
+  TCHAR dest[MAX_STR_LEN] = L"";
+  lstrcpyn(dest, str + i, n + 1);
+  dest[n] = '\0';
+
+  lstrcpy(str, dest);
+  return str;
+}
+
+
+bool fuzzy_search(wchar_t* src_str, wchar_t* search_str) {
+  wstring src(src_str);
+  wstring search(search_str);
+  bool result = true;
+  size_t len = search.length();
+  size_t pos = -1;
+  for (size_t i = 0; i < len; ++i) {
+    pos = src.find_first_of(search[i], pos + 1);
+    if (pos == wstring::npos) {
+      result = false;
+    }
+  }
+  return result;
+}
+
+
+bool file_exists(LPTSTR file) {
   DWORD dwAttrib = GetFileAttributes(file);
 
   return (dwAttrib != INVALID_FILE_ATTRIBUTES &&
@@ -40,8 +104,7 @@ bool file_exists(LPTSTR file)
 }
 
 
-void ansi_to_unicode(char *str, wchar_t *end)
-{
+void ansi_to_unicode(char *str, wchar_t *end) {
     wchar_t *wstr;
     int len;
     len = MultiByteToWideChar(CP_ACP, 0, str, -1, NULL, 0);
@@ -54,8 +117,7 @@ void ansi_to_unicode(char *str, wchar_t *end)
 }
 
 
-void utf8_to_unicode(char *str, wchar_t *end)
-{
+void utf8_to_unicode(char *str, wchar_t *end) {
     wchar_t *wstr;
     int len;
     len = MultiByteToWideChar(CP_UTF8, 0, str, -1, NULL, 0);
@@ -69,8 +131,7 @@ void utf8_to_unicode(char *str, wchar_t *end)
 
 }
 
-void unicode_to_utf8(wchar_t * str, char *end)
-{
+void unicode_to_utf8(wchar_t * str, char *end) {
     char*     cstr;
     int    len;
     // wide char to multi char
@@ -83,8 +144,7 @@ void unicode_to_utf8(wchar_t * str, char *end)
 
 }
 
-void unicode_to_ansi(wchar_t * str, char *end)
-{
+void unicode_to_ansi(wchar_t * str, char *end) {
     char*     cstr;
     int    len;
     // wide char to multi char

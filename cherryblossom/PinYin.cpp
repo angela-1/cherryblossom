@@ -104,8 +104,8 @@ TCHAR* Pinyin::get_pinyin_str(TCHAR* tag, TCHAR py_str[MAX_PINYIN_LEN]) {
   if (index >= 0) py_dict = py_dict.substr(0, index);
   py_dict += L"\\share\\pydic.txt";
 
-  //  py_dict = wstring(L"F:\\home\\angela\\repo\\cherryblossom
-  //  \\UnitTest1\\share\\pydic.txt");  // only for test
+  // py_dict = wstring(L"F:\\home\\angela\\repo\\cherryblossom\\
+  // UnitTest1\\share\\pydic.txt");  // only for test
 
   // open file
   ifstream dict(py_dict, ios::in);
