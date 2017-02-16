@@ -45,7 +45,7 @@ int Account::account_callback(void *para, int argc, char **argv, char **azColNam
   Account* a = (Account*)para;
 
   utf8_to_unicode(argv[1], a->tag);
-  utf8_to_unicode(argv[2], a->group);
+  utf8_to_unicode(argv[2], a->category);
   utf8_to_unicode(argv[3], a->url);
   utf8_to_unicode(argv[4], a->user);
   utf8_to_unicode(argv[5], a->password);

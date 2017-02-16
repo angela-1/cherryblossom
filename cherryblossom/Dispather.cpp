@@ -75,7 +75,7 @@ AccountCard * Dispatcher::GetAccountCard()
 static int detialcallback(void *NotUsed, int argc, char **argv, char **azColName)
 {
     wchar_t tag[MAX_STR_LEN];
-    wchar_t group[MAX_STR_LEN];
+    wchar_t category[MAX_STR_LEN];
     wchar_t url[MAX_STR_LEN];
     wchar_t user[MAX_STR_LEN];
     wchar_t password[MAX_STR_LEN];
@@ -86,7 +86,7 @@ static int detialcallback(void *NotUsed, int argc, char **argv, char **azColName
 
 
     utf8_to_unicode(argv[1], tag);
-    utf8_to_unicode(argv[2], group);
+    utf8_to_unicode(argv[2], category);
     utf8_to_unicode(argv[3], url);
     utf8_to_unicode(argv[4], user);
     utf8_to_unicode(argv[5], password);
@@ -100,7 +100,7 @@ static int detialcallback(void *NotUsed, int argc, char **argv, char **azColName
     AccountCard* item = Dispatcher::GetInstance()->GetAccountCard();
 
     lstrcpy(item->tag, tag);
-    lstrcpy(item->group, group);
+    lstrcpy(item->category, category);
     lstrcpy(item->url, url);
     lstrcpy(item->user, user);
     lstrcpy(item->password, password);
@@ -202,7 +202,7 @@ void Dispatcher::AddAccount(LPTSTR* value_array)
 
     TCHAR tmp_str[MAX_STR_LEN] = L"";
 
-    wchar_t* ii = L"insert into accounts (tag, group, url, user, password, phone, mail, note, pinyin_tag) values";
+    wchar_t* ii = L"insert into accounts (tag, category, url, user, password, phone, mail, note, pinyin_tag) values";
 
     swprintf_s(sql, L"%s ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');",
         ii,
@@ -239,7 +239,7 @@ void Dispatcher::EditAccount(LPTSTR* value_array)
     wchar_t sql[MAX_SQL_LEN];
 
     wchar_t* ii = L"update accounts";
-    swprintf_s(sql, L"%s set group='%s', url='%s', user='%s', password='%s', phone='%s', mail='%s', note='%s', last_mod=%s where tag='%s';",
+    swprintf_s(sql, L"%s set category='%s', url='%s', user='%s', password='%s', phone='%s', mail='%s', note='%s', last_mod=%s where tag='%s';",
         ii,
         value_array[1],
         value_array[2],

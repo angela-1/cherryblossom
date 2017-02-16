@@ -42,7 +42,7 @@ class Account : public Model {
   ~Account ();
 
   wchar_t tag[MAX_STR_LEN];
-  wchar_t group[MAX_STR_LEN];
+  wchar_t category[MAX_STR_LEN];
   wchar_t url[MAX_STR_LEN];
   wchar_t user[MAX_STR_LEN];
   wchar_t password[MAX_STR_LEN];

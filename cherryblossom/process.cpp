@@ -438,7 +438,7 @@ INT_PTR CALLBACK AddProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
       //save to db
       // check first
       TCHAR tag[MAX_STR_LEN];
-      TCHAR group[MAX_STR_LEN];
+      TCHAR category[MAX_STR_LEN];
       TCHAR url[MAX_STR_LEN];
       TCHAR user[MAX_STR_LEN];
       TCHAR password[MAX_STR_LEN];
@@ -448,7 +448,7 @@ INT_PTR CALLBACK AddProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 
       TCHAR* value_array[8] = {
         tag,
-        group,
+        category,
         url,
         user,
         password,
@@ -615,7 +615,7 @@ INT_PTR CALLBACK EditProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
     SendDlgItemMessage(hDlg, IDC_EDIT_TAG, WM_SETTEXT, 0, (LPARAM)account->tag);
     SendDlgItemMessage(hDlg, IDC_EDIT_EDIT_TAG, WM_SETTEXT, 0, (LPARAM)account->tag);
 
-    SendDlgItemMessage(hDlg, IDC_EDIT_EDIT_CATEGORY, WM_SETTEXT, 0, (LPARAM)account->group);
+    SendDlgItemMessage(hDlg, IDC_EDIT_EDIT_CATEGORY, WM_SETTEXT, 0, (LPARAM)account->category);
     SendDlgItemMessage(hDlg, IDC_EDIT_EDIT_URL, WM_SETTEXT, 0, (LPARAM)account->url);
     SendDlgItemMessage(hDlg, IDC_EDIT_EDIT_USER, WM_SETTEXT, 0, (LPARAM)account->user);
     SendDlgItemMessage(hDlg, IDC_EDIT_EDIT_PASSWORD, WM_SETTEXT, 0, (LPARAM)account->password);
@@ -645,7 +645,7 @@ INT_PTR CALLBACK EditProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
       //save to db, use update
       // check first
       TCHAR tag[MAX_STR_LEN];
-      TCHAR group[MAX_STR_LEN];
+      TCHAR category[MAX_STR_LEN];
       TCHAR url[MAX_STR_LEN];
       TCHAR user[MAX_STR_LEN];
       TCHAR password[MAX_STR_LEN];
@@ -655,7 +655,7 @@ INT_PTR CALLBACK EditProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 
       TCHAR* value_array[8] = {
         tag,
-        group,
+        category,
         url,
         user,
         password,
@@ -1826,7 +1826,7 @@ int CreateDB()
 
 
   wchar_t* sql = L"create table accounts(id integer primary key, \
-                  tag text unique not null, group text, url text, \
+                  tag text unique not null, category text, url text, \
                   user text, password text, phone text, mail text, note text, \
                   pinyin_tag, \
                   last_mod TimeStamp NOT NULL DEFAULT (datetime('now','localtime')))";
