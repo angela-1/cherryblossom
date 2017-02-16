@@ -11,10 +11,10 @@
   to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
   copies of the Software, and to permit persons to whom the Software is
   furnished to do so, subject to the following conditions :
-  
+
   The above copyright notice and this permission notice shall be included in
   all copies or substantial portions of the Software.
-  
+
   THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
@@ -23,22 +23,31 @@
   FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
   DEALINGS IN THE SOFTWARE.
 
-*/
+  */
 
 
 #include "stdafx.h"
 #include "account.h"
 #include "global.h"
 #include "utils.h"
+#include "pinyin.h"
 
 
-Account::Account()
-{
+Account::Account() {
+  lstrcpy(tag, L"");
+  lstrcpy(category, L"");
+  lstrcpy(url, L"");
+  lstrcpy(user, L"");
+  lstrcpy(password, L"");
+  lstrcpy(phone, L"");
+  lstrcpy(mail, L"");
+  lstrcpy(note, L"");
+  lstrcpy(last_mod, L"");
+
+
 }
 
-Account::~Account()
-{
-}
+Account::~Account() {}
 
 int Account::account_callback(void *para, int argc, char **argv, char **azColName)
 {
@@ -82,5 +91,88 @@ Account& Account::find_by_tag(wchar_t* tag) {
 
 }
 
+Account& Account::save() {
+  TCHAR pinyin_tag[MAX_STR_LEN];
 
+  Model::open_db("F:\\home\\angela\\repo\\cherryblossom\\TestModelConsoleApplication1\\var\\abc");
+  wchar_t sql[MAX_SQL_LEN];
+
+  TCHAR py_str[MAX_STR_LEN] = L"";
+
+  Pinyin::get_pinyin_str(tag, py_str);
+
+  lstrcpy(pinyin_tag, py_str);
+
+  wchar_t* ii = L"insert into accounts (tag, category, url, user, password, phone, mail, note, pinyin_tag) values";
+
+  swprintf_s(sql, L"%s ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');",
+    ii,
+    tag,
+    category,
+    url,
+    user,
+    password,
+    phone,
+    mail,
+    note,
+    pinyin_tag);
+
+  char csql[MAX_SQL_LEN];
+  unicode_to_utf8(sql, csql);
+
+  Model::exec_sql(csql, NULL, this);
+
+  Model::close_db();
+
+  return *this;
+
+}
+
+Account& Account::update() {
+  Model::open_db("F:\\home\\angela\\repo\\cherryblossom\\TestModelConsoleApplication1\\var\\abc");
+  wchar_t sql[MAX_SQL_LEN];
+
+  wchar_t* ii = L"update accounts";
+  swprintf_s(sql, L"%s set category='%s', url='%s', user='%s', password='%s', phone='%s', mail='%s', note='%s', last_mod=%s where tag='%s';",
+    ii,
+    category,
+    url,
+    user,
+    password,
+    phone,
+    mail,
+    note,
+    L"datetime('now','localtime')",
+    tag);
+
+  char csql[MAX_SQL_LEN];
+
+  unicode_to_utf8(sql, csql);
+
+  Model::exec_sql(csql, NULL, this);
+
+  Model::close_db();
+
+  return *this;
+
+}
+
+int Account::del() {
+
+  Model::open_db("F:\\home\\angela\\repo\\cherryblossom\\TestModelConsoleApplication1\\var\\abc");
+  wchar_t sql[MAX_SQL_LEN];
+
+  wchar_t* ii = L"delete from accounts";
+  swprintf_s(sql, L"%s where tag='%s';",
+    ii, tag);
+  char csql[MAX_SQL_LEN];
+  unicode_to_utf8(sql, csql);
+
+  Model::exec_sql(csql, NULL, NULL);
+
+  Model::close_db();
+
+  return 0;
+
+}
 

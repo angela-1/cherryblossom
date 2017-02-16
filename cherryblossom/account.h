@@ -51,8 +51,10 @@ class Account : public Model {
   wchar_t last_mod[MAX_STR_LEN];
 
 
-  Account* find_by_tag(wchar_t* tag);
-
+  Account& find_by_tag(wchar_t* tag);
+  Account& save();
+  Account& update();
+  int del();
 
 };
 

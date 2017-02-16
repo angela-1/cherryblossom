@@ -33,9 +33,8 @@
 
 class Account : public Model {
  private:
-
-
-  static int account_callback(void *para, int argc, char **argv, char **azColName);
+  static int account_callback(void *para, int argc, 
+                              char **argv, char **azColName);
 
  public:
   Account ();
@@ -51,8 +50,11 @@ class Account : public Model {
   wchar_t note[MAX_STR_LEN];
   wchar_t last_mod[MAX_STR_LEN];
 
-  Account& find_by_tag(wchar_t* tag);
 
+  Account& find_by_tag(wchar_t* tag);
+  Account& save();
+  Account& update();
+  int del();
 
 };
 

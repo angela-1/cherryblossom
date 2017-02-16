@@ -77,15 +77,15 @@ void Model::close_db()
 
 void Model::exec_sql(char *sql, int(*callback)(void*, int, char**, char**), void* para)
 {
-    int rc = sqlite3_exec(db, sql, callback, para, &err_msg);
+  char* errmsg;
+    int rc = sqlite3_exec(db, sql, callback, para, &errmsg);
     if (rc != SQLITE_OK) {
 
-        
         TCHAR uerr[MAX_STR_LEN];
-        utf8_to_unicode(err_msg, uerr);
+        utf8_to_unicode(errmsg, uerr);
         MessageBox(NULL, uerr, TEXT("警告"), MB_OK);
 
-        sqlite3_free(err_msg);
+        sqlite3_free(errmsg);
 
     }
 

@@ -55,7 +55,10 @@ class Model {
 
 
   virtual Model& find_by_tag(wchar_t* tag) = 0;
-  //virtual Model& save() = 0;
+  virtual Model& save() = 0;
+  virtual Model& update() = 0;
+  virtual int del() = 0;
+
 
 };
 

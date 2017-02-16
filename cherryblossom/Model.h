@@ -35,7 +35,7 @@
 
 #include "sqlite3.h"
 
-#pragma comment(lib, "../cherryblossom/sqlite3.lib")
+#pragma comment(lib, "sqlite3.lib")
 
 
 class Model {
@@ -49,13 +49,18 @@ class Model {
 
   static int open_db(char* db_path);
   static void close_db();
-  static void exec_sql(char* sql, int(*callback)(void*, int, char**, char**), void* para);
+  static void exec_sql(char* sql, 
+                       int(*callback)(void*, int, char**, char**), 
+                       void* para);
   static char** get_table(char *sql, int *row, int *column, char **result);
   static void free_table(char** result);
 
 
-  virtual Model* find_by_tag(wchar_t* tag) = 0;
-  virtual Model* save() = 0;
+  virtual Model& find_by_tag(wchar_t* tag) = 0;
+  virtual Model& save() = 0;
+  virtual Model& update() = 0;
+  virtual int del() = 0;
+
 
 };
 

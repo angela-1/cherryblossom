@@ -1,7 +1,6 @@
 ﻿
-
 /*
-  This is the header file of model.
+  This is the header file of Pinyin class. To get the pinyin of tag.
 
   Copyright © 2016-2017 Angela
 
@@ -26,67 +25,31 @@
   */
 
 
-#include "stdafx.h"
-
-
-#include "model.h"
-
-#include "utils.h"
 
 
 
+#ifndef CHERRYBLOSSOM_PINYIN_H_
+#define CHERRYBLOSSOM_PINYIN_H_
+
+#define MAX_PINYIN_LEN 100
 
 
-sqlite3* Model::db = NULL;
-char* Model::err_msg;
+#include <iostream>
+#include <fstream>
 
 
-Model::Model() {}
+class Pinyin {
+ public:
+  Pinyin();
+  ~Pinyin();
 
+  static TCHAR* get_pinyin_char(TCHAR* tag, std::ifstream* dict,
+                                TCHAR pinyin_char[MAX_PINYIN_LEN]);
+  static TCHAR* get_pinyin_str(TCHAR* tag,
+                                TCHAR py_str[MAX_PINYIN_LEN]);
+};
 
-Model::~Model() {}
-
-
-int Model::open_db(char* db_path) {
-  int rc = sqlite3_open(db_path, &db);
-  if (rc)
-  {
-    sqlite3_close(db);
-    return 1;
-  } else {
-    return 0;
-  }
-
-}
-
-
-void Model::close_db() {
-  sqlite3_close(db);
-}
-
-
-
-
-
-void Model::exec_sql(char *sql, int(*callback)(void*, int, char**, char**), void* para) {
-  char* errmsg;
-  int rc = sqlite3_exec(db, sql, callback, para, &errmsg);
-  if (rc != SQLITE_OK) {
-    TCHAR uerr[MAX_STR_LEN];
-    utf8_to_unicode(errmsg, uerr);
-    MessageBox(NULL, uerr, TEXT("警告"), MB_OK);
-    sqlite3_free(errmsg);
-  }
-}
-
-char** Model::get_table(char *sql, int *row, int *column, char **result) {
-  sqlite3_get_table(db, sql, &result, row, column, &err_msg);
-  return result;
-}
-
-void Model::free_table(char** result) {
-  sqlite3_free_table(result);
-}
+#endif  // CHERRYBLOSSOM_PINYIN_H_
 
 
 
