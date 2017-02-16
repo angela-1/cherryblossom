@@ -25,7 +25,7 @@ int Exporter::count = 0;
 static int detialcallback(void *NotUsed, int argc, char **argv, char **azColName)
 {
     wchar_t tag[MAX_STR_LEN];
-    wchar_t category[MAX_STR_LEN];
+    wchar_t group[MAX_STR_LEN];
     wchar_t url[MAX_STR_LEN];
     wchar_t user[MAX_STR_LEN];
     wchar_t password[MAX_STR_LEN];
@@ -35,18 +35,7 @@ static int detialcallback(void *NotUsed, int argc, char **argv, char **azColName
     wchar_t last_mod[MAX_STR_LEN];
 
 
-    //UTF8ToUnicode(argv[1], tag);
-    //UTF8ToUnicode(argv[2], category);
-    //UTF8ToUnicode(argv[3], url);
-    //UTF8ToUnicode(argv[4], user);
-    //UTF8ToUnicode(argv[5], password);
-    //UTF8ToUnicode(argv[6], phone);
-    //UTF8ToUnicode(argv[7], mail);
-    //UTF8ToUnicode(argv[8], note);
-    //UTF8ToUnicode(argv[9], last_mod);
 
-    
-//    Exporter::count = argv[1];
 
 
 

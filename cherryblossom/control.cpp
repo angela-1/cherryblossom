@@ -301,10 +301,9 @@ void OnPaint(HWND hWnd, HDC hdc)
 
     }
 
-    //LPTSTR title[9] = { L"tag", L"category", L"url",L"user",
-    //L"password", L"phone", L"mail", L"note", L"lastmod" };
+
     AccountCard* account = g_dispatcher->GetAccount(lpch);
-    LPTSTR detial[9] = { account->tag, account->category,
+    LPTSTR detial[9] = { account->tag, account->group,
       account->url, account->user, account->password,
       account->phone, account->mail, account->note, account->last_mod };
 
