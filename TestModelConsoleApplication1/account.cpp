@@ -71,7 +71,7 @@ Account& Account::find_by_tag(wchar_t* tag) {
 
   //Model::open_db(g_chr_db_file);
 
-  Model::open_db("F:\\home\\angela\\repo\\cherryblossom\\TestModelConsoleApplication1\\var\\abc");
+  open_db("F:\\home\\angela\\repo\\cherryblossom\\TestModelConsoleApplication1\\var\\abc");
 
   wchar_t sql[MAX_SQL_LEN];
 
@@ -81,10 +81,10 @@ Account& Account::find_by_tag(wchar_t* tag) {
   char csql[MAX_SQL_LEN];
   unicode_to_utf8(sql, csql);
 
-  Model::exec_sql(csql, account_callback, this);
+  exec_sql(csql, account_callback, this);
 
 
-  Model::close_db();
+  close_db();
 
   return *this;
 
@@ -94,7 +94,7 @@ Account& Account::find_by_tag(wchar_t* tag) {
 Account& Account::save() {
   TCHAR pinyin_tag[MAX_STR_LEN];
 
-  Model::open_db("F:\\home\\angela\\repo\\cherryblossom\\TestModelConsoleApplication1\\var\\abc");
+  open_db("F:\\home\\angela\\repo\\cherryblossom\\TestModelConsoleApplication1\\var\\abc");
   wchar_t sql[MAX_SQL_LEN];
 
   TCHAR py_str[MAX_STR_LEN] = L"";
@@ -120,16 +120,16 @@ Account& Account::save() {
   char csql[MAX_SQL_LEN];
   unicode_to_utf8(sql, csql);
 
-  Model::exec_sql(csql, NULL, this);
+  exec_sql(csql, NULL, this);
 
-  Model::close_db();
+  close_db();
 
   return *this;
 
 }
 
 Account& Account::update() {
-  Model::open_db("F:\\home\\angela\\repo\\cherryblossom\\TestModelConsoleApplication1\\var\\abc");
+  open_db("F:\\home\\angela\\repo\\cherryblossom\\TestModelConsoleApplication1\\var\\abc");
   wchar_t sql[MAX_SQL_LEN];
 
   wchar_t* ii = L"update accounts";
@@ -149,9 +149,9 @@ Account& Account::update() {
 
   unicode_to_utf8(sql, csql);
 
-  Model::exec_sql(csql, NULL, this);
+  exec_sql(csql, NULL, this);
 
-  Model::close_db();
+  close_db();
 
   return *this;
 
@@ -159,7 +159,7 @@ Account& Account::update() {
 
 int Account::del() {
 
-  Model::open_db("F:\\home\\angela\\repo\\cherryblossom\\TestModelConsoleApplication1\\var\\abc");
+  open_db("F:\\home\\angela\\repo\\cherryblossom\\TestModelConsoleApplication1\\var\\abc");
   wchar_t sql[MAX_SQL_LEN];
 
   wchar_t* ii = L"delete from accounts";
@@ -168,9 +168,9 @@ int Account::del() {
   char csql[MAX_SQL_LEN];
   unicode_to_utf8(sql, csql);
 
-  Model::exec_sql(csql, NULL, NULL);
+  exec_sql(csql, NULL, NULL);
 
-  Model::close_db();
+  close_db();
 
   return 0;
 

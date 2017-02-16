@@ -38,7 +38,7 @@
 
 
 sqlite3* Model::db = NULL;
-char* Model::err_msg;
+char* Model::errmsg;
 
 
 Model::Model() {}
@@ -69,7 +69,6 @@ void Model::close_db() {
 
 
 void Model::exec_sql(char *sql, int(*callback)(void*, int, char**, char**), void* para) {
-  char* errmsg;
   int rc = sqlite3_exec(db, sql, callback, para, &errmsg);
   if (rc != SQLITE_OK) {
     TCHAR uerr[MAX_STR_LEN];
@@ -80,7 +79,7 @@ void Model::exec_sql(char *sql, int(*callback)(void*, int, char**, char**), void
 }
 
 char** Model::get_table(char *sql, int *row, int *column, char **result) {
-  sqlite3_get_table(db, sql, &result, row, column, &err_msg);
+  sqlite3_get_table(db, sql, &result, row, column, &errmsg);
   return result;
 }
 

@@ -53,7 +53,7 @@ int Account::account_callback(void *para, int argc, char **argv, char **azColNam
 }
 
 Account& Account::find_by_tag(wchar_t* tag) {
-  Model::open_db(g_chr_db_file);
+  open_db(g_chr_db_file);
   wchar_t sql[MAX_SQL_LEN];
   wchar_t* ii = L"select * from accounts";
   swprintf_s(sql, L"%s where tag='%s';",
@@ -61,14 +61,14 @@ Account& Account::find_by_tag(wchar_t* tag) {
   char csql[MAX_SQL_LEN];
   unicode_to_utf8(sql, csql);
 
-  Model::exec_sql(csql, account_callback, this);
-  Model::close_db();
+  exec_sql(csql, account_callback, this);
+  close_db();
   return *this;
 }
 
 Account& Account::save() {
   TCHAR pinyin_tag[MAX_STR_LEN];
-  Model::open_db(g_chr_db_file);
+  open_db(g_chr_db_file);
   wchar_t sql[MAX_SQL_LEN];
   TCHAR py_str[MAX_STR_LEN] = L"";
 
@@ -97,16 +97,16 @@ password, phone, mail, note, pinyin_tag) values";
   char csql[MAX_SQL_LEN];
   unicode_to_utf8(sql, csql);
 
-  Model::exec_sql(csql, NULL, this);
+  exec_sql(csql, NULL, this);
 
-  Model::close_db();
+  close_db();
 
   return *this;
 
 }
 
 Account& Account::update() {
-  Model::open_db(g_chr_db_file);
+  open_db(g_chr_db_file);
   wchar_t sql[MAX_SQL_LEN];
 
   wchar_t* ii = L"update accounts";
@@ -126,14 +126,14 @@ password='%s', phone='%s', mail='%s', note='%s', last_mod=%s where tag='%s';",
   char csql[MAX_SQL_LEN];
   unicode_to_utf8(sql, csql);
 
-  Model::exec_sql(csql, NULL, this);
-  Model::close_db();
+  exec_sql(csql, NULL, this);
+  close_db();
   return *this;
 }
 
 int Account::del() {
 
-  Model::open_db(g_chr_db_file);
+  open_db(g_chr_db_file);
   wchar_t sql[MAX_SQL_LEN];
 
   wchar_t* ii = L"delete from accounts";
@@ -142,8 +142,8 @@ int Account::del() {
   char csql[MAX_SQL_LEN];
   unicode_to_utf8(sql, csql);
 
-  Model::exec_sql(csql, NULL, NULL);
-  Model::close_db();
+  exec_sql(csql, NULL, NULL);
+  close_db();
   return 0;
 }
 

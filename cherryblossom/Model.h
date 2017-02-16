@@ -41,20 +41,20 @@
 class Model {
  private:
   static sqlite3* db;
-  static char* err_msg;
+  static char* errmsg;
 
- public:
-  Model();
-  ~Model();
-
+ protected:
   static int open_db(char* db_path);
   static void close_db();
-  static void exec_sql(char* sql, 
-                       int(*callback)(void*, int, char**, char**), 
+  static void exec_sql(char* sql,
+                       int(*callback)(void*, int, char**, char**),
                        void* para);
   static char** get_table(char *sql, int *row, int *column, char **result);
   static void free_table(char** result);
 
+ public:
+  Model();
+  ~Model();
 
   virtual Model& find_by_tag(wchar_t* tag) = 0;
   virtual Model& save() = 0;
