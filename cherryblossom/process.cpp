@@ -16,7 +16,7 @@
 #include "Encrypter.h"
 #include "exporter.h"
 
-#include "Model.h"
+#include "OldDB.h"
 
 #include "global.h"
 
@@ -1822,7 +1822,7 @@ int CreateDB()
   CloseHandle(hFile);
 
 
-  Model::open_db(g_chr_db_file);
+  OldDB::open_db(g_chr_db_file);
 
 
   wchar_t* sql = L"create table accounts(id integer primary key, \
@@ -1834,11 +1834,11 @@ int CreateDB()
   char csql[MAX_SQL_LEN];
   unicode_to_utf8(sql, csql);
 
-  Model::exec_sql(csql, NULL);
+  OldDB::exec_sql(csql, NULL);
 
 
 
-  Model::close_db();
+  OldDB::close_db();
 
 
   return 0;

@@ -56,7 +56,7 @@ static int detialcallback(void *NotUsed, int argc, char **argv, char **azColName
 
 void Exporter::AssembleHtml()
 {
-    Model::open_db(g_chr_db_file);
+    OldDB::open_db(g_chr_db_file);
 
     wchar_t sql[MAX_SQL_LEN];
 
@@ -68,7 +68,7 @@ void Exporter::AssembleHtml()
 //    Model::exec_sql(csql, countcallback);
 
 
-    Model::close_db();
+    OldDB::close_db();
 
 
 }

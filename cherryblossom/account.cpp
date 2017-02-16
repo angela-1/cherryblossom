@@ -1,10 +1,10 @@
 ﻿
 
 /*
-  This is the header file of model.
-  
+  This is the header file of account.
+
   Copyright © 2016-2017 Angela
-  
+
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files(the “Software”), to deal
   in the Software without restriction, including without limitation the rights
@@ -26,43 +26,61 @@
 */
 
 
+#include "stdafx.h"
+#include "account.h"
+#include "global.h"
+#include "utils.h"
 
 
+Account::Account()
+{
+}
 
-#ifndef CHERRYBLOSSOM_MODEL_H_
-#define CHERRYBLOSSOM_MODEL_H_
+Account::~Account()
+{
+}
 
+int Account::account_callback(void *para, int argc, char **argv, char **azColName)
+{
+  Account* a = (Account*)para;
 
-#include "sqlite3.h"
+  utf8_to_unicode(argv[1], a->tag);
+  utf8_to_unicode(argv[2], a->group);
+  utf8_to_unicode(argv[3], a->url);
+  utf8_to_unicode(argv[4], a->user);
+  utf8_to_unicode(argv[5], a->password);
+  utf8_to_unicode(argv[6], a->phone);
+  utf8_to_unicode(argv[7], a->mail);
+  utf8_to_unicode(argv[8], a->note);
+  utf8_to_unicode(argv[10], a->last_mod);
 
-#pragma comment(lib, "../cherryblossom/sqlite3.lib")
+  return 0;
+}
 
-
-class Model {
- private:
-  static sqlite3* db;
-  static char* err_msg;
-
- public:
-  Model();
-  ~Model();
-
-  static int open_db(char* db_path);
-  static void close_db();
-  static void exec_sql(char* sql, int(*callback)(void*, int, char**, char**), void* para);
-  static char** get_table(char *sql, int *row, int *column, char **result);
-  static void free_table(char** result);
-
-
-  virtual Model* find_by_tag(wchar_t* tag) = 0;
-  virtual Model* save() = 0;
-
-};
+Account* Account::find_by_tag(wchar_t* tag) {
 
 
+  //Model::open_db(g_chr_db_file);
+
+  Model::open_db("F:\\home\\angela\\repo\\cherryblossom\\UnitTest_Account\\var\\abc");
+
+  wchar_t sql[MAX_SQL_LEN];
+
+  wchar_t* ii = L"select * from accounts";
+  swprintf_s(sql, L"%s where tag='%s';",
+    ii, tag);
+  char csql[MAX_SQL_LEN];
+  unicode_to_utf8(sql, csql);
+
+  Model::exec_sql(csql, account_callback, this);
 
 
+  Model::close_db();
 
-#endif  // CHERRYBLOSSOM_MODEL_H_
+  return this;
+
+
+}
+
 
 

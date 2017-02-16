@@ -1,10 +1,10 @@
 ﻿
 
 /*
-  This is the header file of model.
-  
+  This is the header file of account object.
+
   Copyright © 2016-2017 Angela
-  
+
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files(the “Software”), to deal
   in the Software without restriction, including without limitation the rights
@@ -27,42 +27,35 @@
 
 
 
+#include "model.h"
 
 
-#ifndef CHERRYBLOSSOM_MODEL_H_
-#define CHERRYBLOSSOM_MODEL_H_
 
-
-#include "sqlite3.h"
-
-#pragma comment(lib, "../cherryblossom/sqlite3.lib")
-
-
-class Model {
+class Account : public Model {
  private:
-  static sqlite3* db;
-  static char* err_msg;
+  static int account_callback(void *para, int argc, 
+                              char **argv, char **azColName);
 
  public:
-  Model();
-  ~Model();
+  Account ();
+  ~Account ();
 
-  static int open_db(char* db_path);
-  static void close_db();
-  static void exec_sql(char* sql, int(*callback)(void*, int, char**, char**), void* para);
-  static char** get_table(char *sql, int *row, int *column, char **result);
-  static void free_table(char** result);
+  wchar_t tag[MAX_STR_LEN];
+  wchar_t group[MAX_STR_LEN];
+  wchar_t url[MAX_STR_LEN];
+  wchar_t user[MAX_STR_LEN];
+  wchar_t password[MAX_STR_LEN];
+  wchar_t phone[MAX_STR_LEN];
+  wchar_t mail[MAX_STR_LEN];
+  wchar_t note[MAX_STR_LEN];
+  wchar_t last_mod[MAX_STR_LEN];
 
 
-  virtual Model* find_by_tag(wchar_t* tag) = 0;
-  virtual Model* save() = 0;
+  Account* find_by_tag(wchar_t* tag);
+
 
 };
 
 
-
-
-
-#endif  // CHERRYBLOSSOM_MODEL_H_
 
 

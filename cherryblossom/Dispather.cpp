@@ -3,7 +3,7 @@
 
 
 
-#include "Model.h"
+#include "OldDB.h"
 #include "pinyin.h"
 #include "utils.h"
 
@@ -117,7 +117,7 @@ static int detialcallback(void *NotUsed, int argc, char **argv, char **azColName
 
 AccountCard * Dispatcher::GetAccount(LPTSTR tag)
 {
-    Model::open_db(g_chr_db_file);
+    OldDB::open_db(g_chr_db_file);
 
     wchar_t sql[MAX_SQL_LEN];
 
@@ -127,10 +127,10 @@ AccountCard * Dispatcher::GetAccount(LPTSTR tag)
     char csql[MAX_SQL_LEN];
     unicode_to_utf8(sql, csql);
 
-    Model::exec_sql(csql, detialcallback);
+    OldDB::exec_sql(csql, detialcallback);
 
 
-    Model::close_db();
+    OldDB::close_db();
 
     return Dispatcher::GetInstance()->GetAccountCard();
 }
@@ -161,17 +161,17 @@ static int callback(void *NotUsed, int argc, char **argv, char **azColName)
 void Dispatcher::MakeAccountList()
 {
 
-    Model::open_db(g_chr_db_file);
+    OldDB::open_db(g_chr_db_file);
 
 
 
 
     char* csql = "select tag, pinyin_tag from accounts;";
 
-    Model::exec_sql(csql, callback);
+    OldDB::exec_sql(csql, callback);
 
 
-    Model::close_db();
+    OldDB::close_db();
 
 }
 
@@ -191,7 +191,7 @@ void Dispatcher::AddAccount(LPTSTR* value_array)
 {
     TCHAR pinyin_tag[MAX_STR_LEN]; 
 
-    Model::open_db(g_chr_db_file);
+    OldDB::open_db(g_chr_db_file);
     wchar_t sql[MAX_SQL_LEN];
 
     TCHAR py_str[MAX_STR_LEN] = L"";
@@ -219,11 +219,11 @@ void Dispatcher::AddAccount(LPTSTR* value_array)
     char csql[MAX_SQL_LEN];
     unicode_to_utf8(sql, csql);
 
-    Model::exec_sql(csql, NULL);
+    OldDB::exec_sql(csql, NULL);
 
 
 
-    Model::close_db();
+    OldDB::close_db();
 
 
     // update account_list
@@ -235,7 +235,7 @@ void Dispatcher::AddAccount(LPTSTR* value_array)
 void Dispatcher::EditAccount(LPTSTR* value_array)
 {
 
-    Model::open_db(g_chr_db_file);
+    OldDB::open_db(g_chr_db_file);
     wchar_t sql[MAX_SQL_LEN];
 
     wchar_t* ii = L"update accounts";
@@ -255,18 +255,18 @@ void Dispatcher::EditAccount(LPTSTR* value_array)
 
     unicode_to_utf8(sql, csql);
 
-    Model::exec_sql(csql, NULL);
+    OldDB::exec_sql(csql, NULL);
 
 
 
-    Model::close_db();
+    OldDB::close_db();
 
 }
 
 void Dispatcher::DeleteAccount(LPTSTR tag)
 {
 
-    Model::open_db(g_chr_db_file);
+    OldDB::open_db(g_chr_db_file);
     wchar_t sql[MAX_SQL_LEN];
 
     wchar_t* ii = L"delete from accounts";
@@ -275,11 +275,11 @@ void Dispatcher::DeleteAccount(LPTSTR tag)
     char csql[MAX_SQL_LEN];
     unicode_to_utf8(sql, csql);
 
-    Model::exec_sql(csql, NULL);
+    OldDB::exec_sql(csql, NULL);
 
 
 
-    Model::close_db();
+    OldDB::close_db();
 
 
 }
