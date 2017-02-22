@@ -33,6 +33,7 @@
 #include "pinyin.h"
 
 
+
 Account::Account() {
   lstrcpy(tag, L"");
   lstrcpy(category, L"");
@@ -64,6 +65,41 @@ int Account::account_callback(void *para, int argc, char **argv, char **azColNam
   utf8_to_unicode(argv[10], a->last_mod);
 
   return 0;
+}
+
+int Account::all_callback(void *para, int argc, char **argv, char **azColName)
+{
+  AccountItem a;
+  utf8_to_unicode(argv[0], a.tag);
+  utf8_to_unicode(argv[1], a.pinyin_tag);
+
+  std::list<AccountItem>* b = (std::list<AccountItem>*)para;
+  b->push_back(a);
+
+  return 0;
+
+
+}
+
+std::list<AccountItem>& Account::find_all(std::list<AccountItem> *account_list)
+{
+  open_db("F:\\home\\angela\\repo\\cherryblossom\\TestModelConsoleApplication1\\var\\abc");
+
+  wchar_t sql[MAX_SQL_LEN];
+
+  wchar_t* ii = L"select tag, pinyin_tag from accounts;";
+  swprintf_s(sql, L"%s", ii);
+  char csql[MAX_SQL_LEN];
+  unicode_to_utf8(sql, csql);
+
+  exec_sql(csql, all_callback, account_list);
+
+
+  close_db();
+
+  return *account_list;
+
+
 }
 
 Account& Account::find_by_tag(wchar_t* tag) {

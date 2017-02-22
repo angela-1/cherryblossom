@@ -29,12 +29,21 @@
 
 #include "model.h"
 
+#include <list>
 
+typedef struct account_item
+{
+  wchar_t tag[MAX_STR_LEN];
+  wchar_t pinyin_tag[MAX_STR_LEN];
+
+} AccountItem;
 
 class Account : public Model {
  private:
   static int account_callback(void *para, int argc, 
                               char **argv, char **azColName);
+  static int all_callback(void *para, int argc,
+                          char **argv, char **azColName);
 
  public:
   Account ();
@@ -55,6 +64,8 @@ class Account : public Model {
   Account& save();
   Account& update();
   int del();
+
+  static std::list<AccountItem>& find_all(std::list<AccountItem> *account_list);
 
 };
 

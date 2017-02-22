@@ -33,6 +33,15 @@ int _tmain(int argc, _TCHAR* argv[])
 
   c.del();
 
+  std::list<AccountItem> d;
+
+  Account::find_all(&d);
+
+  for each (auto ac in d) {
+    OutputDebugString(ac.tag);
+    OutputDebugString(ac.pinyin_tag);
+  }
+
   system("pause");
 
 	return 0;

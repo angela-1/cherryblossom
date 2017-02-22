@@ -29,13 +29,22 @@
 
 #include "model.h"
 
+#include <list>
+
+typedef struct account_item
+{
+  wchar_t tag[MAX_STR_LEN];
+  wchar_t pinyin_tag[MAX_STR_LEN];
+
+} AccountItem;
 
 
 class Account : public Model {
  private:
   static int account_callback(void *para, int argc, 
                               char **argv, char **azColName);
-
+  static int all_callback(void *para, int argc,
+                              char **argv, char **azColName);
  public:
   Account ();
   ~Account ();
@@ -50,10 +59,10 @@ class Account : public Model {
   wchar_t note[MAX_STR_LEN];
   wchar_t last_mod[MAX_STR_LEN];
 
-
-  Account& find_by_tag(wchar_t* tag);
-  Account& save();
-  Account& update();
+  static std::list<AccountItem>& find_all(std::list<AccountItem> *account_list);
+  Account& find_by_tag(wchar_t* tag) override;
+  Account& save() override;
+  Account& update() override;
   int del();
 
 };
