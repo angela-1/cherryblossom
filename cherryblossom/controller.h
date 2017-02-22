@@ -1,7 +1,6 @@
 ﻿
-
 /*
-  This is the header file of account object.
+  This is the header file of controller class.
 
   Copyright © 2016-2017 Angela
 
@@ -11,10 +10,10 @@
   to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
   copies of the Software, and to permit persons to whom the Software is
   furnished to do so, subject to the following conditions :
-  
+
   The above copyright notice and this permission notice shall be included in
   all copies or substantial portions of the Software.
-  
+
   THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
@@ -25,50 +24,69 @@
 
 */
 
-#ifndef CHERRYBLOSSOM_ACCOUNT_H_
-#define CHERRYBLOSSOM_ACCOUNT_H_
 
+#ifndef CHERRYBLOSSOM_CONTROLLER_H_
+#define CHERRYBLOSSOM_CONTROLLER_H_
+
+#include "stdafx.h"
 #include <list>
-#include "model.h"
+
+#include "account.h"
 
 
-
-typedef struct account_item {
-  wchar_t tag[MAX_STR_LEN];
-  wchar_t pinyin_tag[MAX_STR_LEN];
-} AccountItem;
-
-class Account : public Model {
+class Controller {
  private:
-  static int account_callback(void *para, int argc,
-                              char **argv, char **azColName);
-  static int all_callback(void *para, int argc,
-                          char **argv, char **azColName);
+   Controller();
 
- public:
-  Account();
-  ~Account();
+   static Controller* instance;
+   Controller(const Controller&);
+   Controller& operator=(const Controller&);
 
-  wchar_t tag[MAX_STR_LEN];
-  wchar_t category[MAX_STR_LEN];
-  wchar_t url[MAX_STR_LEN];
-  wchar_t user[MAX_STR_LEN];
-  wchar_t password[MAX_STR_LEN];
-  wchar_t phone[MAX_STR_LEN];
-  wchar_t mail[MAX_STR_LEN];
-  wchar_t note[MAX_STR_LEN];
-  wchar_t last_mod[MAX_STR_LEN];
+   std::list<AccountItem> account_list;
+   Account account;
 
 
-  Account& find_by_tag(wchar_t* tag) override;
-  Account& save() override;
-  Account& update() override;
-  int del() override;
 
-  static std::list<AccountItem>& find_all(std::list<AccountItem> *account_list);
+
+public:
+  
+  ~Controller();
+
+  // get singleton of instance and the account of this
+  static Controller* get_instance();
+  Account* get_account_inst();
+
+
+
+
+  std::list<AccountItem>* get_list();
+  
+
+  
+
+  void make_account_list();
+  void clear_account_list();
+  void refresh_account_list();
+
+  bool check_account(LPTSTR tag); // check exist
+
+  //Account* GetAccount(LPTSTR tag);
+
+
+  void add_account(LPTSTR* value_array);
+  void update_account(LPTSTR* value_array);
+  void del_account(LPTSTR tag);
+
+  // for fuzzy complete
+  std::list<AccountItem> hit_list;
+  std::list<AccountItem> company_list;
+
+
+
+
 };
 
 
-#endif  // CHERRYBLOSSOM_ACCOUNT_H_
 
 
+#endif  // CHERRYBLOSSOM_CONTROLLER_H_
