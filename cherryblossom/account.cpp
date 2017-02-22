@@ -33,26 +33,33 @@
 #include "pinyin.h"
 
 
-Account::Account() {}
+Account::Account() {
+  lstrcpy(tag, L"");
+  lstrcpy(category, L"");
+  lstrcpy(url, L"");
+  lstrcpy(user, L"");
+  lstrcpy(password, L"");
+  lstrcpy(phone, L"");
+  lstrcpy(mail, L"");
+  lstrcpy(note, L"");
+  lstrcpy(last_mod, L"");
+}
 
 Account::~Account() {}
 
-int Account::all_callback(void *para, int argc, char **argv, char **azColName)
-{
+int Account::all_callback(void *para, int argc, char **argv, char **azColName) {
   AccountItem a;
   utf8_to_unicode(argv[0], a.tag);
   utf8_to_unicode(argv[1], a.pinyin_tag);
 
-  std::list<AccountItem>* b = (std::list<AccountItem>*)para;
+  std::list<AccountItem>* b = reinterpret_cast<std::list<AccountItem>*>(para);
   b->push_back(a);
 
   return 0;
-
-
 }
 
-std::list<AccountItem>& Account::find_all(std::list<AccountItem> *account_list)
-{
+std::list<AccountItem>& Account::find_all(
+    std::list<AccountItem> *account_list) {
   open_db(g_chr_db_file);
   wchar_t sql[MAX_SQL_LEN];
 
@@ -66,12 +73,11 @@ std::list<AccountItem>& Account::find_all(std::list<AccountItem> *account_list)
   close_db();
 
   return *account_list;
-
-
 }
 
-int Account::account_callback(void *para, int argc, char **argv, char **azColName) {
-  Account* a = (Account*)para;
+int Account::account_callback(void *para, int argc,
+                              char **argv, char **azColName) {
+  Account* a = reinterpret_cast<Account*>(para);
   utf8_to_unicode(argv[1], a->tag);
   utf8_to_unicode(argv[2], a->category);
   utf8_to_unicode(argv[3], a->url);
@@ -110,11 +116,11 @@ Account& Account::save() {
 
   TCHAR tmp_str[MAX_STR_LEN] = L"";
 
-  wchar_t* ii = L"insert into accounts (tag, category, url, user, \
-password, phone, mail, note, pinyin_tag) values";
+  wchar_t* ii = L"insert into accounts (tag, category, url, user, "
+                L"password, phone, mail, note, pinyin_tag) values";
 
-  swprintf_s(sql, L"%s ('%s', '%s', '%s', '%s', \
-'%s', '%s', '%s', '%s', '%s');",
+  swprintf_s(sql, L"%s ('%s', '%s', '%s', '%s', "
+                  L"'%s', '%s', '%s', '%s', '%s');",
     ii,
     tag,
     category,
@@ -134,7 +140,6 @@ password, phone, mail, note, pinyin_tag) values";
   close_db();
 
   return *this;
-
 }
 
 Account& Account::update() {
@@ -142,8 +147,9 @@ Account& Account::update() {
   wchar_t sql[MAX_SQL_LEN];
 
   wchar_t* ii = L"update accounts";
-  swprintf_s(sql, L"%s set category='%s', url='%s', user='%s', \
-password='%s', phone='%s', mail='%s', note='%s', last_mod=%s where tag='%s';",
+  swprintf_s(sql, L"%s set category='%s', url='%s', user='%s', "
+                  L"password='%s', phone='%s', mail='%s', note='%s', "
+                  L"last_mod=%s where tag='%s';",
     ii,
     category,
     url,
@@ -164,7 +170,6 @@ password='%s', phone='%s', mail='%s', note='%s', last_mod=%s where tag='%s';",
 }
 
 int Account::del() {
-
   open_db(g_chr_db_file);
   wchar_t sql[MAX_SQL_LEN];
 
