@@ -12,7 +12,8 @@
 #include "utils.h"
 
 
-#include "Dispather.h"
+//#include "Dispather.h"
+#include "controller.h"
 #include "Encrypter.h"
 #include "exporter.h"
 
@@ -24,8 +25,8 @@
 #include "../res804/resource.h"
 
 // ÕâÊÇÉùÃ÷
-extern Dispatcher* g_dispatcher;
-
+//extern Dispatcher* g_dispatcher;
+extern Controller* g_dispatcher;
 
 
 
@@ -143,7 +144,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
       DialogBox(g_inst, MAKEINTRESOURCE(IDD_ADD), hWnd, AddProc);
 
-      g_dispatcher->RefreshAccountList();
+      g_dispatcher->refresh_account_list();
 
       RefreshListbox(hWnd);
 
@@ -168,7 +169,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
       HWND account_list = GetDlgItem(hWnd, IDC_LISTBOX_ACCOUNT);
       TCHAR lpch[MAX_STR_LEN];
       LRESULT ind = SendMessage(account_list, LB_GETCURSEL, (WPARAM)0, (LPARAM)0);
-      if (ind != -1 && g_dispatcher->GetList()->size() > 0)
+      if (ind != -1 && g_dispatcher->get_account_list()->size() > 0)
       {
 
         SendMessage(account_list, LB_GETTEXT, (WPARAM)ind, (LPARAM)lpch);
@@ -187,14 +188,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
       HWND account_list = GetDlgItem(hWnd, IDC_LISTBOX_ACCOUNT);
       TCHAR lpch[MAX_STR_LEN];
       LRESULT ind = SendMessage(account_list, LB_GETCURSEL, (WPARAM)0, (LPARAM)0);
-      if (ind != -1 && g_dispatcher->GetList()->size() > 0)
+      if (ind != -1 && g_dispatcher->get_account_list()->size() > 0)
       {
         SendMessage(account_list, LB_GETTEXT, (WPARAM)ind, (LPARAM)lpch);
 
         DialogBoxParam(g_inst, MAKEINTRESOURCE(IDD_CONFIRM), hWnd, DeleteProc, (LPARAM)lpch);
 
-        g_dispatcher->RefreshAccountList();
-        g_dispatcher->GetAccountCard();
+        g_dispatcher->refresh_account_list();
+        g_dispatcher->get_account();
         RefreshListbox(hWnd);
 
         SendMessage(account_list, LB_SETCURSEL, (WPARAM)ind, (LPARAM)0);
@@ -279,7 +280,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     // free resource
 
     FreeLibrary(g_resource);
-    delete g_dispatcher;
+    //delete g_dispatcher;
 
     Encrypter a{};
     a.EncryptDBFile(g_key);
@@ -496,9 +497,9 @@ INT_PTR CALLBACK AddProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 
       if (wcscmp(tag, L"") != 0)
       {
-        if (g_dispatcher->CheckAccount(tag))
+        if (g_dispatcher->check_account(tag))
         {
-          g_dispatcher->AddAccount(value_array);
+          g_dispatcher->add_account(value_array);
 
 
 
@@ -609,7 +610,8 @@ INT_PTR CALLBACK EditProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
     TCHAR* lpch = (TCHAR*)lParam;
 
     //MessageBox(NULL, lpch, TEXT("see"), MB_OK);
-    AccountCard* account = g_dispatcher->GetAccount(lpch);
+    g_dispatcher->read_account(lpch);
+    Account* account = g_dispatcher->get_account();
 
 
     SendDlgItemMessage(hDlg, IDC_EDIT_TAG, WM_SETTEXT, 0, (LPARAM)account->tag);
@@ -693,7 +695,7 @@ INT_PTR CALLBACK EditProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 
       TCHAR* lpch = (TCHAR*)lParam;
 
-      g_dispatcher->EditAccount(value_array);
+      g_dispatcher->update_account(value_array);
 
 
       EndDialog(hDlg, LOWORD(wParam));
@@ -747,7 +749,7 @@ INT_PTR CALLBACK DeleteProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPara
     TCHAR* lpch = (TCHAR*)lParam;
     //MessageBox(NULL, lpch, TEXT("see"), MB_OK);
 
-    SendDlgItemMessage(hDlg, IDC_STATIC_DELTAG, WM_SETTEXT, 0, (LPARAM)lpch);
+    SendDlgItemMessage(hDlg, IDC_CONFIRM_DELTAG, WM_SETTEXT, 0, (LPARAM)lpch);
 
     LoadString(g_resource, IDS_LABEL_OK, static_str, MAX_STR_LEN);
     SendDlgItemMessage(hDlg, IDOK, WM_SETTEXT, 0, (LPARAM)static_str);
@@ -784,7 +786,7 @@ INT_PTR CALLBACK DeleteProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPara
       SendMessage(GetDlgItem(GetParent(hDlg), IDC_LISTBOX_ACCOUNT), LB_GETTEXT, (WPARAM)ind, (LPARAM)tag);
 
 
-      g_dispatcher->DeleteAccount(tag);
+      g_dispatcher->del_account(tag);
 
       EndDialog(hDlg, LOWORD(wParam));
       return (INT_PTR)TRUE;

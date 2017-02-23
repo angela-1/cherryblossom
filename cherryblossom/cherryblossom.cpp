@@ -12,7 +12,8 @@
 
 
 
-#include "Dispather.h"
+//#include "Dispather.h"
+#include "controller.h"
 
 #include "../res804/resource.h"
 
@@ -45,7 +46,8 @@ HFONT g_symbol;
 HINSTANCE g_resource;
 
 // dispatcher, definition
-Dispatcher* g_dispatcher;
+//Dispatcher* g_dispatcher;
+Controller* g_dispatcher;
 
 TCHAR g_cur_var_dir[MAX_STR_LEN];
 TCHAR g_key_file[MAX_STR_LEN];
@@ -117,8 +119,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 
     // start dispatcher
-    g_dispatcher = Dispatcher::GetInstance();
-    g_dispatcher->MakeAccountList();
+    g_dispatcher = Controller::get_instance();
+    g_dispatcher->make_account_list();
 
 
 
