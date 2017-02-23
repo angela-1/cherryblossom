@@ -4,7 +4,7 @@
 #include "stdafx.h"
 
 #include "account.h"
-
+#include "controller.h"
 
 int _tmain(int argc, _TCHAR* argv[])
 {
@@ -41,6 +41,20 @@ int _tmain(int argc, _TCHAR* argv[])
     OutputDebugString(ac.tag);
     OutputDebugString(ac.pinyin_tag);
   }
+
+
+
+  // test controller
+
+  Controller* ep = Controller::get_instance();
+  ep->make_account_list();
+
+  ep->read_account(L"dsaf");
+  ep->get_account();
+
+  bool fb = ep->check_account(L"dsaf");
+
+  bool gb = ep->check_account(L"你在妹");
 
   system("pause");
 

@@ -139,6 +139,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="account.h" />
+    <ClInclude Include="controller.h" />
     <ClInclude Include="defs.h" />
     <ClInclude Include="global.h" />
     <ClInclude Include="model.h" />
@@ -150,6 +151,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="account.cpp" />
+    <ClCompile Include="controller.cpp" />
     <ClCompile Include="model.cpp" />
     <ClCompile Include="pinyin.cpp" />
     <ClCompile Include="stdafx.cpp">
