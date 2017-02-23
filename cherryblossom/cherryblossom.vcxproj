@@ -160,7 +160,6 @@ copy "$(ProjectDir)sqlite3.dll"  "$(TargetDir)sqlite3.dll"  /y</Command>
     <ClInclude Include="control.h" />
     <ClInclude Include="controller.h" />
     <ClInclude Include="defs.h" />
-    <ClInclude Include="Dispather.h" />
     <ClInclude Include="Encrypter.h" />
     <ClInclude Include="exporter.h" />
     <ClInclude Include="global.h" />
@@ -180,7 +179,6 @@ copy "$(ProjectDir)sqlite3.dll"  "$(TargetDir)sqlite3.dll"  /y</Command>
     <ClCompile Include="cherryblossom.cpp" />
     <ClCompile Include="control.cpp" />
     <ClCompile Include="controller.cpp" />
-    <ClCompile Include="Dispather.cpp" />
     <ClCompile Include="Encrypter.cpp" />
     <ClCompile Include="exporter.cpp" />
     <ClCompile Include="model.cpp" />
