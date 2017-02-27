@@ -248,7 +248,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
   break;
   case WM_GETMINMAXINFO:
     ((MINMAXINFO *)lParam)->ptMinTrackSize.x = 600;
-    ((MINMAXINFO *)lParam)->ptMinTrackSize.y = 405;
+    ((MINMAXINFO *)lParam)->ptMinTrackSize.y = 360;
     break;
   case WM_SIZE:
     OnResizeControl(hWnd, lParam);
@@ -258,11 +258,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     PAINTSTRUCT ps;
     HDC hdc = BeginPaint(hWnd, &ps);
 
-    // for testing
+    //// for testing
 
     //RoundRect(hdc, 50, 5, 400, 30,
     //    2, 2);
-    //Rectangle(hdc, 5, 5, 300, 100);
+    ////Rectangle(hdc, 5, 5, 300, 100);
 
     // testting end
 
