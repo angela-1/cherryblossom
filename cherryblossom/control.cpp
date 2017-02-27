@@ -309,13 +309,13 @@ void OnPaint(HWND hWnd, HDC hdc)
       account->phone, account->mail, account->note, account->last_mod };
 
 
-    for (size_t i = 0; i < 9; i++)
+    for (int i = 0; i < 9; i++)
     {
       SetTextAlign(hdc, TA_RIGHT | TA_TOP);
-      TextOut(hdc, 300, 12 + 25 * i, title[i], (int)lstrlen(title[i]));
+      TextOut(hdc, 300, 12 + 25 * i, title[i], lstrlen(title[i]));
 
       SetTextAlign(hdc, TA_LEFT | TA_TOP);
-      TextOut(hdc, 320, 12 + 25 * i, detial[i], (int)lstrlen(detial[i]));
+      TextOut(hdc, 320, 12 + 25 * i, detial[i], lstrlen(detial[i]));
 
 
 

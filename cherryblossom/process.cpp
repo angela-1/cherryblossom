@@ -15,10 +15,6 @@
 //#include "Dispather.h"
 #include "controller.h"
 #include "Encrypter.h"
-#include "exporter.h"
-
-#include "OldDB.h"
-
 #include "global.h"
 
 
@@ -1361,7 +1357,7 @@ INT_PTR CALLBACK ExportProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPara
     case IDOK:
     {
       //AssembleHtml();
-      Exporter::ExportTxt(L"aa", L"说你妹的nimei");
+      //Exporter::ExportTxt(L"aa", L"说你妹的nimei");
     }
     case IDCANCEL:
       EndDialog(hDlg, FALSE);
@@ -1820,28 +1816,10 @@ int CreateDB()
 {
 
   HANDLE hFile = CreateFile(g_db_file, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS,
-    FILE_ATTRIBUTE_NORMAL, NULL);
+                            FILE_ATTRIBUTE_NORMAL, NULL);
   CloseHandle(hFile);
 
-
-  OldDB::open_db(g_chr_db_file);
-
-
-  wchar_t* sql = L"create table accounts(id integer primary key, \
-                  tag text unique not null, category text, url text, \
-                  user text, password text, phone text, mail text, note text, \
-                  pinyin_tag, \
-                  last_mod TimeStamp NOT NULL DEFAULT (datetime('now','localtime')))";
-
-  char csql[MAX_SQL_LEN];
-  unicode_to_utf8(sql, csql);
-
-  OldDB::exec_sql(csql, NULL);
-
-
-
-  OldDB::close_db();
-
+  Account::CreateTable();
 
   return 0;
 

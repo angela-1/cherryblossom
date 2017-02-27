@@ -60,13 +60,7 @@ class Model {
   virtual Model& Save() = 0;
   virtual Model& Update() = 0;
   virtual int Del() = 0;
-
-
 };
-
-
-
-
 
 #endif  // CHERRYBLOSSOM_MODEL_H_
 

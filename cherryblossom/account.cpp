@@ -56,42 +56,6 @@ Account::Account() {
 
 Account::~Account() {}
 
-
-
-
-void Account::export_to_txt() {
-  TCHAR dir[MAX_PATH_LEN];
-  GetModuleFileName(NULL, dir, MAX_PATH_LEN);
-  wstring output_file_path = wstring(dir);
-  size_t index = output_file_path.find_last_of(L"/\\");
-  if (index >= 0) output_file_path = output_file_path.substr(0, index);
-  output_file_path += L"\\output\\fk.txt";
-
-  // open file
-  ofstream output_file_p(output_file_path, ios::out);
-
-  char buf[MAX_STR_LEN];
-
-  if (output_file_p.is_open())
-  {
-
-    output_file_p << "fuck" << endl;
-
-    unicode_to_utf8(content, buf);
-    output_file_p << buf << endl;
-
-
-
-    output_file_p.close();
-  }
-
-
-
-}
-
-
-
-
 int Account::all_callback(void *para, int argc, char **argv, char **azColName) {
   AccountItem a;
   utf8_to_unicode(argv[0], a.tag);
@@ -118,6 +82,25 @@ std::list<AccountItem>& Account::FindAll(
   close_db();
 
   return *account_list;
+}
+
+
+void Account::CreateTable() {
+  open_db(g_chr_db_file);
+  wchar_t* sql = L"create table accounts("
+    L"id integer primary key, "
+    L"tag text unique not null, "
+    L"category text, url text, "
+    L"user text, password text, "
+    L"phone text, mail text, note text, "
+    L"pinyin_tag, "
+    L"last_mod TimeStamp NOT NULL DEFAULT "
+    L"(datetime('now','localtime')));";
+
+  char csql[MAX_SQL_LEN];
+  unicode_to_utf8(sql, csql);
+  exec_sql(csql, NULL, NULL);
+  close_db();
 }
 
 int Account::account_callback(void *para, int argc,

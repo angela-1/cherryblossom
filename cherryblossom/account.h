@@ -66,6 +66,7 @@ class Account : public Model {
   int Del() override;
 
   static std::list<AccountItem>& FindAll(std::list<AccountItem> *account_list);
+  static void CreateTable();
 
 };
 

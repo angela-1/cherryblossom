@@ -54,9 +54,6 @@
     <ClInclude Include="utils.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="exporter.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="model.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -64,9 +61,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="controller.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="OldDB.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -92,9 +86,6 @@
     <ClCompile Include="utils.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="exporter.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="model.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -102,9 +93,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="controller.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="OldDB.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
