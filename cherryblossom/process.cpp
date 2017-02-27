@@ -108,6 +108,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
   case WM_CREATE:
 
     OnInitControl(hWnd);
+
+    OnInitEdit(hWnd);
+
     break;
   case WM_COMMAND:
   {
@@ -253,6 +256,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
   case WM_SIZE:
     OnResizeControl(hWnd, lParam);
     break;
+  case WM_CTLCOLORSTATIC:
+  {
+    //SetTextColor((HDC)wParam, RGB(200, 0, 0));
+    SetBkColor((HDC)wParam, RGB(217, 217, 217));
+    HBRUSH hbrush = CreateSolidBrush(RGB(255, 255, 255));
+    return (LRESULT)hbrush;
+
+  }
+
   case WM_PAINT:
   {
     PAINTSTRUCT ps;
@@ -266,7 +278,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
     // testting end
 
-    OnPaint(hWnd, hdc);
+    //OnPaint(hWnd, hdc);
+    OnPaintEdit(hWnd, hdc);
 
     EndPaint(hWnd, &ps);
   }

@@ -24,6 +24,126 @@ extern Controller* g_dispatcher;
 
 
 
+void OnInitEdit(HWND hWnd)
+{
+
+
+  int idc[] = {
+    IDC_RDEDIT1,
+    IDC_RDEDIT2,
+    IDC_RDEDIT3,
+    IDC_RDEDIT4,
+    IDC_RDEDIT5,
+    IDC_RDEDIT6,
+    IDC_RDEDIT7,
+    IDC_RDEDIT8,
+    IDC_RDEDIT9
+
+  };
+
+
+
+  for (size_t i = 0; i < (sizeof(idc) / sizeof(idc[0])); i++)
+  {
+    
+    CreateWindow(_T("EDIT"),
+      _T("f"), WS_CHILD | WS_VISIBLE | ES_READONLY ,
+      310, 12 + 25 * i, 200, 25, hWnd, (HMENU)idc[i], g_inst, NULL);
+    //SendMessage(GetDlgItem(hWnd, idc[i]), WM_SETFONT, (WPARAM)g_main_font, t);
+  }
+
+
+  OnSetFont(hWnd, NULL);
+
+
+ 
+}
+
+
+void OnPaintEdit(HWND hWnd, HDC hdc)
+{
+  int idc[] = {
+    IDC_RDEDIT1,
+    IDC_RDEDIT2,
+    IDC_RDEDIT3,
+    IDC_RDEDIT4,
+    IDC_RDEDIT5,
+    IDC_RDEDIT6,
+    IDC_RDEDIT7,
+    IDC_RDEDIT8,
+    IDC_RDEDIT9
+
+  };
+
+  SetBkMode(hdc, TRANSPARENT);
+
+  SelectObject(hdc, g_main_font);
+
+
+  HWND account_listbox = GetDlgItem(hWnd, IDC_LISTBOX_ACCOUNT);
+  TCHAR lpch[MAX_STR_LEN];
+  LRESULT ind = SendMessage(account_listbox, LB_GETCURSEL, (WPARAM)0, (LPARAM)0);
+  SendMessage(account_listbox, LB_GETTEXT, (WPARAM)ind, (LPARAM)lpch);
+
+  if (ind != -1 && g_dispatcher->GetAccountList()->size() > 0)
+  {
+    int ids[] =
+    {
+
+      IDS_LABEL_TAG,
+      IDS_LABEL_CATEGORY,
+      IDS_LABEL_URL,
+      IDS_LABEL_USER,
+      IDS_LABEL_PASSWORD,
+      IDS_LABEL_PHONE,
+      IDS_LABEL_MAIL,
+      IDS_LABEL_NOTE,
+      IDS_LABEL_LASTMOD
+
+    };
+    TCHAR static_str[MAX_STR_LEN];
+
+    TCHAR title[9][MAX_STR_LEN];
+
+    for (size_t i = 0; i < (sizeof(ids) / sizeof(ids[0])); i++)
+    {
+      LoadString(g_resource, ids[i], static_str, MAX_STR_LEN);
+      wcscpy_s(title[i], static_str);
+
+    }
+
+    g_dispatcher->ReadAccount(lpch);
+    Account* account = g_dispatcher->GetAccount();
+    LPTSTR detial[9] = { account->tag, account->category,
+      account->url, account->user, account->password,
+      account->phone, account->mail, account->note, account->last_mod };
+
+
+    for (int i = 0; i < 9; i++)
+    {
+      SetTextAlign(hdc, TA_RIGHT | TA_TOP);
+      TextOut(hdc, 300, 12 + 25 * i, title[i], lstrlen(title[i]));
+
+      /*SetTextAlign(hdc, TA_LEFT | TA_TOP);
+      TextOut(hdc, 320, 12 + 25 * i, detial[i], lstrlen(detial[i]));*/
+
+      SendMessage(GetDlgItem(hWnd, idc[i]), WM_SETTEXT, 0, (LPARAM)detial[i]);
+
+
+    }
+  }
+  else
+  {
+    TCHAR static_str[MAX_STR_LEN];
+    LoadString(g_resource, IDS_MAIN_MAINTIP, static_str, MAX_STR_LEN);
+
+    TextOut(hdc, 280, 40, static_str, lstrlen(static_str));
+  }
+
+
+
+}
+
 BOOL OnInitFont(HWND hWnd)
 {
   // Initialize the default font for Windows.
@@ -265,8 +385,6 @@ void OnPaint(HWND hWnd, HDC hdc)
   SetBkMode(hdc, TRANSPARENT);
 
   SelectObject(hdc, g_main_font);
-
-
 
   //TextOut(hdc, 480, 12, TEXT("Apple"), wcslen(TEXT("Apple")));
 
