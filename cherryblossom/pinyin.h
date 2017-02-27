@@ -39,13 +39,15 @@
 
 
 class Pinyin {
+ private:
+  static TCHAR* get_pinyin_char(TCHAR* tag, std::ifstream* dict,
+    TCHAR pinyin_char[MAX_PINYIN_LEN]);
+
  public:
   Pinyin();
   ~Pinyin();
 
-  static TCHAR* get_pinyin_char(TCHAR* tag, std::ifstream* dict,
-                                TCHAR pinyin_char[MAX_PINYIN_LEN]);
-  static TCHAR* get_pinyin_str(TCHAR* tag,
+  static TCHAR* PinyinString(TCHAR* tag,
                                 TCHAR py_str[MAX_PINYIN_LEN]);
 };
 

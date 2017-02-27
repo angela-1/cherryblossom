@@ -62,7 +62,7 @@ Account* Controller::get_account() {
 }
 
 void Controller::make_account_list() {
-  Account::find_all(&account_list_);
+  Account::FindAll(&account_list_);
 }
 
 void Controller::clear_account_list() {
@@ -95,12 +95,12 @@ void Controller::add_account(LPTSTR* value_array) {
   lstrcpy(new_account.phone, value_array[5]);
   lstrcpy(new_account.mail, value_array[6]);
   lstrcpy(new_account.note, value_array[7]);
-  new_account.save();
+  new_account.Save();
 }
 
 void Controller::update_account(LPTSTR* value_array) {
   Account account = Account{};
-  account.find_by_tag(value_array[0]);
+  account.FindByTag(value_array[0]);
 
   lstrcpy(account.category, value_array[1]);
   lstrcpy(account.url, value_array[2]);
@@ -110,18 +110,18 @@ void Controller::update_account(LPTSTR* value_array) {
   lstrcpy(account.mail, value_array[6]);
   lstrcpy(account.note, value_array[7]);
 
-  account.update();
+  account.Update();
 }
 
 void Controller::del_account(LPTSTR tag) {
   Account account = Account{};
-  account.find_by_tag(tag);
-  account.del();
+  account.FindByTag(tag);
+  account.Del();
 }
 
 void Controller::read_account(LPTSTR tag) {
   account_ = Account{};
-  account_.find_by_tag(tag);
+  account_.FindByTag(tag);
 
 }
 

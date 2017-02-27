@@ -27,11 +27,20 @@
 
 
 #include "stdafx.h"
+
+#include <iostream> 
+#include <fstream>
+#include <string>
+
 #include "account.h"
 #include "global.h"
 #include "utils.h"
 #include "pinyin.h"
 
+
+using std::wstring;
+using std::ofstream;
+using std::ios;
 
 Account::Account() {
   lstrcpy(tag, L"");
@@ -47,6 +56,42 @@ Account::Account() {
 
 Account::~Account() {}
 
+
+
+
+void Account::export_to_txt() {
+  TCHAR dir[MAX_PATH_LEN];
+  GetModuleFileName(NULL, dir, MAX_PATH_LEN);
+  wstring output_file_path = wstring(dir);
+  size_t index = output_file_path.find_last_of(L"/\\");
+  if (index >= 0) output_file_path = output_file_path.substr(0, index);
+  output_file_path += L"\\output\\fk.txt";
+
+  // open file
+  ofstream output_file_p(output_file_path, ios::out);
+
+  char buf[MAX_STR_LEN];
+
+  if (output_file_p.is_open())
+  {
+
+    output_file_p << "fuck" << endl;
+
+    unicode_to_utf8(content, buf);
+    output_file_p << buf << endl;
+
+
+
+    output_file_p.close();
+  }
+
+
+
+}
+
+
+
+
 int Account::all_callback(void *para, int argc, char **argv, char **azColName) {
   AccountItem a;
   utf8_to_unicode(argv[0], a.tag);
@@ -58,7 +103,7 @@ int Account::all_callback(void *para, int argc, char **argv, char **azColName) {
   return 0;
 }
 
-std::list<AccountItem>& Account::find_all(
+std::list<AccountItem>& Account::FindAll(
     std::list<AccountItem> *account_list) {
   open_db(g_chr_db_file);
   wchar_t sql[MAX_SQL_LEN];
@@ -90,7 +135,7 @@ int Account::account_callback(void *para, int argc,
   return 0;
 }
 
-Account& Account::find_by_tag(wchar_t* tag) {
+Account& Account::FindByTag(wchar_t* tag) {
   open_db(g_chr_db_file);
   wchar_t sql[MAX_SQL_LEN];
   wchar_t* ii = L"select * from accounts";
@@ -104,13 +149,13 @@ Account& Account::find_by_tag(wchar_t* tag) {
   return *this;
 }
 
-Account& Account::save() {
+Account& Account::Save() {
   TCHAR pinyin_tag[MAX_STR_LEN];
   open_db(g_chr_db_file);
   wchar_t sql[MAX_SQL_LEN];
   TCHAR py_str[MAX_STR_LEN] = L"";
 
-  Pinyin::get_pinyin_str(tag, py_str);
+  Pinyin::PinyinString(tag, py_str);
 
   lstrcpy(pinyin_tag, py_str);
 
@@ -142,7 +187,7 @@ Account& Account::save() {
   return *this;
 }
 
-Account& Account::update() {
+Account& Account::Update() {
   open_db(g_chr_db_file);
   wchar_t sql[MAX_SQL_LEN];
 
@@ -169,7 +214,7 @@ Account& Account::update() {
   return *this;
 }
 
-int Account::del() {
+int Account::Del() {
   open_db(g_chr_db_file);
   wchar_t sql[MAX_SQL_LEN];
 

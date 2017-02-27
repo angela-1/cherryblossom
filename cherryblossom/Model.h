@@ -56,10 +56,10 @@ class Model {
   Model();
   ~Model();
 
-  virtual Model& find_by_tag(wchar_t* tag) = 0;
-  virtual Model& save() = 0;
-  virtual Model& update() = 0;
-  virtual int del() = 0;
+  virtual Model& FindByTag(wchar_t* tag) = 0;
+  virtual Model& Save() = 0;
+  virtual Model& Update() = 0;
+  virtual int Del() = 0;
 
 
 };

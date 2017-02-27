@@ -93,7 +93,7 @@ TCHAR* Pinyin::get_pinyin_char(TCHAR* tag, ifstream* dict,
 
 
 // return a string of full Pinyin
-TCHAR* Pinyin::get_pinyin_str(TCHAR* tag, TCHAR py_str[MAX_PINYIN_LEN]) {
+TCHAR* Pinyin::PinyinString(TCHAR* tag, TCHAR py_str[MAX_PINYIN_LEN]) {
   // get len of str
   int len = lstrlen(tag);
   // get dic file path

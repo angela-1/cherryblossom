@@ -60,12 +60,13 @@ class Account : public Model {
   wchar_t last_mod[MAX_STR_LEN];
 
 
-  Account& find_by_tag(wchar_t* tag) override;
-  Account& save() override;
-  Account& update() override;
-  int del() override;
+  Account& FindByTag(wchar_t* tag) override;
+  Account& Save() override;
+  Account& Update() override;
+  int Del() override;
 
-  static std::list<AccountItem>& find_all(std::list<AccountItem> *account_list);
+  static std::list<AccountItem>& FindAll(std::list<AccountItem> *account_list);
+
 };
 
 

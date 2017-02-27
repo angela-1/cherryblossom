@@ -18,7 +18,7 @@ namespace UnitTest1
 
      
       TCHAR py_str[MAX_STR_LEN] = L"";
-      Pinyin::get_pinyin_str(L"长城谣", py_str);
+      Pinyin::PinyinString(L"长城谣", py_str);
 
       
       Assert::AreEqual(L"chang,zhang|cheng|yao", py_str);
@@ -36,7 +36,7 @@ namespace UnitTest1
       if (dict.is_open()) {
 
         cout << "fuck" << endl;
-        Pinyin::get_pinyin_char(L"长", &dict, py_str);
+        //Pinyin::get_pinyin_char(L"长", &dict, py_str);
 
         dict.close();
       }
@@ -54,7 +54,7 @@ namespace UnitTest1
 
       if (dict.is_open()) {
 
-        Pinyin::get_pinyin_char(L"F", &dict, py_str);
+        //Pinyin::get_pinyin_char(L"F", &dict, py_str);
 
         dict.close();
       }

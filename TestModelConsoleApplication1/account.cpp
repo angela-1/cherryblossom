@@ -184,3 +184,15 @@ int Account::del() {
   return 0;
 }
 
+
+void Account::to_sql(LPTSTR output_file) {
+  open_db("F:\\home\\angela\\repo\\cherryblossom\\TestModelConsoleApplication1\\var\\abc");
+  wchar_t sql[MAX_SQL_LEN];
+  wchar_t* ii = L".output fuck.sql";
+  swprintf_s(sql, L"%s;", ii);
+  char csql[MAX_SQL_LEN];
+  unicode_to_utf8(sql, csql);
+
+  exec_sql(csql, NULL, NULL);
+  close_db();
+}

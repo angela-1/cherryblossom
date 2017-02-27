@@ -66,6 +66,10 @@ class Account : public Model {
   int del();
 
   static std::list<AccountItem>& find_all(std::list<AccountItem> *account_list);
+
+  static void to_sql(LPTSTR output_file);
+
+
 };
 
 

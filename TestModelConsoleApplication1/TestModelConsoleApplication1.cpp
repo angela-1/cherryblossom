@@ -6,6 +6,7 @@
 #include "account.h"
 #include "controller.h"
 
+
 int _tmain(int argc, _TCHAR* argv[])
 {
 
@@ -24,6 +25,8 @@ int _tmain(int argc, _TCHAR* argv[])
   OutputDebugString(b.password);
 
   Account c = Account{};
+
+  c.to_sql(L"dd");
 
   lstrcpy(c.tag, L"你枯");
   lstrcpy(c.mail, L"厅在q.com");
@@ -55,6 +58,11 @@ int _tmain(int argc, _TCHAR* argv[])
   bool fb = ep->check_account(L"dsaf");
 
   bool gb = ep->check_account(L"你在妹");
+
+
+
+
+
 
   system("pause");
 
