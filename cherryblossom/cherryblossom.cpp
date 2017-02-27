@@ -1,20 +1,38 @@
-// cherryblossom.cpp : ¶¨ÒåÓ¦ÓÃ³ÌĞòµÄÈë¿Úµã¡£
+ï»¿/*
+  This is the entry point of cherryblossom.
+
+  Copyright Â© 2016-2017 Angela
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files(the â€œSoftwareâ€), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions :
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED â€œAS ISâ€, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+  DEALINGS IN THE SOFTWARE.
+
+*/
+
+// cherryblossom.cpp : å®šä¹‰åº”ç”¨ç¨‹åºçš„å…¥å£ç‚¹ã€‚
 //
 
 #include "stdafx.h"
 #include "cherryblossom.h"
 
 
-
-
 #include "process.h"
 #include "control.h"
-
-
-
-//#include "Dispather.h"
 #include "controller.h"
-
 #include "../res804/resource.h"
 
 
@@ -32,10 +50,10 @@
 
 
 
-// È«¾Ö±äÁ¿£¬ÕâÊÇ¶¨Òå£¡
-HINSTANCE g_inst;                                // µ±Ç°ÊµÀı
-WCHAR g_app_title[MAX_LOADSTRING];                  // ±êÌâÀ¸ÎÄ±¾
-WCHAR g_window_class[MAX_LOADSTRING];            // Ö÷´°¿ÚÀàÃû
+// å…¨å±€å˜é‡ï¼Œè¿™æ˜¯å®šä¹‰ï¼
+HINSTANCE g_inst;                                // å½“å‰å®ä¾‹
+WCHAR g_app_title[MAX_LOADSTRING];                  // æ ‡é¢˜æ æ–‡æœ¬
+WCHAR g_window_class[MAX_LOADSTRING];            // ä¸»çª—å£ç±»å
 
 // fonts
 HFONT g_main_font;
@@ -67,7 +85,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
-    g_inst = hInstance; // ½«ÊµÀı¾ä±ú´æ´¢ÔÚÈ«¾Ö±äÁ¿ÖĞ
+    g_inst = hInstance; // å°†å®ä¾‹å¥æŸ„å­˜å‚¨åœ¨å…¨å±€å˜é‡ä¸­
     
     
     // set fonts
@@ -126,7 +144,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 
 
-    // ³õÊ¼»¯È«¾Ö×Ö·û´®
+    // åˆå§‹åŒ–å…¨å±€å­—ç¬¦ä¸²
     LoadStringW(g_resource, IDS_APP_TITLE, g_app_title, MAX_LOADSTRING);
     LoadStringW(hInstance, IDS_CHERRYBLOSSOM, g_window_class, MAX_LOADSTRING);
 
@@ -135,7 +153,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     
 
-    // Ö´ĞĞÓ¦ÓÃ³ÌĞò³õÊ¼»¯: 
+    // æ‰§è¡Œåº”ç”¨ç¨‹åºåˆå§‹åŒ–: 
     if (!InitInstance (hInstance, nCmdShow))
     {
         
@@ -146,7 +164,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     MSG msg;
     
-    // Ö÷ÏûÏ¢Ñ­»·: 
+    // ä¸»æ¶ˆæ¯å¾ªç¯: 
     while (GetMessage(&msg, nullptr, 0, 0))
     {
         

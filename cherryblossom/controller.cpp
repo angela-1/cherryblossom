@@ -1,5 +1,4 @@
-﻿
-/*
+﻿/*
   This is the implementation file of controller class.
 
   Copyright © 2016-2017 Angela

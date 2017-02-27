@@ -1,5 +1,4 @@
-﻿
-/*
+﻿/*
   This is the utils file. Offers the convert function
   and other utils.
 

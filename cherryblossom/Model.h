@@ -1,6 +1,4 @@
-﻿
-
-/*
+﻿/*
   This is the header file of model.
   
   Copyright © 2016-2017 Angela

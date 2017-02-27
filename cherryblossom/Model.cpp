@@ -1,7 +1,5 @@
-﻿
-
-/*
-  This is the header file of model.
+﻿/*
+  This is the implementation file of model.
 
   Copyright © 2016-2017 Angela
 

@@ -1,5 +1,4 @@
-﻿
-/*
+﻿/*
   This is the header file of crypto file.
 
   Copyright © 2016-2017 Angela

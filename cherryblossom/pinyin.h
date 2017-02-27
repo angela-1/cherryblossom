@@ -1,5 +1,4 @@
-﻿
-/*
+﻿/*
   This is the header file of Pinyin class. To get the pinyin of tag.
 
   Copyright © 2016-2017 Angela

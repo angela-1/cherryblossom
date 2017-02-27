@@ -1,6 +1,4 @@
-﻿
-
-/*
+﻿/*
   This is the header file of account.
 
   Copyright © 2016-2017 Angela
