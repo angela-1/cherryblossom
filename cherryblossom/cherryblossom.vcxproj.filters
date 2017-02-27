@@ -45,9 +45,6 @@
     <ClInclude Include="defs.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Encrypter.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="pinyin.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -61,6 +58,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="controller.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="crypter.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -77,9 +77,6 @@
     <ClCompile Include="process.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Encrypter.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="pinyin.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -93,6 +90,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="controller.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="crypter.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

@@ -222,15 +222,15 @@ void RefreshListbox(HWND hWnd)
   }
 
   // add new data
-  if (g_dispatcher->get_account_list()->size() > 0)
+  if (g_dispatcher->GetAccountList()->size() > 0)
   {
-    for each (auto var in *(g_dispatcher->get_account_list()))
+    for each (auto var in *(g_dispatcher->GetAccountList()))
     {
 
       SendMessage(account_listbox, LB_ADDSTRING, (WPARAM)0, (LPARAM)var.tag);
 
     }
-    LRESULT ind = SendMessage(account_listbox, LB_FINDSTRING, (WPARAM)-1, (LPARAM)(*(g_dispatcher->get_account_list())).back().tag);
+    LRESULT ind = SendMessage(account_listbox, LB_FINDSTRING, (WPARAM)-1, (LPARAM)(*(g_dispatcher->GetAccountList())).back().tag);
 
     SendMessage(account_listbox, LB_SETCURSEL, (WPARAM)ind, (LPARAM)0);
   }
@@ -275,7 +275,7 @@ void OnPaint(HWND hWnd, HDC hdc)
   LRESULT ind = SendMessage(account_listbox, LB_GETCURSEL, (WPARAM)0, (LPARAM)0);
   SendMessage(account_listbox, LB_GETTEXT, (WPARAM)ind, (LPARAM)lpch);
 
-  if (ind != -1 && g_dispatcher->get_account_list()->size() > 0)
+  if (ind != -1 && g_dispatcher->GetAccountList()->size() > 0)
   {
     int ids[] =
     {
@@ -302,8 +302,8 @@ void OnPaint(HWND hWnd, HDC hdc)
 
     }
 
-    g_dispatcher->read_account(lpch);
-    Account* account = g_dispatcher->get_account();
+    g_dispatcher->ReadAccount(lpch);
+    Account* account = g_dispatcher->GetAccount();
     LPTSTR detial[9] = { account->tag, account->category,
       account->url, account->user, account->password,
       account->phone, account->mail, account->note, account->last_mod };
@@ -366,10 +366,10 @@ void OnSearchChanged(HWND hWnd)
 
   std::list<AccountItem>* search_list;
 
-  if (g_dispatcher->get_account_list()->size() > 0
+  if (g_dispatcher->GetAccountList()->size() > 0
     && cur_text_len > 0)
   {
-    search_list = is_hit_p ? &g_dispatcher->hit_list : g_dispatcher->get_account_list();
+    search_list = is_hit_p ? &g_dispatcher->hit_list : g_dispatcher->GetAccountList();
     for each (auto var in *search_list) {
 
       if (fuzzy_search(var.pinyin_tag, cur_text)

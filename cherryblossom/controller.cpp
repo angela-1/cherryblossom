@@ -44,7 +44,7 @@ Controller& Controller::operator=(const Controller&) {
 
 
 
-Controller* Controller::get_instance() {
+Controller* Controller::GetInstance() {
   if (instance_ == nullptr) {
     static Controller instance;
     instance_ = &instance;
@@ -53,28 +53,28 @@ Controller* Controller::get_instance() {
 
 }
 
-std::list<AccountItem>* Controller::get_account_list() {
+std::list<AccountItem>* Controller::GetAccountList() {
   return &account_list_;
 }
 
-Account* Controller::get_account() {
+Account* Controller::GetAccount() {
   return &account_;
 }
 
-void Controller::make_account_list() {
+void Controller::MakeAccountList() {
   Account::FindAll(&account_list_);
 }
 
-void Controller::clear_account_list() {
+void Controller::ClearAccountList() {
   account_list_.clear();
 }
 
-void Controller::refresh_account_list() {
-  clear_account_list();
-  make_account_list();
+void Controller::RefreshAccountList() {
+  ClearAccountList();
+  MakeAccountList();
 }
 
-bool Controller::check_account(LPTSTR tag) {
+bool Controller::CheckAccount(LPTSTR tag) {
   bool exists = true;
 
   for each (auto account in account_list_) {
@@ -85,7 +85,7 @@ bool Controller::check_account(LPTSTR tag) {
   return exists;
 }
 
-void Controller::add_account(LPTSTR* value_array) {
+void Controller::AddAccount(LPTSTR* value_array) {
   Account new_account = Account{};
   lstrcpy(new_account.tag, value_array[0]);
   lstrcpy(new_account.category, value_array[1]);
@@ -98,7 +98,7 @@ void Controller::add_account(LPTSTR* value_array) {
   new_account.Save();
 }
 
-void Controller::update_account(LPTSTR* value_array) {
+void Controller::UpdateAccount(LPTSTR* value_array) {
   Account account = Account{};
   account.FindByTag(value_array[0]);
 
@@ -113,13 +113,13 @@ void Controller::update_account(LPTSTR* value_array) {
   account.Update();
 }
 
-void Controller::del_account(LPTSTR tag) {
+void Controller::DelAccount(LPTSTR tag) {
   Account account = Account{};
   account.FindByTag(tag);
   account.Del();
 }
 
-void Controller::read_account(LPTSTR tag) {
+void Controller::ReadAccount(LPTSTR tag) {
   account_ = Account{};
   account_.FindByTag(tag);
 

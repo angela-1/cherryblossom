@@ -119,8 +119,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 
     // start dispatcher
-    g_dispatcher = Controller::get_instance();
-    g_dispatcher->make_account_list();
+    g_dispatcher = Controller::GetInstance();
+    g_dispatcher->MakeAccountList();
 
 
 

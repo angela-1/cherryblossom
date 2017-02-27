@@ -1,6 +1,6 @@
 ﻿
 /*
-  This is the header file of controller class.
+  This is the header file of crypto file.
 
   Copyright © 2016-2017 Angela
 
@@ -25,51 +25,30 @@
 */
 
 
-#ifndef CHERRYBLOSSOM_CONTROLLER_H_
-#define CHERRYBLOSSOM_CONTROLLER_H_
+#ifndef CHERRYBLOSSOM_CRYPTER_H_
+#define CHERRYBLOSSOM_CRYPTER_H_
 
-#include "stdafx.h"
-#include <list>
+#include <fstream>
 
-#include "account.h"
-
-
-class Controller {
+class Crypter {
  private:
-   Controller();
-   ~Controller();
+  size_t write_bin_file(LPTSTR file, UCHAR* buf, size_t buf_len);
+  size_t read_bin_file(LPTSTR file, UCHAR* buf, size_t buf_len);
 
-   static Controller* instance_;
-   Controller(const Controller&);
-   Controller& operator=(const Controller&);
+ public:
+  Crypter();
+  ~Crypter();
 
-   std::list<AccountItem> account_list_;
-   Account account_;
+  bool Validate(LPTSTR key);
 
-
-
-
-public:
-  // get singleton of instance and the account of this
-  static Controller* GetInstance();
-  
-  // get method of account_list
-  std::list<AccountItem>* GetAccountList();
-  // get method of account
-  Account* GetAccount();
-  void MakeAccountList();
-  void ClearAccountList();
-  void RefreshAccountList();
-  bool CheckAccount(LPTSTR tag); // check exist
-
-  void AddAccount(LPTSTR* value_array);
-  void UpdateAccount(LPTSTR* value_array);
-  void DelAccount(LPTSTR tag);
-  void ReadAccount(LPTSTR tag);
-
-  // for fuzzy complete
-  std::list<AccountItem> hit_list;
-  std::list<AccountItem> company_list;
+  int CreateKeyFile(LPTSTR password);
+  int EncryptDataFile(LPTSTR key);
+  int DecryptDataFile(LPTSTR key);
 };
 
-#endif  // CHERRYBLOSSOM_CONTROLLER_H_
+
+
+#endif  // CHERRYBLOSSOM_CRYPTER_H_
+
+
+

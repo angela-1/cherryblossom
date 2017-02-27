@@ -14,7 +14,7 @@
 
 //#include "Dispather.h"
 #include "controller.h"
-#include "Encrypter.h"
+#include "crypter.h"
 #include "global.h"
 
 
@@ -140,7 +140,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
       DialogBox(g_inst, MAKEINTRESOURCE(IDD_ADD), hWnd, AddProc);
 
-      g_dispatcher->refresh_account_list();
+      g_dispatcher->RefreshAccountList();
 
       RefreshListbox(hWnd);
 
@@ -165,7 +165,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
       HWND account_list = GetDlgItem(hWnd, IDC_LISTBOX_ACCOUNT);
       TCHAR lpch[MAX_STR_LEN];
       LRESULT ind = SendMessage(account_list, LB_GETCURSEL, (WPARAM)0, (LPARAM)0);
-      if (ind != -1 && g_dispatcher->get_account_list()->size() > 0)
+      if (ind != -1 && g_dispatcher->GetAccountList()->size() > 0)
       {
 
         SendMessage(account_list, LB_GETTEXT, (WPARAM)ind, (LPARAM)lpch);
@@ -184,14 +184,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
       HWND account_list = GetDlgItem(hWnd, IDC_LISTBOX_ACCOUNT);
       TCHAR lpch[MAX_STR_LEN];
       LRESULT ind = SendMessage(account_list, LB_GETCURSEL, (WPARAM)0, (LPARAM)0);
-      if (ind != -1 && g_dispatcher->get_account_list()->size() > 0)
+      if (ind != -1 && g_dispatcher->GetAccountList()->size() > 0)
       {
         SendMessage(account_list, LB_GETTEXT, (WPARAM)ind, (LPARAM)lpch);
 
         DialogBoxParam(g_inst, MAKEINTRESOURCE(IDD_CONFIRM), hWnd, DeleteProc, (LPARAM)lpch);
 
-        g_dispatcher->refresh_account_list();
-        g_dispatcher->get_account();
+        g_dispatcher->RefreshAccountList();
+        g_dispatcher->GetAccount();
         RefreshListbox(hWnd);
 
         SendMessage(account_list, LB_SETCURSEL, (WPARAM)ind, (LPARAM)0);
@@ -278,8 +278,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     FreeLibrary(g_resource);
     //delete g_dispatcher;
 
-    Encrypter a{};
-    a.EncryptDBFile(g_key);
+    Crypter a{};
+    a.EncryptDataFile(g_key);
 
     PostQuitMessage(0);
   }
@@ -493,9 +493,9 @@ INT_PTR CALLBACK AddProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 
       if (wcscmp(tag, L"") != 0)
       {
-        if (g_dispatcher->check_account(tag))
+        if (g_dispatcher->CheckAccount(tag))
         {
-          g_dispatcher->add_account(value_array);
+          g_dispatcher->AddAccount(value_array);
 
 
 
@@ -606,8 +606,8 @@ INT_PTR CALLBACK EditProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
     TCHAR* lpch = (TCHAR*)lParam;
 
     //MessageBox(NULL, lpch, TEXT("see"), MB_OK);
-    g_dispatcher->read_account(lpch);
-    Account* account = g_dispatcher->get_account();
+    g_dispatcher->ReadAccount(lpch);
+    Account* account = g_dispatcher->GetAccount();
 
 
     SendDlgItemMessage(hDlg, IDC_EDIT_TAG, WM_SETTEXT, 0, (LPARAM)account->tag);
@@ -691,7 +691,7 @@ INT_PTR CALLBACK EditProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 
       TCHAR* lpch = (TCHAR*)lParam;
 
-      g_dispatcher->update_account(value_array);
+      g_dispatcher->UpdateAccount(value_array);
 
 
       EndDialog(hDlg, LOWORD(wParam));
@@ -782,7 +782,7 @@ INT_PTR CALLBACK DeleteProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPara
       SendMessage(GetDlgItem(GetParent(hDlg), IDC_LISTBOX_ACCOUNT), LB_GETTEXT, (WPARAM)ind, (LPARAM)tag);
 
 
-      g_dispatcher->del_account(tag);
+      g_dispatcher->DelAccount(tag);
 
       EndDialog(hDlg, LOWORD(wParam));
       return (INT_PTR)TRUE;
@@ -887,14 +887,14 @@ INT_PTR CALLBACK LoginProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
       SendDlgItemMessage(hDlg, IDC_LOGIN_EDIT_PWD, WM_GETTEXT, (WPARAM)MAX_STR_LEN, (LPARAM)key);
 
 
-      Encrypter a{};
+      Crypter a{};
 
 
       if (a.Validate(key))
       {
         lstrcpy(g_key, key);
 
-        a.DecryptDBFile(key);
+        a.DecryptDataFile(key);
 
         EndDialog(hDlg, TRUE);
         return TRUE;
@@ -1081,7 +1081,7 @@ INT_PTR CALLBACK SettingProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
       TCHAR confirm_pwd[MAX_STR_LEN];
       SendDlgItemMessage(hDlg, IDC_SETTING_EDIT_CONFIRMPWD, WM_GETTEXT, MAX_STR_LEN, (LPARAM)confirm_pwd);
 
-      Encrypter a{};
+      Crypter a{};
       if (a.Validate(pwd))
       {
         a.CreateKeyFile(confirm_pwd);
@@ -1297,7 +1297,7 @@ INT_PTR CALLBACK ExportProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPara
       TCHAR confirm_pwd[MAX_STR_LEN];
       SendDlgItemMessage(hDlg, IDC_SETTING_EDIT_CONFIRMPWD, WM_GETTEXT, MAX_STR_LEN, (LPARAM)confirm_pwd);
 
-      Encrypter a{};
+      Crypter a{};
       if (a.Validate(pwd))
       {
         a.CreateKeyFile(confirm_pwd);
@@ -1661,10 +1661,10 @@ INT_PTR CALLBACK WizardPwdProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
       SendDlgItemMessage(hDlg, IDC_EDIT_CONFIRM, WM_GETTEXT, MAX_STR_LEN, (LPARAM)confirm_pwd);
 
 
-      Encrypter a{};
+      Crypter a{};
       a.CreateKeyFile(confirm_pwd);
 
-      a.EncryptDBFile(confirm_pwd);
+      a.EncryptDataFile(confirm_pwd);
 
       // TODO: delete g_db_file
 
