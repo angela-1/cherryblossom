@@ -56,7 +56,7 @@ void OnInitEdit(HWND hWnd)
       y += 25;
     }
     CreateWindow(_T("EDIT"),
-      _T("f"), sty,
+      _T(""), sty,
       310, y, 260, ht, hWnd, (HMENU)idc[i], g_inst, NULL);
     //SendMessage(GetDlgItem(hWnd, idc[i]), WM_SETFONT, (WPARAM)g_main_font, t);
   }
@@ -158,7 +158,8 @@ void OnPaintEdit(HWND hWnd, HDC hdc)
     TCHAR static_str[MAX_STR_LEN];
     LoadString(g_resource, IDS_MAIN_MAINTIP, static_str, MAX_STR_LEN);
 
-    TextOut(hdc, 280, 40, static_str, lstrlen(static_str));
+    //TextOut(hdc, 280, 40, static_str, lstrlen(static_str));
+    SendMessage(GetDlgItem(hWnd, idc[0]), WM_SETTEXT, 0, (LPARAM)L"数据库中没有账户。");
   }
 
 
@@ -213,7 +214,7 @@ BOOL OnInitControl(HWND hWnd)
     0, 0, 0, 0, hWnd, (HMENU)IDC_EDIT_SEARCH, g_inst, NULL);
 
   HWND account_listbox = CreateWindow(_T("LISTBOX"), NULL, WS_CHILD | WS_VISIBLE | WS_VSCROLL | 
-    WS_TABSTOP | LBS_STANDARD | LBS_HASSTRINGS | LBS_OWNERDRAWFIXED,
+    WS_TABSTOP | LBS_STANDARD | LBS_HASSTRINGS, // | LBS_OWNERDRAWFIXED,
     0, 0, 0, 0, hWnd, (HMENU)IDC_LISTBOX_ACCOUNT, g_inst, NULL);
 
   //SendMessage(account_listbox, LB_ADDSTRING, (WPARAM)0, (LPARAM)L"SFS");
