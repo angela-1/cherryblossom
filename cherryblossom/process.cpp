@@ -259,7 +259,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
   case WM_CTLCOLORSTATIC:
   {
     //SetTextColor((HDC)wParam, RGB(200, 0, 0));
-    SetBkColor((HDC)wParam, RGB(217, 217, 217));
+    SetBkColor((HDC)wParam, RGB(255, 255, 255));
     HBRUSH hbrush = CreateSolidBrush(RGB(255, 255, 255));
     return (LRESULT)hbrush;
 

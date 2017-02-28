@@ -43,15 +43,26 @@ void OnInitEdit(HWND hWnd)
 
 
 
-  for (size_t i = 0; i < (sizeof(idc) / sizeof(idc[0])); i++)
+  for (int i = 0; i < (sizeof(idc) / sizeof(idc[0])); i++)
   {
-    
+    int y = 12 + 25 * i;
+    int ht = 25;
+    int sty = WS_CHILD | WS_VISIBLE | ES_READONLY;
+    if (i == 7) {
+      sty = sty | ES_MULTILINE;
+      ht = 50;
+    }
+    if (i == 8) {
+      y += 25;
+    }
     CreateWindow(_T("EDIT"),
-      _T("f"), WS_CHILD | WS_VISIBLE | ES_READONLY ,
-      310, 12 + 25 * i, 200, 25, hWnd, (HMENU)idc[i], g_inst, NULL);
+      _T("f"), sty,
+      310, y, 260, ht, hWnd, (HMENU)idc[i], g_inst, NULL);
     //SendMessage(GetDlgItem(hWnd, idc[i]), WM_SETFONT, (WPARAM)g_main_font, t);
   }
 
+ /* SetWindowLong(GetDlgItem(hWnd, IDC_RDEDIT8), GWL_STYLE, 
+    GetWindowLong(GetDlgItem(hWnd, IDC_RDEDIT8), GWL_STYLE) | ES_MULTILINE);*/
 
   OnSetFont(hWnd, NULL);
 
@@ -79,6 +90,12 @@ void OnPaintEdit(HWND hWnd, HDC hdc)
 
   SelectObject(hdc, g_main_font);
 
+  RECT grc;
+  GetClientRect(hWnd, &grc);
+  grc.right = 206;
+
+  HBRUSH gb = CreateSolidBrush(RGB(230, 230, 230));
+  FillRect(hdc, &grc, gb);
 
   HWND account_listbox = GetDlgItem(hWnd, IDC_LISTBOX_ACCOUNT);
   TCHAR lpch[MAX_STR_LEN];
@@ -121,8 +138,12 @@ void OnPaintEdit(HWND hWnd, HDC hdc)
 
     for (int i = 0; i < 9; i++)
     {
+      int y = 12 + 25 * i;
+      if (i == 8) {
+        y += 25;
+      }
       SetTextAlign(hdc, TA_RIGHT | TA_TOP);
-      TextOut(hdc, 300, 12 + 25 * i, title[i], lstrlen(title[i]));
+      TextOut(hdc, 300, y, title[i], lstrlen(title[i]));
 
       /*SetTextAlign(hdc, TA_LEFT | TA_TOP);
       TextOut(hdc, 320, 12 + 25 * i, detial[i], lstrlen(detial[i]));*/
@@ -188,10 +209,10 @@ BOOL OnInitControl(HWND hWnd)
 
 
 
-  HWND search_edit = CreateWindow(_T("EDIT"), NULL, WS_CHILD | WS_VISIBLE | WS_BORDER,
+  HWND search_edit = CreateWindow(_T("EDIT"), NULL, WS_CHILD | WS_VISIBLE,
     0, 0, 0, 0, hWnd, (HMENU)IDC_EDIT_SEARCH, g_inst, NULL);
 
-  HWND account_listbox = CreateWindow(_T("LISTBOX"), NULL, WS_CHILD | WS_VISIBLE | WS_BORDER | WS_VSCROLL | WS_TABSTOP | LBS_STANDARD | LBS_HASSTRINGS,
+  HWND account_listbox = CreateWindow(_T("LISTBOX"), NULL, WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_TABSTOP | LBS_STANDARD | LBS_HASSTRINGS,
     0, 0, 0, 0, hWnd, (HMENU)IDC_LISTBOX_ACCOUNT, g_inst, NULL);
 
   //SendMessage(account_listbox, LB_ADDSTRING, (WPARAM)0, (LPARAM)L"SFS");
@@ -257,7 +278,7 @@ BOOL OnResizeControl(HWND hWnd, LPARAM lParam)
   RECT rc_listbox = { rc.left + 12, rc_edit.bottom + 12, rc_listbox.left + 180, rc.bottom - 12 };
 
 
-  RECT rc_button_add = { rc_listbox.right + 12, rc.bottom - 38, rc_listbox.right + 52,
+  RECT rc_button_add = { rc_listbox.right + 24, rc.bottom - 38, rc_listbox.right + 64,
     rc.bottom - 12 };
 
 
