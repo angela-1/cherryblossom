@@ -212,7 +212,8 @@ BOOL OnInitControl(HWND hWnd)
   HWND search_edit = CreateWindow(_T("EDIT"), NULL, WS_CHILD | WS_VISIBLE,
     0, 0, 0, 0, hWnd, (HMENU)IDC_EDIT_SEARCH, g_inst, NULL);
 
-  HWND account_listbox = CreateWindow(_T("LISTBOX"), NULL, WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_TABSTOP | LBS_STANDARD | LBS_HASSTRINGS,
+  HWND account_listbox = CreateWindow(_T("LISTBOX"), NULL, WS_CHILD | WS_VISIBLE | WS_VSCROLL | 
+    WS_TABSTOP | LBS_STANDARD | LBS_HASSTRINGS | LBS_OWNERDRAWFIXED,
     0, 0, 0, 0, hWnd, (HMENU)IDC_LISTBOX_ACCOUNT, g_inst, NULL);
 
   //SendMessage(account_listbox, LB_ADDSTRING, (WPARAM)0, (LPARAM)L"SFS");

@@ -284,6 +284,32 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     EndPaint(hWnd, &ps);
   }
   break;
+  case WM_MEASUREITEM:
+    if ((UINT)wParam == IDC_LISTBOX_ACCOUNT)
+    {
+      LPMEASUREITEMSTRUCT lpmis = (LPMEASUREITEMSTRUCT)lParam;
+      //lpmis->itemWidth = 200;
+      //lpmis->itemHeight = 30;
+    }
+    break;
+  case WM_DRAWITEM:
+    if ((UINT)wParam == IDC_LISTBOX_ACCOUNT)
+    {
+      LPDRAWITEMSTRUCT pDI = (LPDRAWITEMSTRUCT)lParam;
+
+      HBRUSH brsh = CreateSolidBrush(RGB(255 - 30 * pDI->itemID, 128 + 40 * pDI->itemID, 128 + 40 * pDI->itemID));//yellow  
+      FillRect(pDI->hDC, &pDI->rcItem, brsh);
+
+
+      DeleteObject(brsh);
+      // text   
+      SetBkMode(pDI->hDC, TRANSPARENT);
+      TCHAR szText[260];
+      SendMessage(GetDlgItem(hWnd, IDC_LISTBOX_ACCOUNT), LB_GETTEXT, pDI->itemID, (LPARAM)szText);
+      const DWORD dwStyle = DT_LEFT | DT_SINGLELINE | DT_VCENTER | DT_NOPREFIX | DT_END_ELLIPSIS;
+      DrawText(pDI->hDC, szText, lstrlen(szText), &pDI->rcItem, dwStyle);
+    }
+    break;
   case WM_DESTROY:
   {
     // free resource
