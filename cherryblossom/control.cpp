@@ -28,7 +28,7 @@ void OnInitEdit(HWND hWnd)
 {
 
 
-  int idc[] = {
+  LONG64 idc[] = {
     IDC_RDEDIT1,
     IDC_RDEDIT2,
     IDC_RDEDIT3,
@@ -189,7 +189,7 @@ BOOL OnInitControl(HWND hWnd)
 
 
 
-  int idc[] = {
+  LONG64 idc[] = {
     IDC_EDIT_SEARCH,
     IDC_LISTBOX_ACCOUNT,
     IDC_BUTTON_CLEAR,

@@ -364,9 +364,9 @@ INT_PTR CALLBACK AboutProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
     break;
   case WM_CTLCOLORSTATIC:
     SetBkMode((HDC)wParam, TRANSPARENT);
-    return (BOOL)((HBRUSH)GetStockObject(NULL_BRUSH));
+    return (INT_PTR)((HBRUSH)GetStockObject(NULL_BRUSH));
   case WM_CTLCOLORDLG:
-    return (BOOL)((HBRUSH)GetStockObject(WHITE_BRUSH));
+    return (INT_PTR)((HBRUSH)GetStockObject(WHITE_BRUSH));
   }
   return (INT_PTR)nil;
 }
@@ -578,9 +578,9 @@ INT_PTR CALLBACK AddProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
   }
   case WM_CTLCOLORSTATIC:
     SetBkMode((HDC)wParam, TRANSPARENT);
-    return (BOOL)((HBRUSH)GetStockObject(NULL_BRUSH));
+    return (INT_PTR)((HBRUSH)GetStockObject(NULL_BRUSH));
   case WM_CTLCOLORDLG:
-    return (BOOL)((HBRUSH)GetStockObject(WHITE_BRUSH));
+    return (INT_PTR)((HBRUSH)GetStockObject(WHITE_BRUSH));
 
   }
   return (INT_PTR)FALSE;
@@ -753,9 +753,9 @@ INT_PTR CALLBACK EditProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
   }
   case WM_CTLCOLORSTATIC:
     SetBkMode((HDC)wParam, TRANSPARENT);
-    return (BOOL)((HBRUSH)GetStockObject(NULL_BRUSH));
+    return (INT_PTR)((HBRUSH)GetStockObject(NULL_BRUSH));
   case WM_CTLCOLORDLG:
-    return (BOOL)((HBRUSH)GetStockObject(WHITE_BRUSH));
+    return (INT_PTR)((HBRUSH)GetStockObject(WHITE_BRUSH));
 
   }
   return (INT_PTR)FALSE;
@@ -843,9 +843,9 @@ INT_PTR CALLBACK DeleteProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPara
   }
   case WM_CTLCOLORSTATIC:
     SetBkMode((HDC)wParam, TRANSPARENT);
-    return (BOOL)((HBRUSH)GetStockObject(NULL_BRUSH));
+    return (INT_PTR)((HBRUSH)GetStockObject(NULL_BRUSH));
   case WM_CTLCOLORDLG:
-    return (BOOL)((HBRUSH)GetStockObject(WHITE_BRUSH));
+    return (INT_PTR)((HBRUSH)GetStockObject(WHITE_BRUSH));
 
   }
   return (INT_PTR)FALSE;
@@ -967,10 +967,10 @@ INT_PTR CALLBACK LoginProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
   break;
   case WM_CTLCOLORSTATIC:
     SetBkMode((HDC)wParam, TRANSPARENT);
-    return (BOOL)((HBRUSH)GetStockObject(NULL_BRUSH));
+    return (INT_PTR)((HBRUSH)GetStockObject(NULL_BRUSH));
   case WM_CTLCOLORDLG:
   {
-    return (BOOL)((HBRUSH)GetStockObject(WHITE_BRUSH));
+    return (INT_PTR)((HBRUSH)GetStockObject(WHITE_BRUSH));
 
     // use a bitmap to brush background
     //HBITMAP hBmp = (HBITMAP)LoadBitmap(g_inst, MAKEINTRESOURCE(IDB_BITMAP1));
@@ -1191,10 +1191,10 @@ INT_PTR CALLBACK SettingProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
   break;
   case WM_CTLCOLORSTATIC:
     SetBkMode((HDC)wParam, TRANSPARENT);
-    return (BOOL)((HBRUSH)GetStockObject(NULL_BRUSH));
+    return (INT_PTR)((HBRUSH)GetStockObject(NULL_BRUSH));
   case WM_CTLCOLORDLG:
 
-    return (BOOL)((HBRUSH)GetStockObject(WHITE_BRUSH));
+    return (INT_PTR)((HBRUSH)GetStockObject(WHITE_BRUSH));
 
 
 
@@ -1411,10 +1411,10 @@ INT_PTR CALLBACK ExportProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPara
   break;
   case WM_CTLCOLORSTATIC:
     SetBkMode((HDC)wParam, TRANSPARENT);
-    return (BOOL)((HBRUSH)GetStockObject(NULL_BRUSH));
+    return (INT_PTR)((HBRUSH)GetStockObject(NULL_BRUSH));
   case WM_CTLCOLORDLG:
 
-    return (BOOL)((HBRUSH)GetStockObject(WHITE_BRUSH));
+    return (INT_PTR)((HBRUSH)GetStockObject(WHITE_BRUSH));
 
 
 
