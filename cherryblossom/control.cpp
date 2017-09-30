@@ -148,6 +148,9 @@ void OnPaintEdit(HWND hWnd, HDC hdc)
       /*SetTextAlign(hdc, TA_LEFT | TA_TOP);
       TextOut(hdc, 320, 12 + 25 * i, detial[i], lstrlen(detial[i]));*/
 
+	  OutputDebugString(L"nimei");
+
+
       SendMessage(GetDlgItem(hWnd, idc[i]), WM_SETTEXT, 0, (LPARAM)detial[i]);
 
 
@@ -457,7 +460,6 @@ void OnPaint(HWND hWnd, HDC hdc)
 
       SetTextAlign(hdc, TA_LEFT | TA_TOP);
       TextOut(hdc, 320, 12 + 25 * i, detial[i], lstrlen(detial[i]));
-
 
 
     }
