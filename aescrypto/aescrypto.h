@@ -1,4 +1,10 @@
 
+#ifndef CHERRYBLOSSOM_AESCRYPTO_H
+#define CHERRYBLOSSOM_AESCRYPTO_H
+
+
+
+
 
 #ifdef AESCRYPTO_EXPORTS
 #define AESCRYPTO_API __declspec(dllexport)
@@ -36,3 +42,4 @@ extern "C" {
 }
 # endif
 
+#endif // !CHERRYBLOSSOM_AESCRYPTO_H
