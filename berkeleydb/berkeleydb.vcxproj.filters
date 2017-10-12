@@ -21,6 +21,15 @@
     <ClInclude Include="targetver.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="berkeleydb.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="db.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="db_cxx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -32,5 +41,8 @@
     <ClCompile Include="dllmain.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="libdb62.lib" />
   </ItemGroup>
 </Project>
