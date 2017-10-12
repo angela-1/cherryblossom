@@ -63,6 +63,12 @@
     <ClInclude Include="crypter.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="db.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="db_cxx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -133,9 +139,11 @@
   <ItemGroup>
     <None Include="README.org" />
     <None Include="sqlite3.dll" />
+    <None Include="libdb62.dll" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="sqlite3.lib" />
     <Library Include="aescrypto.lib" />
+    <Library Include="libdb62.lib" />
   </ItemGroup>
 </Project>

@@ -15,19 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="stdafx.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="targetver.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="sqlitedb.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="sqlite3.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -35,17 +26,11 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="sqlitedb.cpp">
+    <ClCompile Include="pdfout.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="dllmain.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="sqlite3.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="sqlite3.lib" />
   </ItemGroup>
 </Project>
