@@ -148,9 +148,6 @@ void OnPaintEdit(HWND hWnd, HDC hdc)
       /*SetTextAlign(hdc, TA_LEFT | TA_TOP);
       TextOut(hdc, 320, 12 + 25 * i, detial[i], lstrlen(detial[i]));*/
 
-	  OutputDebugString(L"nimei");
-
-
       SendMessage(GetDlgItem(hWnd, idc[i]), WM_SETTEXT, 0, (LPARAM)detial[i]);
 
 
@@ -160,12 +157,13 @@ void OnPaintEdit(HWND hWnd, HDC hdc)
   {
     TCHAR static_str[MAX_STR_LEN];
     LoadString(g_resource, IDS_MAIN_MAINTIP, static_str, MAX_STR_LEN);
+    SendMessage(GetDlgItem(hWnd, idc[0]), WM_SETTEXT, 0, (LPARAM)static_str);
 
-    //TextOut(hdc, 280, 40, static_str, lstrlen(static_str));
-    SendMessage(GetDlgItem(hWnd, idc[0]), WM_SETTEXT, 0, (LPARAM)L"数据库中没有账户。");
+	for (int i = 1; i < 9; i++)
+	{
+		SendMessage(GetDlgItem(hWnd, idc[i]), WM_SETTEXT, 0, (LPARAM)L"");
+	}
   }
-
-
 
 }
 
@@ -601,6 +599,7 @@ BOOL CALLBACK SetFontProc(HWND hWnd, LPARAM lParam)
   SendMessage(hWnd, WM_SETFONT, (WPARAM)g_main_font, TRUE);
   return t;
 }
+
 
 void ShowStaticTip(HWND hDlg, int control_id, LPTSTR str)
 {
