@@ -72,7 +72,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
 	HMENU hmenu = LoadMenu(g_resource, MAKEINTRESOURCE(IDM_CHERRYBLOSSOM));
 	HWND hWnd = CreateWindowW(g_window_class, g_app_title, WS_OVERLAPPEDWINDOW,
-		CW_USEDEFAULT, 0, 600, 400, nullptr, hmenu, hInstance, nullptr);
+		CW_USEDEFAULT, CW_USEDEFAULT, 600, 400, nullptr, hmenu, hInstance, nullptr);
 
 	//MessageBox(NULL, L"o", L"nimei", MB_OK);
 
