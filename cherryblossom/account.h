@@ -43,6 +43,10 @@ class Account : public Model {
   static int all_callback(void *para, int argc,
                           char **argv, char **azColName);
 
+  static int find_callback(void* para, int argc,
+	  char** argv, char** azColName);
+  
+
  public:
   Account();
   ~Account();
@@ -65,6 +69,8 @@ class Account : public Model {
 
   static std::list<AccountItem>& FindAll(std::list<AccountItem> *account_list);
   static void CreateTable();
+
+  static std::list<Account>& Find(std::list<Account>* account_list);
 
 };
 

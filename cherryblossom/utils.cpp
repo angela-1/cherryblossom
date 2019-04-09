@@ -105,8 +105,7 @@ bool file_exists(LPTSTR file) {
 
 void ansi_to_unicode(char *str, wchar_t *end) {
     wchar_t *wstr;
-    int len;
-    len = MultiByteToWideChar(CP_ACP, 0, str, -1, NULL, 0);
+	size_t len = MultiByteToWideChar(CP_ACP, 0, str, -1, NULL, 0);
     wstr = new wchar_t[len + 1];
     memset((void*)wstr, 0, sizeof(wchar_t) * (len + 1));
     MultiByteToWideChar(CP_ACP, 0, str, -1, wstr, len);
@@ -118,8 +117,7 @@ void ansi_to_unicode(char *str, wchar_t *end) {
 
 void utf8_to_unicode(char *str, wchar_t *end) {
     wchar_t *wstr;
-    int len;
-    len = MultiByteToWideChar(CP_UTF8, 0, str, -1, NULL, 0);
+	size_t len = MultiByteToWideChar(CP_UTF8, 0, str, -1, NULL, 0);
     wstr = new wchar_t[len + 1];
     memset((void*)wstr, 0, sizeof(wchar_t) * (len + 1));
     MultiByteToWideChar(CP_UTF8, 0, str, -1, wstr, len);
@@ -132,9 +130,8 @@ void utf8_to_unicode(char *str, wchar_t *end) {
 
 void unicode_to_utf8(wchar_t * str, char *end) {
     char*     cstr;
-    int    len;
     // wide char to multi char
-    len = WideCharToMultiByte(CP_UTF8, 0, str, -1, NULL, 0, NULL, NULL);
+    size_t len = WideCharToMultiByte(CP_UTF8, 0, str, -1, NULL, 0, NULL, NULL);
     cstr = new char[len + 1];
     memset((void*)cstr, 0, sizeof(char) * (len + 1));
     WideCharToMultiByte(CP_UTF8, 0, str, -1, cstr, len, NULL, NULL);
@@ -145,9 +142,8 @@ void unicode_to_utf8(wchar_t * str, char *end) {
 
 void unicode_to_ansi(wchar_t * str, char *end) {
     char*     cstr;
-    int    len;
     // wide char to multi char
-    len = WideCharToMultiByte(CP_ACP, 0, str, -1, NULL, 0, NULL, NULL);
+    size_t len = WideCharToMultiByte(CP_ACP, 0, str, -1, NULL, 0, NULL, NULL);
     cstr = new char[len + 1];
     memset((void*)cstr, 0, sizeof(char) * (len + 1));
     WideCharToMultiByte(CP_ACP, 0, str, -1, cstr, len, NULL, NULL);

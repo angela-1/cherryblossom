@@ -19,6 +19,7 @@
 
 
 #include "../res804/resource.h"
+#include "Exporter.h"
 
 // 这是声明
 //extern Dispatcher* g_dispatcher;
@@ -250,8 +251,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	}
 	break;
 	case WM_GETMINMAXINFO:
-		((MINMAXINFO *)lParam)->ptMinTrackSize.x = 600;
-		((MINMAXINFO *)lParam)->ptMinTrackSize.y = 400;
+		((MINMAXINFO*)lParam)->ptMinTrackSize.x = 600;
+		((MINMAXINFO*)lParam)->ptMinTrackSize.y = 400;
 		break;
 	case WM_SIZE:
 		OnResizeControl(hWnd, lParam);
@@ -304,7 +305,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			DeleteObject(brsh);
 			// text   
 			SetBkMode(pDI->hDC, TRANSPARENT);
-			TCHAR szText[260];
+			TCHAR szText[MAX_STR_LEN] = L"";
 			SendMessage(GetDlgItem(hWnd, IDC_LISTBOX_ACCOUNT), LB_GETTEXT, pDI->itemID, (LPARAM)szText);
 			const DWORD dwStyle = DT_LEFT | DT_SINGLELINE | DT_VCENTER | DT_NOPREFIX | DT_END_ELLIPSIS;
 			DrawText(pDI->hDC, szText, lstrlen(szText), &pDI->rcItem, dwStyle);
@@ -942,7 +943,7 @@ INT_PTR CALLBACK LoginProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 				ShowStaticTip(hDlg, IDC_LOGIN_STATIC_TIP, static_str);
 
 				//SendDlgItemMessage(hDlg, IDC_LOGIN_EDIT_PWD, WM_CTLCOLOREDIT, 0, 0);
-				
+
 				return FALSE;
 			}
 
@@ -1075,8 +1076,8 @@ INT_PTR CALLBACK SettingProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
 		{
 			if (notifyId == EN_CHANGE)
 			{
-				TCHAR pwd[MAX_STR_LEN];
-				TCHAR confirm_pwd[MAX_STR_LEN];
+				TCHAR pwd[MAX_STR_LEN] = L"";
+				TCHAR confirm_pwd[MAX_STR_LEN] = L"";
 
 				if (notifyId == EN_CHANGE)
 				{
@@ -1142,7 +1143,7 @@ INT_PTR CALLBACK SettingProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
 		{
 			if (HIWORD(wParam) == CBN_SELCHANGE)
 			{
-				TCHAR lpch[MAX_STR_LEN];
+				TCHAR lpch[MAX_STR_LEN] = L"";
 				LRESULT sel_index = SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_GETCURSEL, 0, 0);
 				SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_GETLBTEXT, sel_index, (LPARAM)lpch);
 
@@ -1206,76 +1207,7 @@ INT_PTR CALLBACK ExportProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPara
 	case WM_INITDIALOG:
 	{
 		OnSetFont(hDlg, NULL);
-
-
-		int idc[] =
-		{
-		  IDC_SETTING_GROUPPWD,
-		  IDC_SETTING_OLDPWD,
-		  IDC_SETTING_NEWPWD,
-		  IDC_SETTING_CONFIRMPWD,
-		  IDC_SETTING_BUTTON_DONE,
-		  IDC_SETTING_GROUPLANG,
-		  IDC_SETTING_LANG,
-		  IDOK,
-		  IDCANCEL
-		};
-
-		INT ids[] =
-		{
-		  IDS_SETTING_MODPWD,
-		  IDS_SETTING_OLDPWD,
-		  IDS_SETTING_NEWPWD,
-		  IDS_SETTING_CONFIRMPWD,
-		  IDS_SETTING_DONE,
-		  IDS_SETTING_CHOOSELANG,
-		  IDS_SETTING_LANG,
-		  IDS_LABEL_OK,
-		  IDS_LABEL_CANCEL
-		};
-
-		TCHAR static_str[MAX_STR_LEN];
-
-		LoadString(g_resource, IDS_SETTING_CAPTION, static_str, MAX_STR_LEN);
-		SetWindowText(hDlg, static_str);
-
-		for (size_t i = 0; i < (sizeof(idc) / sizeof(idc[0])); i++)
-		{
-			LoadString(g_resource, ids[i], static_str, MAX_STR_LEN);
-			SendDlgItemMessage(hDlg, idc[i], WM_SETTEXT, 0, (LPARAM)static_str);
-			//SendDlgItemMessage(hDlg, idc[i], WM_SETFONT, (WPARAM)g_main_font, TRUE);
-		}
-
-		LoadString(g_resource, IDS_SETTING_LANG_EN, static_str, MAX_STR_LEN);
-		SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_ADDSTRING, 0, (LPARAM)static_str);
-		LoadString(g_resource, IDS_SETTING_LANG_ZH, static_str, MAX_STR_LEN);
-		SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_ADDSTRING, 0, (LPARAM)static_str);
-
-		/*SendDlgItemMessage(hDlg, IDC_COMBO_LANG, WM_SETFONT, (WPARAM)g_main_font, TRUE);
-		SendDlgItemMessage(hDlg, IDC_SETTING_TIP, WM_SETFONT, (WPARAM)g_main_font, TRUE);
-		SendDlgItemMessage(hDlg, IDC_SETTING_STATIC_TIP, WM_SETFONT, (WPARAM)g_main_font, TRUE);*/
-
-
-		TCHAR lang[MAX_STR_LEN];
-		GetPrivateProfileString(TEXT("cherryblossom"),
-			TEXT("language"), L"zh-CN", lang, MAX_STR_LEN, g_config_file);
-		if (wcscmp(lang, L"en-US") == 0)
-		{
-			LoadString(g_resource, IDS_SETTING_LANG_EN, static_str, MAX_STR_LEN);
-			LRESULT cursel = SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_FINDSTRING, -1, (LPARAM)static_str);
-			SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_SETCURSEL, cursel, (LPARAM)0);
-		}
-		else
-		{
-			SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_SETCURSEL, 1, (LPARAM)0);
-		}
-
-
-
-
 	}
-
-
 	return FALSE;
 
 	case WM_COMMAND:
@@ -1285,114 +1217,15 @@ INT_PTR CALLBACK ExportProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPara
 
 		switch (key)
 		{
-
-		case IDC_SETTING_EDIT_NEWPWD:
-		case IDC_SETTING_EDIT_CONFIRMPWD:
-		{
-			if (notifyId == EN_CHANGE)
-			{
-				TCHAR pwd[MAX_STR_LEN];
-				TCHAR confirm_pwd[MAX_STR_LEN];
-
-				if (notifyId == EN_CHANGE)
-				{
-					SendDlgItemMessage(hDlg, IDC_SETTING_EDIT_NEWPWD, WM_GETTEXT, MAX_STR_LEN, (LPARAM)pwd);
-					SendDlgItemMessage(hDlg, IDC_SETTING_EDIT_CONFIRMPWD, WM_GETTEXT, MAX_STR_LEN, (LPARAM)confirm_pwd);
-
-					if (wcscmp(pwd, confirm_pwd) == 0 &&
-						wcscmp(pwd, L"") != 0)
-					{
-						ShowStaticTip(hDlg, IDC_SETTING_TIP, L"");
-						EnableWindow(GetDlgItem(hDlg, IDC_SETTING_BUTTON_DONE),
-							TRUE);
-					}
-					else
-					{
-						TCHAR static_str[MAX_STR_LEN];
-
-						LoadString(g_resource, IDS_WIZARDPWD_NOTSAME,
-							static_str, MAX_STR_LEN);
-
-
-						ShowStaticTip(hDlg, IDC_SETTING_TIP, static_str);
-						EnableWindow(GetDlgItem(hDlg, IDC_SETTING_BUTTON_DONE),
-							FALSE);
-
-					}
-
-				}
-			}
-		}
-		break;
-		case IDC_SETTING_BUTTON_DONE:
-		{
-			// validate old password
-			TCHAR pwd[MAX_STR_LEN];
-			SendDlgItemMessage(hDlg, IDC_SETTING_EDIT_OLDPWD, WM_GETTEXT, MAX_STR_LEN, (LPARAM)pwd);
-			TCHAR confirm_pwd[MAX_STR_LEN];
-			SendDlgItemMessage(hDlg, IDC_SETTING_EDIT_CONFIRMPWD, WM_GETTEXT, MAX_STR_LEN, (LPARAM)confirm_pwd);
-
-			Crypter a{};
-			if (a.Validate(pwd))
-			{
-				a.CreateKeyFile(confirm_pwd);
-				lstrcpy(g_key, confirm_pwd);
-				DestroyWindow(GetParent(hDlg));
-
-			}
-			else
-			{
-				TCHAR static_str[MAX_STR_LEN];
-
-				LoadString(g_resource, IDS_SETTING_PWDWRONG,
-					static_str, MAX_STR_LEN);
-				ShowStaticTip(hDlg, IDC_SETTING_TIP, static_str);
-			}
-
-
-
-		}
-
-		break;
-		case IDC_COMBO_LANG:
-		{
-			if (HIWORD(wParam) == CBN_SELCHANGE)
-			{
-				TCHAR lpch[MAX_STR_LEN];
-				LRESULT sel_index = SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_GETCURSEL, 0, 0);
-				SendDlgItemMessage(hDlg, IDC_COMBO_LANG, CB_GETLBTEXT, sel_index, (LPARAM)lpch);
-
-				TCHAR static_str[MAX_STR_LEN];
-
-				LoadString(g_resource, IDS_SETTING_LANG_EN, static_str, MAX_STR_LEN);
-
-				//MessageBox(NULL, lpch, L"see now", MB_OK);
-				if (wcscmp(lpch, static_str) == 0)
-				{
-					WritePrivateProfileString(TEXT("cherryblossom"),
-						TEXT("language"), L"en-US", g_config_file);
-				}
-				else
-				{
-					WritePrivateProfileString(TEXT("cherryblossom"),
-						TEXT("language"), L"zh-CN", g_config_file);
-				}
-
-
-				LoadString(g_resource, IDS_SETTING_LANGTIP, static_str, MAX_STR_LEN);
-
-				SendDlgItemMessage(hDlg, IDC_SETTING_STATIC_TIP,
-					WM_SETTEXT, 0, (LPARAM)static_str);
-
-
-			}
-
-		}
-		break;
 		case IDOK:
 		{
-			//AssembleHtml();
-			//Exporter::ExportTxt(L"aa", L"说你妹的nimei");
+			Exporter exporter;
+			Account account;
+			std::list<Account> account_list;
+			account.Find(&account_list);
+			exporter.Export(account_list, "txt");
+
+
 		}
 		case IDCANCEL:
 			EndDialog(hDlg, FALSE);
@@ -1637,8 +1470,8 @@ INT_PTR CALLBACK WizardPwdProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
 		case IDC_EDIT_PWD:
 		case IDC_EDIT_CONFIRM:
 		{
-			TCHAR pwd[MAX_STR_LEN];
-			TCHAR confirm_pwd[MAX_STR_LEN];
+			TCHAR pwd[MAX_STR_LEN] = L"";
+			TCHAR confirm_pwd[MAX_STR_LEN] = L"";
 
 			if (notifyId == EN_CHANGE)
 			{
